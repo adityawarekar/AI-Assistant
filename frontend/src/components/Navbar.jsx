@@ -5,7 +5,10 @@ const Navbar = () => {
 
   return (
     <div className="bg-slate-800 text-white p-4 flex justify-between">
-      <h2 className="font-bold">AI Learning Assistant</h2>
+      <h2 className="font-bold">
+        AI Learning Assistant
+      </h2>
+
       <p>{user?.name}</p>
     </div>
   );
