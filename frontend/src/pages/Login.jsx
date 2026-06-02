@@ -1,8 +1,11 @@
 import { useState } from "react";
 import { useAuthStore } from "../store/authStore";
+import { Navigate, useNavigate } from "react-router-dom";
+
 
 const Login = () => {
   const { login } = useAuthStore();
+  const navigate = useNavigate();
 
   const [form, setForm] = useState({
     email: "",
@@ -12,6 +15,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     await login(form);
+    navigate("/dashboard");
     alert("Login success");
   };
 
