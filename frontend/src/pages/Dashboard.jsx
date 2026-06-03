@@ -1,11 +1,14 @@
 import StatCard from "../components/StatCard";
+import Layout from "../components/Layout";
 
 const Dashboard = () => {
   return (
+    <Layout>
     <div className="p-6">
       <h1 className="text-3xl font-bold mb-6">
         Dashboard
       </h1>
+      
       <div className="grid grid-cols-4 gap-4">
         <StatCard title="Documents" value="0" />
         <StatCard title="Flashcards" value="0" />
@@ -14,6 +17,7 @@ const Dashboard = () => {
       </div>
 
     </div>
+    </Layout>
   )
 };
 export default Dashboard;

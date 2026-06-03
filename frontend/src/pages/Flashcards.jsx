@@ -1,13 +1,17 @@
 import React from 'react'
+import Layout from '../components/Layout';
 
 const Flashcards = () => {
   return (
-    <div className='p-6'>
+    <Layout>
+      <div className='p-6'>
         <h1 className='text-3xl font-bold'>
-            Flashcards
+          Flashcards
         </h1>
+       </div> 
+    </Layout>
       
-    </div>
+    
   );
 };
 
