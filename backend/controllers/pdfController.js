@@ -25,3 +25,19 @@ exports.getPdfs = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+exports.deletePdf = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    await Pdf.findByIdAndDelete(id);
+
+    res.json({
+      message: "PDF deleted successfully",
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: error.message,
+    });
+  }
+};

@@ -46,6 +46,18 @@ const Documents = () => {
     fetchPdfs();
   }, []);
 
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(
+        `http://localhost:5001/api/pdf/${id}`
+
+      );
+      fetchPdfs();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <Layout>
       <div className="space-y-6">
@@ -92,7 +104,14 @@ const Documents = () => {
                   key={pdf._id}
                   className="bg-slate-700 p-4 rounded-lg"
                 >
-                  📄 {pdf.title}
+                  <span>📄 {pdf.title}</span>
+
+                  <button
+                    onClick={() => handleDelete(pdf._id)}
+                    className="bg-red-600 px-3 py-1 rounded"
+                  >
+                    Delete
+                  </button>
                 </div>
               ))
             )}
