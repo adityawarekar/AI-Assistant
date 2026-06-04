@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import Layout from "../components/Layout";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const Documents = () => {
   const [file, setFile] = useState(null);
@@ -102,16 +103,25 @@ const Documents = () => {
               pdfs.map((pdf) => (
                 <div
                   key={pdf._id}
-                  className="bg-slate-700 p-4 rounded-lg"
+                  className="bg-slate-700 p-4 rounded-lg flex justify-between items-center"
                 >
                   <span>📄 {pdf.title}</span>
 
-                  <button
-                    onClick={() => handleDelete(pdf._id)}
-                    className="bg-red-600 px-3 py-1 rounded"
-                  >
-                    Delete
-                  </button>
+                  <div className="flex gap-2">
+                    <Link
+                      to={`/pdf/${pdf._id}`}
+                      className="bg-blue-600 px-3 py-1 rounded"
+                    >
+                      View
+                    </Link>
+
+                    <button
+                      onClick={() => handleDelete(pdf._id)}
+                      className="bg-red-600 px-3 py-1 rounded"
+                    >
+                      Delete
+                    </button>
+                  </div>
                 </div>
               ))
             )}

@@ -41,3 +41,15 @@ exports.deletePdf = async (req, res) => {
     });
   }
 };
+
+exports.getPdfById = async (req, res) => {
+  try {
+    const pdf = await Pdf.findById(req.params.id);
+
+    res.json(pdf);
+  } catch (error) {
+    res.status(500).json({
+      error: error.message,
+    });
+  }
+};

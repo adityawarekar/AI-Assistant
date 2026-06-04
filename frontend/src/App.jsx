@@ -1,5 +1,4 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
@@ -8,8 +7,8 @@ import Chat from "./pages/Chat";
 import Flashcards from "./pages/Flashcards";
 import Quiz from "./pages/Quiz";
 import Profile from "./pages/Profile";
-
 import ProtectedRoute from "./routes/ProtectedRoute";
+import PdfViewer from "./pages/PdfViewer";
 
 function App() {
   return (
@@ -70,6 +69,15 @@ function App() {
           element={
             <ProtectedRoute>
               <Profile />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/pdf/:id"
+          element={
+            <ProtectedRoute>
+              <PdfViewer />
             </ProtectedRoute>
           }
         />
