@@ -82,3 +82,24 @@ async (req, res) => {
 
   }
 };
+
+exports.generateFlashcards =
+async (req, res) => {
+
+  const cards = [
+    {
+      question: "What is React?",
+      answer: "A JavaScript library"
+    },
+    {
+      question: "What is MongoDB?",
+      answer: "A NoSQL database"
+    },
+    {
+      question: "What is Express?",
+      answer: "Node.js framework"
+    }
+  ];
+
+  res.json(cards);
+};

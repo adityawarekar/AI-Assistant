@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const upload = require("../middleware/upload");
-const { uploadPdf, getPdfs, deletePdf, getPdfById, generatePdfSummary } = require("../controllers/pdfController");
+const { uploadPdf, getPdfs, deletePdf, getPdfById, generatePdfSummary, generateFlashcards } = require("../controllers/pdfController");
 
 console.log({
   uploadPdf,
@@ -10,10 +10,12 @@ console.log({
   deletePdf,
   getPdfById,
   generatePdfSummary,
+  generateFlashcards,
 });
 
 router.get("/", getPdfs);
 router.get("/summary/:id",generatePdfSummary);
+router.get("/flashcards/:id", generateFlashcards);
 router.get("/:id", getPdfById);
 router.post("/upload", upload.single("pdf"), uploadPdf);
 router.delete("/:id", deletePdf);
