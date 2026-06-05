@@ -1,15 +1,24 @@
 const Pdf = require("../models/Pdf");
+const fs = require("fs");
+const pdfParse = require("pdf-parse");
+const { generateSummary, } = require("../services/geminiService");
 
 exports.uploadPdf = async (req, res) => {
   try {
     const file = req.file;
 
+    const dataBuffer = fs.readFileSync(file.path);
+
+    const pdfData = await pdfParse(dataBuffer);
+
     const pdf = await Pdf.create({
       title: file.originalname,
       fileUrl: file.path,
+      text: pdfData.text,
     });
 
     res.json(pdf);
+
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: error.message });
@@ -51,5 +60,25 @@ exports.getPdfById = async (req, res) => {
     res.status(500).json({
       error: error.message,
     });
+  }
+};
+
+exports.generatePdfSummary = 
+async (req, res) => {
+  try {
+    const pdf = await Pdf.findById(
+      req.params.id
+    );
+
+    const summary = await generateSummary(pdf.text);
+
+    res.json({
+      summary,
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: error.message,
+    });
+
   }
 };
