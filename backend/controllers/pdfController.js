@@ -213,15 +213,20 @@ exports.chatWithPdf = async (req, res) => {
       .filter(line => line.trim() !== "");
 
     console.log("Question:", question);
-    console.log("Total Lines:", lines.length);
-    console.log("First 20 Lines:", lines.slice(0, 20));
+
+    // Convert "What is DBMS?" -> "dbms"
+    const keyword = question
+      .toLowerCase()
+      .replace("what is", "")
+      .replace("?", "")
+      .trim();
+
+    console.log("Keyword:", keyword);
 
     let answer = "No answer found in PDF";
 
     const index = lines.findIndex(line =>
-      line.toLowerCase().includes(
-        question.toLowerCase()
-      )
+      line.toLowerCase().includes(keyword)
     );
 
     if (index !== -1) {
@@ -229,6 +234,7 @@ exports.chatWithPdf = async (req, res) => {
         .slice(index, index + 5)
         .join(" ");
     }
+
     res.json({
       answer,
     });
