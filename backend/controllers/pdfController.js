@@ -134,6 +134,34 @@ exports.generateFlashcards = async (req, res) => {
   }
 };
 
+exports.generateNotes = async (req, res) => {
+  try {
+    const pdf = await Pdf.findById(req.params.id);
+
+    if (!pdf) {
+      return res.status(404).json({
+        message: "PDF not found",
+      });
+    }
+
+    const notes = pdf.text
+      .split("\n")
+      .filter(line => line.trim() !== "")
+      .slice(0, 15)
+      .join("\n");
+
+    res.json({
+      notes,
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      error: error.message,
+    });
+  }
+};
+console.log("generateNotes loaded");
+
 exports.generateQuiz = async (req, res) => {
   try {
     const pdf = await Pdf.findById(req.params.id);
@@ -167,3 +195,4 @@ exports.generateQuiz = async (req, res) => {
     });
   }
 };
+console.log("PDF Controller Loaded Successfully");

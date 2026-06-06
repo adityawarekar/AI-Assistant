@@ -13,6 +13,7 @@ const Sidebar = () => {
         <Link to="/chat">💬 AI Chat</Link>
         <Link to="/flashcards">🧠 Flashcards</Link>
         <Link to="/quiz">❓ Quiz</Link>
+        <Link to="/notes">Notes</Link>
         <Link to="/profile">👤 Profile</Link>
       </div>
     </div>

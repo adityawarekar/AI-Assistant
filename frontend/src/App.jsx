@@ -6,6 +6,7 @@ import Documents from "./pages/Documents";
 import Chat from "./pages/Chat";
 import Flashcards from "./pages/Flashcards";
 import Quiz from "./pages/Quiz";
+import Notes from "./pages/Notes";
 import Profile from "./pages/Profile";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import PdfViewer from "./pages/PdfViewer";
@@ -60,6 +61,14 @@ function App() {
           element={
             <ProtectedRoute>
               <Quiz />
+            </ProtectedRoute>
+          }
+        />
+         <Route
+          path="/notes"
+          element={
+            <ProtectedRoute>
+              <Notes />
             </ProtectedRoute>
           }
         />
