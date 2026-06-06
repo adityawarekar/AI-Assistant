@@ -35,7 +35,7 @@ exports.uploadPdf = async (req, res) => {
 };
 
 exports.getPdfs = async (req, res) => {
-  try{
+  try {
     const pdfs = await Pdf.find();
 
     res.json(pdfs);
@@ -72,25 +72,25 @@ exports.getPdfById = async (req, res) => {
   }
 };
 
-exports.generatePdfSummary = 
-async (req, res) => {
-  try {
-    const pdf = await Pdf.findById(
-      req.params.id
-    );
+exports.generatePdfSummary =
+  async (req, res) => {
+    try {
+      const pdf = await Pdf.findById(
+        req.params.id
+      );
 
-    const summary = await generateSummary(pdf.text);
+      const summary = await generateSummary(pdf.text);
 
-    res.json({
-      summary,
-    });
-  } catch (error) {
-    res.status(500).json({
-      error: error.message,
-    });
+      res.json({
+        summary,
+      });
+    } catch (error) {
+      res.status(500).json({
+        error: error.message,
+      });
 
-  }
-};
+    }
+  };
 
 exports.generateFlashcards = async (req, res) => {
   console.log("=== Flashcards Route Hit ===");
@@ -166,16 +166,16 @@ exports.generateQuiz = async (req, res) => {
   try {
     const pdf = await Pdf.findById(req.params.id);
 
-    if(!pdf) {
+    if (!pdf) {
       return res.status(404).json({
         message: "PDF not found",
       });
     }
 
     const lines = pdf.text
-    .split("\n")
-    .filter(line => line.trim() !== "")
-    .slice(0, 5);
+      .split("\n")
+      .filter(line => line.trim() !== "")
+      .slice(0, 5);
 
     const quiz = lines.map((line, index) => ({
       question: line,
@@ -189,6 +189,50 @@ exports.generateQuiz = async (req, res) => {
     }));
 
     res.json(quiz);
+  } catch (error) {
+    res.status(500).json({
+      error: error.message,
+    });
+  }
+};
+
+exports.chatWithPdf = async (req, res) => {
+  try {
+    const pdf = await Pdf.findById(req.params.id);
+
+    if (!pdf) {
+      return res.status(404).json({
+        message: "PDF not found",
+      });
+    }
+
+    const { question } = req.body;
+
+    const lines = pdf.text
+      .split("\n")
+      .filter(line => line.trim() !== "");
+
+    console.log("Question:", question);
+    console.log("Total Lines:", lines.length);
+    console.log("First 20 Lines:", lines.slice(0, 20));
+
+    let answer = "No answer found in PDF";
+
+    const index = lines.findIndex(line =>
+      line.toLowerCase().includes(
+        question.toLowerCase()
+      )
+    );
+
+    if (index !== -1) {
+      answer = lines
+        .slice(index, index + 5)
+        .join(" ");
+    }
+    res.json({
+      answer,
+    });
+
   } catch (error) {
     res.status(500).json({
       error: error.message,
