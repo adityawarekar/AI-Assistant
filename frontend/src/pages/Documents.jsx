@@ -1,12 +1,16 @@
 import { useState, useEffect } from "react";
 import Layout from "../components/Layout";
-import axios from "axios";
+import API from "../services/api";
 import { Link } from "react-router-dom";
 
 const Documents = () => {
   const [file, setFile] = useState(null);
   const [pdfs, setPdfs] = useState([]);
   const handleUpload = async () => {
+    console.log("TOKEN:", localStorage.getItem("token"));
+    console.log("Uploading...");
+    console.log(localStorage.getItem("token"));
+    console.log(API.defaults.baseURL);
     if (!file) {
       alert("Please select a PDF");
       return;
@@ -16,8 +20,8 @@ const Documents = () => {
     formData.append("pdf", file);
 
     try {
-      const res = await axios.post(
-        "http://localhost:5001/api/pdf/upload",
+      const res = await API.post(
+        "/pdf/upload",
         formData
       );
 
@@ -33,9 +37,7 @@ const Documents = () => {
 
   const fetchPdfs = async () => {
     try {
-      const res = await axios.get(
-        "http://localhost:5001/api/pdf"
-      );
+      const res = await API.get("/pdf");
 
       setPdfs(res.data);
     } catch (error) {
@@ -49,10 +51,7 @@ const Documents = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(
-        `http://localhost:5001/api/pdf/${id}`
-
-      );
+      await API.delete(`/pdf/${id}`);
       fetchPdfs();
     } catch (error) {
       console.log(error);

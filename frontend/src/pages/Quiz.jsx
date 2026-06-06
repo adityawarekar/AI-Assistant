@@ -1,6 +1,6 @@
 import Layout from "../components/Layout";
 import { useState, useEffect } from "react";
-import axios from "axios";
+import API from "../services/api";
 
 const Quiz = () => {
   const [pdfs, setPdfs] = useState([]);
@@ -12,9 +12,7 @@ const Quiz = () => {
 
   const fetchPdfs = async () => {
     try {
-      const res = await axios.get(
-        "http://localhost:5001/api/pdf"
-      );
+      const res = await API.get("/pdf");
 
       setPdfs(res.data);
     } catch (error) {
@@ -35,8 +33,8 @@ const Quiz = () => {
     try {
       setLoading(true);
 
-      const res = await axios.get(
-        `http://localhost:5001/api/pdf/quiz/${selectedPdf}`
+      const res = await API.get(
+        `/pdf/quiz/${selectedPdf}`
       );
       setScore(null);
       setSelectedAnswers({});
@@ -59,21 +57,21 @@ const Quiz = () => {
   };
 
   const calculateScore = () => {
-  console.log(selectedAnswers);
+    console.log(selectedAnswers);
 
-  let total = 0;
+    let total = 0;
 
-  questions.forEach((question, index) => {
-    if (
-      selectedAnswers[index] ===
-      question.answer
-    ) {
-      total++;
-    }
-  });
+    questions.forEach((question, index) => {
+      if (
+        selectedAnswers[index] ===
+        question.answer
+      ) {
+        total++;
+      }
+    });
 
-  setScore(total);
-};
+    setScore(total);
+  };
   return (
     <Layout>
       <div className="p-6">
@@ -142,8 +140,8 @@ const Quiz = () => {
                       )
                     }
                     className={`border px-3 py-2 rounded w-full text-left ${selectedAnswers[index] === option
-                        ? "bg-green-600"
-                        : ""
+                      ? "bg-green-600"
+                      : ""
                       }`}
                   >
                     {option}

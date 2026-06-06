@@ -1,7 +1,7 @@
 import Layout from "../components/Layout";
 import Flashcard from "../components/Flashcard";
 import { useState, useEffect } from "react";
-import axios from "axios";
+import API from "../services/api";
 
 const Flashcards = () => {
   const [cards, setCards] = useState([]);
@@ -11,15 +11,15 @@ const Flashcards = () => {
 
   const generateFlashcards = async () => {
     if (!selectedPdf) {
-    alert("Please select a PDF");
-    return;
-  }
+      alert("Please select a PDF");
+      return;
+    }
 
     try {
       setLoading(true);
 
-      const res = await axios.get(
-        `http://localhost:5001/api/pdf/flashcards/${selectedPdf}`
+      const res = await API.get(
+        `/pdf/flashcards/${selectedPdf}`
       );
 
       setCards(res.data);
@@ -33,9 +33,7 @@ const Flashcards = () => {
 
   const fetchPdfs = async () => {
     try {
-      const res = await axios.get(
-        "http://localhost:5001/api/pdf"
-      );
+      const res = await API.get("/pdf");
 
       setPdfs(res.data);
     } catch (error) {

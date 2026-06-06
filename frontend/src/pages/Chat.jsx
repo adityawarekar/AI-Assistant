@@ -1,6 +1,6 @@
 import Layout from "../components/Layout";
 import { useState, useEffect } from "react";
-import axios from "axios";
+import API from "../services/api";
 
 const Chat = () => {
   const [pdfs, setPdfs] = useState([]);
@@ -11,9 +11,7 @@ const Chat = () => {
 
   const fetchPdfs = async () => {
     try {
-      const res = await axios.get(
-        "http://localhost:5001/api/pdf"
-      );
+      const res = await API.get("/pdf");
 
       setPdfs(res.data);
     } catch (error) {
@@ -34,12 +32,12 @@ const Chat = () => {
     try {
       setLoading(true);
 
-      const res = await axios.post(
-        `http://localhost:5001/api/pdf/chat/${selectedPdf}`,
-        {
-          question,
-        }
-      );
+      const res = await API.post(
+  `/pdf/chat/${selectedPdf}`,
+  {
+    question,
+  }
+);
 
       setMessages((prev) => [
         ...prev,

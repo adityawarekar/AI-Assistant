@@ -4,6 +4,9 @@ const pdfParse = require("pdf-parse");
 const { generateSummary, } = require("../services/geminiService");
 
 exports.uploadPdf = async (req, res) => {
+  console.log("UPLOAD ROUTE HIT");
+  console.log("HEADERS:", req.headers);
+  console.log("REQ USER:", req.user);
   try {
     const file = req.file;
 
@@ -21,6 +24,7 @@ exports.uploadPdf = async (req, res) => {
     );
 
     const pdf = await Pdf.create({
+      userId: req.user.id,
       title: file.originalname,
       fileUrl: file.path,
       text: pdfData.text,
@@ -36,7 +40,9 @@ exports.uploadPdf = async (req, res) => {
 
 exports.getPdfs = async (req, res) => {
   try {
-    const pdfs = await Pdf.find();
+    const pdfs = await Pdf.find({
+      userId: req.user.id,
+    });
 
     res.json(pdfs);
   } catch (error) {
@@ -214,7 +220,7 @@ exports.chatWithPdf = async (req, res) => {
 
     console.log("Question:", question);
 
-    // Convert "What is DBMS?" -> "dbms"
+    
     const keyword = question
       .toLowerCase()
       .replace("what is", "")
