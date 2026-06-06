@@ -11,6 +11,15 @@ exports.uploadPdf = async (req, res) => {
 
     const pdfData = await pdfParse(dataBuffer);
 
+    console.log(
+      "Extracted Text Length:",
+      pdfData.text.length
+    );
+
+    console.log(
+      pdfData.text.slice(0, 200)
+    );
+
     const pdf = await Pdf.create({
       title: file.originalname,
       fileUrl: file.path,
@@ -83,23 +92,78 @@ async (req, res) => {
   }
 };
 
-exports.generateFlashcards =
-async (req, res) => {
+exports.generateFlashcards = async (req, res) => {
+  console.log("=== Flashcards Route Hit ===");
+  console.log("PDF ID:", req.params.id);
 
-  const cards = [
-    {
-      question: "What is React?",
-      answer: "A JavaScript library"
-    },
-    {
-      question: "What is MongoDB?",
-      answer: "A NoSQL database"
-    },
-    {
-      question: "What is Express?",
-      answer: "Node.js framework"
+  try {
+    const pdf = await Pdf.findById(req.params.id);
+
+    console.log("PDF Found:", pdf ? "YES" : "NO");
+
+    if (!pdf) {
+      return res.status(404).json({
+        message: "PDF not found"
+      });
     }
-  ];
 
-  res.json(cards);
+    console.log("Text Length:", pdf.text.length);
+
+    const lines = pdf.text
+      .split("\n")
+      .filter(line => line.trim() !== "")
+      .slice(0, 5);
+
+    console.log("Lines:", lines);
+
+    const cards = lines.map((line, index) => ({
+      question: `Flashcard ${index + 1}`,
+      answer: line
+    }));
+
+    console.log("Cards Generated:", cards);
+
+    res.json(cards);
+
+  } catch (error) {
+    console.log("FLASHCARD ERROR:", error);
+
+    res.status(500).json({
+      error: error.message
+    });
+  }
+};
+
+exports.generateQuiz = async (req, res) => {
+  try {
+    const pdf = await Pdf.findById(req.params.id);
+
+    if(!pdf) {
+      return res.status(404).json({
+        message: "PDF not found",
+      });
+    }
+
+    const lines = pdf.text
+    .split("\n")
+    .filter(line => line.trim() !== "")
+    .slice(0, 5);
+
+    const quiz = lines.map((line, index) => ({
+      question: line,
+      options: [
+        "Option A",
+        "Option B",
+        "Option C",
+        "Option D",
+      ],
+      answer: "Option A",
+    }));
+
+    res.json(quiz);
+  } catch (error) {
+    res.status(500).json({
+      error: error.message,
+    });
+  }
 };
