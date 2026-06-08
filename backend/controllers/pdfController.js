@@ -339,9 +339,7 @@ exports.generateInterviewQuestions = async (req, res) => {
 };
 exports.searchPdf = async (req, res) => {
   try {
-    const pdf = await Pdf.findById(
-      req.params.id
-    );
+    const pdf = await Pdf.findById(req.params.id);
 
     if (!pdf) {
       return res.status(404).json({
@@ -353,10 +351,11 @@ exports.searchPdf = async (req, res) => {
 
     const results = pdf.text
       .split("\n")
-      .filter(line =>
-        line
-          .toLowerCase()
-          .includes(query.toLowerCase())
+      .filter(
+        (line) =>
+          line
+            .toLowerCase()
+            .includes(query.toLowerCase())
       );
 
     res.json(results);
@@ -367,7 +366,6 @@ exports.searchPdf = async (req, res) => {
     });
   }
 };
-
 
 
 
