@@ -11,6 +11,7 @@ import Profile from "./pages/Profile";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import PdfViewer from "./pages/PdfViewer";
 import StudyPlan from "./pages/StudyPlan";
+import InterviewQuestions from "./pages/InterviewQuestions";
 
 function App() {
   return (
@@ -70,6 +71,14 @@ function App() {
           element={
             <ProtectedRoute>
               <Notes />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/interview"
+          element={
+            <ProtectedRoute>
+              <InterviewQuestions />
             </ProtectedRoute>
           }
         />

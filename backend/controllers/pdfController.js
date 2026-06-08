@@ -4,7 +4,7 @@ const pdfParse = require("pdf-parse");
 const { generateSummary, } = require("../services/geminiService");
 
 exports.uploadPdf = async (req, res) => {
- 
+
   try {
     const file = req.file;
 
@@ -218,7 +218,7 @@ exports.chatWithPdf = async (req, res) => {
 
     console.log("Question:", question);
 
-    
+
     const keyword = question
       .toLowerCase()
       .replace("what is", "")
@@ -260,14 +260,14 @@ exports.generateStudyPlan = async (req, res) => {
       });
     }
 
-    console.log("TEXT LENGTH:", pdf.text.length);
+    
 
-const topics = pdf.text
-  .split("\n")
-  .filter(line => line.trim() !== "")
-  .slice(0, 20);
+    const topics = pdf.text
+      .split("\n")
+      .filter(line => line.trim() !== "")
+      .slice(0, 20);
 
-console.log("TOPICS:", topics);
+    
 
 
 
@@ -303,4 +303,72 @@ console.log("TOPICS:", topics);
     });
   }
 };
+
+exports.generateInterviewQuestions = async (req, res) => {
+  try {
+    const pdf = await Pdf.findById(
+      req.params.id
+    );
+
+    if (!pdf) {
+      return res.status(404).json({
+        message: "PDF not found",
+      });
+    }
+    const lines = pdf.text
+    .split("\n")
+    .filter(
+      (line) => line.trim() !== "" &&
+      line.length < 80
+    )
+    .slice(0, 10);
+
+    const question = lines.map(
+      (line, index) => ({
+        id: index + 1,
+        question: `Explain ${line}?`,
+      })
+    );
+
+    res.json(question);
+  } catch (error) {
+    re.status(500).json({
+      error: error.message,
+    });
+  }
+};
+exports.searchPdf = async (req, res) => {
+  try {
+    const pdf = await Pdf.findById(
+      req.params.id
+    );
+
+    if (!pdf) {
+      return res.status(404).json({
+        message: "PDF not found",
+      });
+    }
+
+    const query = req.query.query;
+
+    const results = pdf.text
+      .split("\n")
+      .filter(line =>
+        line
+          .toLowerCase()
+          .includes(query.toLowerCase())
+      );
+
+    res.json(results);
+
+  } catch (error) {
+    res.status(500).json({
+      error: error.message,
+    });
+  }
+};
+
+
+
+
 console.log("PDF Controller Loaded Successfully");
