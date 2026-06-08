@@ -7,10 +7,7 @@ const Documents = () => {
   const [file, setFile] = useState(null);
   const [pdfs, setPdfs] = useState([]);
   const handleUpload = async () => {
-    console.log("TOKEN:", localStorage.getItem("token"));
-    console.log("Uploading...");
-    console.log(localStorage.getItem("token"));
-    console.log(API.defaults.baseURL);
+    
     if (!file) {
       alert("Please select a PDF");
       return;
@@ -113,6 +110,13 @@ const Documents = () => {
                     >
                       View
                     </Link>
+                    <Link
+                      to={`/studyplan/${pdf._id}`}
+                      className="bg-purple-600 px-3 py-1 rounded"
+                    >
+                      Study Plan
+                    </Link>
+
 
                     <button
                       onClick={() => handleDelete(pdf._id)}

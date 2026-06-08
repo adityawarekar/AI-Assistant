@@ -4,9 +4,7 @@ const pdfParse = require("pdf-parse");
 const { generateSummary, } = require("../services/geminiService");
 
 exports.uploadPdf = async (req, res) => {
-  console.log("UPLOAD ROUTE HIT");
-  console.log("HEADERS:", req.headers);
-  console.log("REQ USER:", req.user);
+ 
   try {
     const file = req.file;
 
@@ -244,6 +242,60 @@ exports.chatWithPdf = async (req, res) => {
     res.json({
       answer,
     });
+
+  } catch (error) {
+    res.status(500).json({
+      error: error.message,
+    });
+  }
+};
+
+exports.generateStudyPlan = async (req, res) => {
+  try {
+    const pdf = await Pdf.findById(req.params.id);
+
+    if (!pdf) {
+      return res.status(404).json({
+        message: "PDF not found",
+      });
+    }
+
+    console.log("TEXT LENGTH:", pdf.text.length);
+
+const topics = pdf.text
+  .split("\n")
+  .filter(line => line.trim() !== "")
+  .slice(0, 20);
+
+console.log("TOPICS:", topics);
+
+
+
+    const studyPlan = [];
+
+    const days = 5;
+    const topicsPerDay = Math.ceil(
+      topics.length / days
+    );
+
+    for (let i = 0; i < days; i++) {
+      studyPlan.push({
+        day: `Day ${i + 1}`,
+        topics: topics.slice(
+          i * topicsPerDay,
+          (i + 1) * topicsPerDay
+        ),
+      });
+    }
+
+    studyPlan.push({
+      day: "Revision",
+      topics: [
+        "Revise all important topics",
+      ],
+    });
+
+    res.json(studyPlan);
 
   } catch (error) {
     res.status(500).json({

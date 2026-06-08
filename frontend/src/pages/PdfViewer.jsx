@@ -1,6 +1,6 @@
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import axios from "axios";
+import API from "../services/api";
 
 const PdfViewer = () => {
   const { id } = useParams();
@@ -16,8 +16,8 @@ const PdfViewer = () => {
 
   const fetchPdf = async () => {
     try {
-      const res = await axios.get(
-        `http://localhost:5001/api/pdf/${id}`
+      const res = await API.get(
+        `/pdf/${id}`
       );
 
       setPdf(res.data);
@@ -72,6 +72,13 @@ const PdfViewer = () => {
       >
         Generate Summary
       </button>
+
+      <Link
+        to={`/studyplan/${pdf._id}`}
+        className="bg-purple-600 px-4 py-2 rounded ml-4 text-white inline-block"
+      >
+        Generate Study Plan
+      </Link>
 
       {loading && (
         <p className="mt-4 text-yellow-400">

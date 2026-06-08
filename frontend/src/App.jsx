@@ -10,6 +10,7 @@ import Notes from "./pages/Notes";
 import Profile from "./pages/Profile";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import PdfViewer from "./pages/PdfViewer";
+import StudyPlan from "./pages/StudyPlan";
 
 function App() {
   return (
@@ -64,7 +65,7 @@ function App() {
             </ProtectedRoute>
           }
         />
-         <Route
+        <Route
           path="/notes"
           element={
             <ProtectedRoute>
@@ -89,6 +90,20 @@ function App() {
               <PdfViewer />
             </ProtectedRoute>
           }
+        />
+
+        <Route
+          path="/studyplan/:id"
+          element={
+            <ProtectedRoute>
+              <StudyPlan />
+            </ProtectedRoute>
+
+          }
+        />
+        <Route
+          path="/test"
+          element={<h1>TEST PAGE</h1>}
         />
       </Routes>
     </BrowserRouter>
