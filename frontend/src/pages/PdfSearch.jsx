@@ -1,17 +1,17 @@
 import Layout from "../components/Layout";
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import API from "../services/api";
 
-const Notes = () => {
+const PdfSearch = () => {
   const [pdfs, setPdfs] = useState([]);
   const [selectedPdf, setSelectedPdf] = useState("");
-  const [notes, setNotes] = useState("");
+  const [query, setQuery] = useState("");
+  const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const fetchPdfs = async () => {
     try {
       const res = await API.get("/pdf");
-
       setPdfs(res.data);
     } catch (error) {
       console.log(error);
@@ -22,10 +22,9 @@ const Notes = () => {
     fetchPdfs();
   }, []);
 
-  const generateNotes = async () => {
-    console.log("BUTTON CLICKED");
-    if (!selectedPdf) {
-      alert("Please select a PDF");
+  const searchPdf = async () => {
+    if (!selectedPdf || !query) {
+      alert("Select PDF and enter search text");
       return;
     }
 
@@ -33,12 +32,10 @@ const Notes = () => {
       setLoading(true);
 
       const res = await API.get(
-        `/pdf/notes/${selectedPdf}`
+        `/pdf/search/${selectedPdf}?query=${query}`
       );
-      console.log("NOTES RESPONSE:", res.data);
 
-      setNotes(res.data.notes);
-
+      setResults(res.data);
     } catch (error) {
       console.log(error);
     } finally {
@@ -46,20 +43,15 @@ const Notes = () => {
     }
   };
 
-  const copyNotes = () => {
-    navigator.clipboard.writeText(notes);
-    alert("Notes copied!");
-  };
-
   return (
     <Layout>
       <div className="p-6">
         <h1 className="text-3xl font-bold">
-          Notes Generator
+          PDF Search
         </h1>
 
         <p className="text-gray-400 mt-2 mb-6">
-          Generate notes from PDFs
+          Search inside uploaded PDFs
         </p>
 
         <select
@@ -83,40 +75,42 @@ const Notes = () => {
           ))}
         </select>
 
+        <input
+          type="text"
+          placeholder="Search keyword..."
+          value={query}
+          onChange={(e) =>
+            setQuery(e.target.value)
+          }
+          className="w-full p-3 rounded-lg bg-slate-800 mb-4"
+        />
+
         <button
-          onClick={generateNotes}
+          onClick={searchPdf}
           className="bg-blue-600 px-4 py-2 rounded-lg"
         >
-          Generate Notes
+          Search
         </button>
 
         {loading && (
           <p className="mt-4">
-            Generating Notes...
+            Searching...
           </p>
         )}
 
-        {notes && (
-          <div className="bg-slate-800 p-6 rounded-xl mt-6">
-            <h2 className="text-xl font-bold mb-3">
-              Notes
-            </h2>
-
-            <pre className="whitespace-pre-wrap">
-              {notes}
-            </pre>
-
-            <button
-              onClick={copyNotes}
-              className="bg-green-600 px-4 py-2 rounded mt-4"
+        <div className="mt-6 space-y-3">
+          {results.map((result, index) => (
+            <div
+              key={index}
+              className="bg-slate-800 p-4 rounded-lg"
             >
-              Copy Notes
-            </button>
-          </div>
-        )}
+              {result}
+            </div>
+          ))}
+        </div>
       </div>
     </Layout>
   );
 };
 
-export default Notes;
+export default PdfSearch;

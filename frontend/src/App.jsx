@@ -12,6 +12,7 @@ import ProtectedRoute from "./routes/ProtectedRoute";
 import PdfViewer from "./pages/PdfViewer";
 import StudyPlan from "./pages/StudyPlan";
 import InterviewQuestions from "./pages/InterviewQuestions";
+import PdfSearch from "./pages/PdfSearch";
 
 function App() {
   return (
@@ -109,7 +110,17 @@ function App() {
             </ProtectedRoute>
 
           }
+
         />
+        <Route
+          path="/search"
+          element={
+            <ProtectedRoute>
+              <PdfSearch />
+            </ProtectedRoute>
+          }
+        />
+
         <Route
           path="/test"
           element={<h1>TEST PAGE</h1>}

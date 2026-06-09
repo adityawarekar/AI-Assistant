@@ -3,7 +3,7 @@ const router = express.Router();
 const authMiddleware = require("../middleware/authMiddleware");
 console.log("AUTH MIDDLEWARE:", authMiddleware);
 const upload = require("../middleware/upload");
-const { uploadPdf, getPdfs, deletePdf, getPdfById, generatePdfSummary, generateFlashcards, generateQuiz, generateNotes, chatWithPdf, generateStudyPlan, generateInterviewQuestions, searchPdf } = require("../controllers/pdfController");
+const { uploadPdf, getPdfs, deletePdf, getPdfById, generatePdfSummary, generateFlashcards, generateQuiz, generateNotes, chatWithPdf, generateStudyPlan, generateInterviewQuestions, searchPdf, getDashboardStats, getRecentPdfs, updateProgress } = require("../controllers/pdfController");
 
 console.log({
   uploadPdf,
@@ -18,6 +18,9 @@ console.log({
   generateStudyPlan,
   generateInterviewQuestions,
   searchPdf,
+  getDashboardStats,
+  getRecentPdfs,
+  updateProgress,
 });
 
 router.get("/", authMiddleware, getPdfs);
@@ -29,6 +32,9 @@ router.get("/studyplan/:id",authMiddleware, generateStudyPlan);
 router.get("/interview/:id", authMiddleware, generateInterviewQuestions);
 router.post("/chat/:id", authMiddleware, chatWithPdf);
 router.get("/search/:id", authMiddleware, searchPdf);
+router.get("/dashboard/stats", authMiddleware, getDashboardStats);
+router.get("/recent", authMiddleware, getRecentPdfs);
+router.put("/progress/:id", authMiddleware, updateProgress);
 router.get("/:id", authMiddleware, getPdfById);
 router.post(
   "/upload",

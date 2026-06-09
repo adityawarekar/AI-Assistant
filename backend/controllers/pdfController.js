@@ -3,6 +3,33 @@ const fs = require("fs");
 const pdfParse = require("pdf-parse");
 const { generateSummary, } = require("../services/geminiService");
 
+const updatePdfProgress = async (
+  pdfId,
+  increaseBy
+) => {
+  
+
+  const pdf = await Pdf.findById(pdfId);
+
+  if (!pdf) {
+    console.log("PDF NOT FOUND");
+    return;
+  }
+
+  
+
+  pdf.progress = Math.min(
+    pdf.progress + increaseBy,
+    100
+  );
+
+  
+
+  await pdf.save();
+
+  
+};
+
 exports.uploadPdf = async (req, res) => {
 
   try {
@@ -127,6 +154,12 @@ exports.generateFlashcards = async (req, res) => {
 
     console.log("Cards Generated:", cards);
 
+
+
+    await updatePdfProgress(
+      req.params.id,
+      20
+    );
     res.json(cards);
 
   } catch (error) {
@@ -140,6 +173,8 @@ exports.generateFlashcards = async (req, res) => {
 
 exports.generateNotes = async (req, res) => {
   try {
+    
+    console.log("PDF ID:", req.params.id);
     const pdf = await Pdf.findById(req.params.id);
 
     if (!pdf) {
@@ -153,6 +188,11 @@ exports.generateNotes = async (req, res) => {
       .filter(line => line.trim() !== "")
       .slice(0, 15)
       .join("\n");
+
+    await updatePdfProgress(
+      req.params.id,
+      20
+    );
 
     res.json({
       notes,
@@ -191,6 +231,10 @@ exports.generateQuiz = async (req, res) => {
       ],
       answer: "Option A",
     }));
+    await updatePdfProgress(
+      req.params.id,
+      30
+    );
 
     res.json(quiz);
   } catch (error) {
@@ -239,6 +283,11 @@ exports.chatWithPdf = async (req, res) => {
         .join(" ");
     }
 
+    await updatePdfProgress(
+      req.params.id,
+      10,
+    );
+
     res.json({
       answer,
     });
@@ -260,14 +309,14 @@ exports.generateStudyPlan = async (req, res) => {
       });
     }
 
-    
+
 
     const topics = pdf.text
       .split("\n")
       .filter(line => line.trim() !== "")
       .slice(0, 20);
 
-    
+
 
 
 
@@ -294,6 +343,10 @@ exports.generateStudyPlan = async (req, res) => {
         "Revise all important topics",
       ],
     });
+    await updatePdfProgress(
+      req.params.id,
+      10
+    );
 
     res.json(studyPlan);
 
@@ -316,12 +369,12 @@ exports.generateInterviewQuestions = async (req, res) => {
       });
     }
     const lines = pdf.text
-    .split("\n")
-    .filter(
-      (line) => line.trim() !== "" &&
-      line.length < 80
-    )
-    .slice(0, 10);
+      .split("\n")
+      .filter(
+        (line) => line.trim() !== "" &&
+          line.length < 80
+      )
+      .slice(0, 10);
 
     const question = lines.map(
       (line, index) => ({
@@ -329,6 +382,10 @@ exports.generateInterviewQuestions = async (req, res) => {
         question: `Explain ${line}?`,
       })
     );
+    await updatePdfProgress(
+      req.params.id,
+      10
+    )
 
     res.json(question);
   } catch (error) {
@@ -359,6 +416,74 @@ exports.searchPdf = async (req, res) => {
       );
 
     res.json(results);
+
+  } catch (error) {
+    res.status(500).json({
+      error: error.message,
+    });
+  }
+};
+
+exports.getDashboardStats = async (req, res) => {
+  try {
+    const pdfs = await Pdf.find({
+      userId: req.user.id,
+    });
+
+    const totalDocuments = pdfs.length;
+
+    const totalFlashcards =
+      totalDocuments * 5;
+
+    const totalInterviewQuestions =
+      totalDocuments * 10;
+
+    const totalStudyPlans =
+      totalDocuments;
+
+    res.json({
+      totalDocuments,
+      totalFlashcards,
+      totalInterviewQuestions,
+      totalStudyPlans,
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      error: error.message,
+    });
+  }
+};
+
+exports.getRecentPdfs = async (req, res) => {
+  try {
+    const pdfs = await Pdf.find({
+      userId: req.user.id,
+    })
+      .sort({ createdAt: -1 })
+      .limit(5);
+
+    res.json(pdfs);
+
+  } catch (error) {
+    res.status(500).json({
+      error: error.message,
+    });
+  }
+};
+
+
+exports.updateProgress = async (req, res) => {
+  try {
+    const { progress } = req.body;
+
+    const pdf = await Pdf.findByIdAndUpdate(
+      req.params.id,
+      { progress },
+      { new: true }
+    );
+
+    res.json(pdf);
 
   } catch (error) {
     res.status(500).json({

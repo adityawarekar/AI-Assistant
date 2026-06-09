@@ -15,6 +15,7 @@ const Sidebar = () => {
         <Link to="/quiz">❓ Quiz</Link>
         <Link to="/notes">Notes</Link>
         <Link to="/interview">🎤 Interview Questions</Link>
+        <Link to="/search"> PDF Search</Link>
         <Link to="/profile">👤 Profile</Link>
       </div>
     </div>
