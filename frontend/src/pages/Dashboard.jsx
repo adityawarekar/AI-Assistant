@@ -92,12 +92,17 @@ const Dashboard = () => {
 
                 <div className="w-full bg-slate-900 rounded-full h-3 mt-2">
                   <div
-                  className="bg-green-500 h-3 rounded-full"
-                  style={{
-                    width: `${pdf.progress}%`,
-                  }}
+                    className={`h-3 rounded-full ${pdf.progress <= 30
+                        ? "bg-red-500"
+                        : pdf.progress <= 70
+                          ? "bg-yellow-500"
+                          : "bg-green-500"
+                      }`}
+                    style={{
+                      width: `${pdf.progress}%`,
+                    }}
                   ></div>
-              </div>
+                </div>
               </div>
             ))
           )}

@@ -1,7 +1,7 @@
 import { useAuthStore } from "../store/authStore";
 
 const Navbar = () => {
-  const { user } = useAuthStore();
+  const { user, logout } = useAuthStore();
 
   return (
     <div className="bg-slate-800 text-white p-4 flex justify-between">
@@ -9,7 +9,16 @@ const Navbar = () => {
         AI Learning Assistant
       </h2>
 
-      <p>{user?.name}</p>
+      <div className="flex gap-4 items-center">
+        <p>{user?.name}</p>
+
+        <button
+          onClick={logout}
+          className="bg-red-600 px-3 py-1 rounded"
+        >
+          Logout
+        </button>
+      </div>
     </div>
   );
 };

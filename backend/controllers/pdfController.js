@@ -1,33 +1,22 @@
 const Pdf = require("../models/Pdf");
 const fs = require("fs");
 const pdfParse = require("pdf-parse");
-const { generateSummary, } = require("../services/geminiService");
+const { generateSummary, generateNotes, generateInterviewQuestions: generateAIInterviewQuestions, generateQuiz: generateAIQuiz, generateFlashcards: generateAIFlashcards, chatWithPdfAI, } = require("../services/geminiService");
 
 const updatePdfProgress = async (
   pdfId,
   increaseBy
 ) => {
-  
-
   const pdf = await Pdf.findById(pdfId);
-
   if (!pdf) {
-    console.log("PDF NOT FOUND");
+
     return;
   }
-
-  
-
   pdf.progress = Math.min(
     pdf.progress + increaseBy,
     100
   );
-
-  
-
   await pdf.save();
-
-  
 };
 
 exports.uploadPdf = async (req, res) => {
@@ -39,14 +28,6 @@ exports.uploadPdf = async (req, res) => {
 
     const pdfData = await pdfParse(dataBuffer);
 
-    console.log(
-      "Extracted Text Length:",
-      pdfData.text.length
-    );
-
-    console.log(
-      pdfData.text.slice(0, 200)
-    );
 
     const pdf = await Pdf.create({
       userId: req.user.id,
@@ -109,9 +90,15 @@ exports.generatePdfSummary =
       const pdf = await Pdf.findById(
         req.params.id
       );
+      if (!pdf) {
+        return res.status(404).json({
+          message: "PDF not found",
+        });
+      }
 
-      const summary = await generateSummary(pdf.text);
-
+      const summary = await generateSummary(
+        pdf.text.slice(0, 3000)
+      );
       res.json({
         summary,
       });
@@ -124,13 +111,12 @@ exports.generatePdfSummary =
   };
 
 exports.generateFlashcards = async (req, res) => {
-  console.log("=== Flashcards Route Hit ===");
-  console.log("PDF ID:", req.params.id);
+
 
   try {
     const pdf = await Pdf.findById(req.params.id);
 
-    console.log("PDF Found:", pdf ? "YES" : "NO");
+
 
     if (!pdf) {
       return res.status(404).json({
@@ -138,32 +124,22 @@ exports.generateFlashcards = async (req, res) => {
       });
     }
 
-    console.log("Text Length:", pdf.text.length);
-
-    const lines = pdf.text
-      .split("\n")
-      .filter(line => line.trim() !== "")
-      .slice(0, 5);
-
-    console.log("Lines:", lines);
-
-    const cards = lines.map((line, index) => ({
-      question: `Flashcard ${index + 1}`,
-      answer: line
-    }));
-
-    console.log("Cards Generated:", cards);
-
-
+    const flashcards =
+      await generateAIFlashcards(
+        pdf.text.slice(0, 1000)
+      );
 
     await updatePdfProgress(
       req.params.id,
       20
     );
-    res.json(cards);
+
+    res.json({
+      flashcards,
+    });
 
   } catch (error) {
-    console.log("FLASHCARD ERROR:", error);
+    console.log(error);
 
     res.status(500).json({
       error: error.message
@@ -173,8 +149,8 @@ exports.generateFlashcards = async (req, res) => {
 
 exports.generateNotes = async (req, res) => {
   try {
-    
-    console.log("PDF ID:", req.params.id);
+
+
     const pdf = await Pdf.findById(req.params.id);
 
     if (!pdf) {
@@ -183,11 +159,9 @@ exports.generateNotes = async (req, res) => {
       });
     }
 
-    const notes = pdf.text
-      .split("\n")
-      .filter(line => line.trim() !== "")
-      .slice(0, 15)
-      .join("\n");
+    const notes = await generateNotes(
+      pdf.text.slice(0, 1000)
+    );
 
     await updatePdfProgress(
       req.params.id,
@@ -216,27 +190,18 @@ exports.generateQuiz = async (req, res) => {
       });
     }
 
-    const lines = pdf.text
-      .split("\n")
-      .filter(line => line.trim() !== "")
-      .slice(0, 5);
+    const quiz = await generateAIQuiz(
+      pdf.text.slice(0, 1000)
+    );
 
-    const quiz = lines.map((line, index) => ({
-      question: line,
-      options: [
-        "Option A",
-        "Option B",
-        "Option C",
-        "Option D",
-      ],
-      answer: "Option A",
-    }));
     await updatePdfProgress(
       req.params.id,
       30
     );
 
-    res.json(quiz);
+    res.json({
+      quiz,
+    });
   } catch (error) {
     res.status(500).json({
       error: error.message,
@@ -256,36 +221,15 @@ exports.chatWithPdf = async (req, res) => {
 
     const { question } = req.body;
 
-    const lines = pdf.text
-      .split("\n")
-      .filter(line => line.trim() !== "");
-
-    console.log("Question:", question);
-
-
-    const keyword = question
-      .toLowerCase()
-      .replace("what is", "")
-      .replace("?", "")
-      .trim();
-
-    console.log("Keyword:", keyword);
-
-    let answer = "No answer found in PDF";
-
-    const index = lines.findIndex(line =>
-      line.toLowerCase().includes(keyword)
-    );
-
-    if (index !== -1) {
-      answer = lines
-        .slice(index, index + 5)
-        .join(" ");
-    }
+    const answer =
+      await chatWithPdfAI(
+        pdf.text.slice(0, 1000),
+        question
+      );
 
     await updatePdfProgress(
       req.params.id,
-      10,
+      10
     );
 
     res.json({
@@ -293,10 +237,12 @@ exports.chatWithPdf = async (req, res) => {
     });
 
   } catch (error) {
-    res.status(500).json({
-      error: error.message,
-    });
-  }
+  console.log("CHAT AI ERROR:", error.message);
+
+  res.status(500).json({
+    error: "AI service is busy. Please try again in a minute.",
+  });
+}
 };
 
 exports.generateStudyPlan = async (req, res) => {
@@ -359,37 +305,30 @@ exports.generateStudyPlan = async (req, res) => {
 
 exports.generateInterviewQuestions = async (req, res) => {
   try {
-    const pdf = await Pdf.findById(
-      req.params.id
-    );
+    const pdf = await Pdf.findById(req.params.id);
 
     if (!pdf) {
       return res.status(404).json({
         message: "PDF not found",
       });
     }
-    const lines = pdf.text
-      .split("\n")
-      .filter(
-        (line) => line.trim() !== "" &&
-          line.length < 80
-      )
-      .slice(0, 10);
 
-    const question = lines.map(
-      (line, index) => ({
-        id: index + 1,
-        question: `Explain ${line}?`,
-      })
-    );
+    const question =
+      await generateAIInterviewQuestions(
+        pdf.text.slice(0, 1000)
+      );
+
     await updatePdfProgress(
       req.params.id,
       10
-    )
+    );
 
-    res.json(question);
+    res.json({
+      question,
+    });
+
   } catch (error) {
-    re.status(500).json({
+    res.status(500).json({
       error: error.message,
     });
   }
@@ -494,4 +433,3 @@ exports.updateProgress = async (req, res) => {
 
 
 
-console.log("PDF Controller Loaded Successfully");
