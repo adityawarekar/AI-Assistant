@@ -53,6 +53,26 @@ const RevisionNotes = () => {
     alert("Revision Notes copied!");
   };
 
+  const downloadNotes = () => {
+    const blob = new Blob(
+      [revisionNotes],
+      { type: "text/plain" }
+    );
+
+    const url =
+      window.URL.createObjectURL(blob);
+
+    const link =
+      document.createElement("a");
+
+    link.href = url;
+    link.download = "revision-notes.txt";
+
+    link.click();
+
+    window.URL.revokeObjectURL(url);
+  };
+
   return (
     <Layout>
       <div className="p-6">
@@ -94,6 +114,9 @@ const RevisionNotes = () => {
 
         {loading && (
           <p className="mt-4">
+            <p className="text-blue-400 animate-pulse">
+              🤖 AI is generating revision notes...
+            </p>
             Generating Revision Notes...
           </p>
         )}
@@ -107,13 +130,20 @@ const RevisionNotes = () => {
             <pre className="whitespace-pre-wrap">
               {revisionNotes}
             </pre>
+            <div className="flex gap-3 mt-4">
+              <button
+                onClick={copyNotes}
+                className="bg-green-600 px-4 py-2 rounded mt-4"
+              >
+                Copy Notes
+              </button>
+              <button
+                onClick={downloadNotes}
+                className="bg-purple-600 px-4 py-2 rounded">
+                Download Notes
 
-            <button
-              onClick={copyNotes}
-              className="bg-green-600 px-4 py-2 rounded mt-4"
-            >
-              Copy Notes
-            </button>
+              </button>
+            </div>
           </div>
         )}
       </div>

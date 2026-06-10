@@ -53,6 +53,25 @@ const PracticeSheet = () => {
     alert("Practice Sheet copied!");
   };
 
+  const downloadPracticeSheet = () => {
+    const blob = new Blob(
+      [practiceSheet],
+      { type: "text/plain" }
+    );
+    const url =
+      window.URL.createObjectURL(blob);
+
+    const link =
+      document.createElement("a");
+
+    link.href = url;
+    link.download = "practice-sheet.txt";
+
+    link.click();
+
+    window.URL.revokeObjectURL(url);
+  };
+
   return (
     <Layout>
       <div className="p-6">
@@ -99,13 +118,21 @@ const PracticeSheet = () => {
             <pre className="whitespace-pre-wrap">
               {practiceSheet}
             </pre>
+            <div className="flex gap-3 mt-4">
+              <button
+                onClick={copyPracticeSheet}
+                className="bg-green-600 px-4 py-2 rounded mt-4"
+              >
+                Copy Practice Sheet
+              </button>
+              <button
+                onClick={downloadPracticeSheet}
+                className="bg-purple-600 px-4 py-2 rounded"
+              >
+                Downlaod Practice Sheet
 
-            <button
-              onClick={copyPracticeSheet}
-              className="bg-green-600 px-4 py-2 rounded mt-4"
-            >
-              Copy Practice Sheet
-            </button>
+              </button>
+            </div>
           </div>
         )}
       </div>

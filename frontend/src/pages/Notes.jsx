@@ -50,6 +50,26 @@ const Notes = () => {
     navigator.clipboard.writeText(notes);
     alert("Notes copied!");
   };
+  
+  const downloadNotes = () => {
+    const blob = new Blob(
+      [notes],
+      { type: "text/plain" }
+    );
+
+    const url = 
+      window.URL.createObjectURL(blob);
+    
+    const link = 
+      document.createElement("a");
+    
+    link.href = url;
+    link.download = "notes.txt";
+    
+    link.click();
+
+    window.URL.revokeObjectURL(url);
+  };
 
   return (
     <Layout>
@@ -91,10 +111,13 @@ const Notes = () => {
         </button>
 
         {loading && (
-          <p className="mt-4">
-            Generating Notes...
+          <div className="mt-4">
+          <p className="text-blue-400 animate-pulse">
+            AI is generating notes...
           </p>
+          </div>
         )}
+      
 
         {notes && (
           <div className="bg-slate-800 p-6 rounded-xl mt-6">
@@ -105,13 +128,21 @@ const Notes = () => {
             <pre className="whitespace-pre-wrap">
               {notes}
             </pre>
-
+            <div className="flex gap-3 mt-4">
             <button
               onClick={copyNotes}
-              className="bg-green-600 px-4 py-2 rounded mt-4"
+              className="bg-green-600 px-4 py-2 rounded"
             >
               Copy Notes
             </button>
+
+            <button
+             onClick={downloadNotes}
+             className="bg-purple-600 px-4 py-2 rounded"
+            >
+              Downlaod Notes
+            </button>
+            </div>
           </div>
         )}
       </div>
