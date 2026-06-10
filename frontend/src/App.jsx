@@ -13,6 +13,9 @@ import PdfViewer from "./pages/PdfViewer";
 import StudyPlan from "./pages/StudyPlan";
 import InterviewQuestions from "./pages/InterviewQuestions";
 import PdfSearch from "./pages/PdfSearch";
+import RevisionNotes from "./pages/RevisionNotes";
+import PracticeSheet from "./pages/PracticeSheet";
+import ImportantTopics from "./pages/ImportantTopics";
 
 function App() {
   return (
@@ -92,6 +95,35 @@ function App() {
             </ProtectedRoute>
           }
         />
+
+        <Route
+          path="/revision"
+          element={
+            <ProtectedRoute>
+              <RevisionNotes />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/practice-sheet"
+          element={
+            <ProtectedRoute>
+              <PracticeSheet />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/important-topics"
+          element={
+            <ProtectedRoute>
+              <ImportantTopics />
+            </ProtectedRoute>
+          }
+        />
+
+
 
         <Route
           path="/pdf/:id"
