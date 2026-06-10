@@ -1,7 +1,7 @@
 const Pdf = require("../models/Pdf");
 const fs = require("fs");
 const pdfParse = require("pdf-parse");
-const { generateSummary, generateNotes, generateInterviewQuestions: generateAIInterviewQuestions, generateQuiz: generateAIQuiz, generateFlashcards: generateAIFlashcards, chatWithPdfAI, generatePracticeSheet: generateAIPracticeSheet, generateImportantTopics:generateAIImportantTopics, generateRevisionNotes: generateAIRevisionNotes, } = require("../services/geminiService");
+const { generateSummary, generateNotes, generateInterviewQuestions: generateAIInterviewQuestions, generateQuiz: generateAIQuiz, generateFlashcards: generateAIFlashcards, chatWithPdfAI, generatePracticeSheet: generateAIPracticeSheet, generateImportantTopics: generateAIImportantTopics, generateRevisionNotes: generateAIRevisionNotes, } = require("../services/geminiService");
 
 const updatePdfProgress = async (
   pdfId,
@@ -190,18 +190,18 @@ exports.generateQuiz = async (req, res) => {
       });
     }
 
-    const quiz = await generateAIQuiz(
-      pdf.text.slice(0, 1000)
-    );
+    const quizText =
+      await generateAIQuiz(
+        pdf.text.slice(0, 1000)
+      );
 
-    await updatePdfProgress(
-      req.params.id,
-      30
-    );
+    const quiz =
+      JSON.parse(
+        quizText.replace(/```json/g, "")
+          .replace(/```/g, "")
+      );
 
-    res.json({
-      quiz,
-    });
+    res.json(quiz);
   } catch (error) {
     res.status(500).json({
       error: error.message,
@@ -469,7 +469,7 @@ exports.generatePracticeSheet =
   };
 
 
-  exports.generateImportantTopics =
+exports.generateImportantTopics =
   async (req, res) => {
     try {
       const pdf = await Pdf.findById(
@@ -503,7 +503,7 @@ exports.generatePracticeSheet =
     }
   };
 
-  exports.generateRevisionNotes =
+exports.generateRevisionNotes =
   async (req, res) => {
     try {
       const pdf = await Pdf.findById(

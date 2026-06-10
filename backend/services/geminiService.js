@@ -73,22 +73,35 @@ ${text}
 
 const generateQuiz = async (text) => {
   const prompt = `
-Generate 5 MCQ questions from this document.
+Generate exactly 5 MCQ questions from this document.
 
-For each question provide:
-Question
-A)
-B)
-C)
-D)
-Correct Answer
+Return ONLY valid JSON.
 
+Format:
+
+[
+  {
+    "question": "What is DBMS?",
+    "options": [
+      "Option A",
+      "Option B",
+      "Option C",
+      "Option D"
+    ],
+    "answer": "Option A"
+  }
+]
+
+Document:
 ${text}
 `;
 
-  const result = await model.generateContent(prompt);
+  const result =
+    await model.generateContent(prompt);
+
   return result.response.text();
 };
+
 
 const generateFlashcards = async (text) => {
   const prompt = `

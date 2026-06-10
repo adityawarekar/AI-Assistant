@@ -36,9 +36,14 @@ const Quiz = () => {
       const res = await API.get(
         `/pdf/quiz/${selectedPdf}`
       );
+      console.log("QUIZ RESPONSE:", JSON.stringify(res.data, null, 2));
       setScore(null);
       setSelectedAnswers({});
-      setQuestions(res.data);
+      setQuestions(
+        Array.isArray(res.data)
+          ? res.data
+          : []
+      );
     } catch (error) {
       console.log(error);
     } finally {
@@ -103,53 +108,60 @@ const Quiz = () => {
             </option>
           ))}
         </select>
-
         <button
           onClick={generateQuiz}
+          disabled={loading}
           className="bg-blue-600 px-4 py-2 rounded-lg"
         >
-          Generate Quiz
+          {loading
+            ? "Generating..."
+            : "Generate Quiz"}
         </button>
 
         {loading && (
-          <p className="mt-4">
-            Generating Quiz...
-          </p>
+          <div className="mt-4">
+            <p className="text-blue-400 animate-pulse">
+              🤖 AI is generating quiz...
+            </p>
+          </div>
         )}
 
-        <div className="mt-8 space-y-6">
-          {questions.map((q, index) => (
-            <div
-              key={index}
-              className="bg-slate-800 p-5 rounded-xl"
-            >
-              <h2 className="font-bold mb-3">
-                Q{index + 1}. {q.question}
-              </h2>
 
-              {q.options.map((option, optionIndex) => (
-                <div
-                  key={optionIndex}
-                  className="mb-2"
-                >
-                  <button
-                    onClick={() =>
-                      handleAnswerSelect(
-                        index,
-                        option
-                      )
-                    }
-                    className={`border px-3 py-2 rounded w-full text-left ${selectedAnswers[index] === option
-                      ? "bg-green-600"
-                      : ""
-                      }`}
+
+        <div className="mt-8 space-y-6">
+          {Array.isArray(questions) &&
+            questions.map((q, index) => (
+              <div
+                key={index}
+                className="bg-slate-800 p-5 rounded-xl"
+              >
+                <h2 className="font-bold mb-3">
+                  Q{index + 1}. {q.question}
+                </h2>
+
+                {q.options.map((option, optionIndex) => (
+                  <div
+                    key={optionIndex}
+                    className="mb-2"
                   >
-                    {option}
-                  </button>
-                </div>
-              ))}
-            </div>
-          ))}
+                    <button
+                      onClick={() =>
+                        handleAnswerSelect(
+                          index,
+                          option
+                        )
+                      }
+                      className={`border px-3 py-2 rounded w-full text-left ${selectedAnswers[index] === option
+                          ? "bg-green-600"
+                          : ""
+                        }`}
+                    >
+                      {option}
+                    </button>
+                  </div>
+                ))}
+              </div>
+            ))}
         </div>
         {questions.length > 0 && (
           <button
@@ -160,9 +172,15 @@ const Quiz = () => {
           </button>
         )}
         {score !== null && (
-          <h2 className="text-2xl font-bold mt-4">
-            Score: {score} / {questions.length}
-          </h2>
+          <div className="mt-6 bg-slate-800 p-4 rounded-xl">
+            <h2 className="text-2xl font-bold text-green-400">
+              🎯 Score: {score} / {questions.length}
+            </h2>
+
+            <p className="text-gray-400 mt-2">
+              You answered {score} questions correctly.
+            </p>
+          </div>
         )}
       </div>
     </Layout>
