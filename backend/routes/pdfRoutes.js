@@ -4,7 +4,7 @@ const authMiddleware = require("../middleware/authMiddleware");
 console.log("AUTH MIDDLEWARE:", authMiddleware);
 const upload = require("../middleware/upload");
 const { generateSummary } = require("../services/geminiService");
-const { uploadPdf, getPdfs, deletePdf, getPdfById, generatePdfSummary, generateFlashcards, generateQuiz, generateNotes, chatWithPdf, generateStudyPlan, generateInterviewQuestions, searchPdf, getDashboardStats, getRecentPdfs, updateProgress } = require("../controllers/pdfController");
+const { uploadPdf, getPdfs, deletePdf, getPdfById, generatePdfSummary, generateFlashcards, generateQuiz, generateNotes, chatWithPdf, generateStudyPlan, generateInterviewQuestions, searchPdf, getDashboardStats, getRecentPdfs, updateProgress, generatePracticeSheet, generateImportantTopics, generateRevisionNotes } = require("../controllers/pdfController");
 
 console.log({
   uploadPdf,
@@ -23,6 +23,9 @@ console.log({
   getRecentPdfs,
   updateProgress,
   getDashboardStats,
+  generatePracticeSheet,
+  generateImportantTopics,
+  generateRevisionNotes,
 });
 
 router.get("/", authMiddleware, getPdfs);
@@ -53,6 +56,10 @@ router.get("/gemini-test", async (req, res) => {
     });
   }
 });
+
+router.get("/practice-sheet/:id", authMiddleware, generatePracticeSheet);
+router.get("/important-topics/:id", authMiddleware, generateImportantTopics);
+router.get("/revision/:id", authMiddleware, generateRevisionNotes);
 router.get("/:id", authMiddleware, getPdfById);
 router.post(
   "/upload",

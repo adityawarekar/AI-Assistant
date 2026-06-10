@@ -1,7 +1,7 @@
 const Pdf = require("../models/Pdf");
 const fs = require("fs");
 const pdfParse = require("pdf-parse");
-const { generateSummary, generateNotes, generateInterviewQuestions: generateAIInterviewQuestions, generateQuiz: generateAIQuiz, generateFlashcards: generateAIFlashcards, chatWithPdfAI, } = require("../services/geminiService");
+const { generateSummary, generateNotes, generateInterviewQuestions: generateAIInterviewQuestions, generateQuiz: generateAIQuiz, generateFlashcards: generateAIFlashcards, chatWithPdfAI, generatePracticeSheet: generateAIPracticeSheet, generateImportantTopics:generateAIImportantTopics, generateRevisionNotes: generateAIRevisionNotes, } = require("../services/geminiService");
 
 const updatePdfProgress = async (
   pdfId,
@@ -223,7 +223,7 @@ exports.chatWithPdf = async (req, res) => {
 
     const answer =
       await chatWithPdfAI(
-        pdf.text.slice(0, 1000),
+        pdf.text.slice(0, 5000),
         question
       );
 
@@ -237,12 +237,12 @@ exports.chatWithPdf = async (req, res) => {
     });
 
   } catch (error) {
-  console.log("CHAT AI ERROR:", error.message);
+    console.log("CHAT AI ERROR:", error.message);
 
-  res.status(500).json({
-    error: "AI service is busy. Please try again in a minute.",
-  });
-}
+    res.status(500).json({
+      error: error.message,
+    });
+  }
 };
 
 exports.generateStudyPlan = async (req, res) => {
@@ -354,7 +354,10 @@ exports.searchPdf = async (req, res) => {
             .includes(query.toLowerCase())
       );
 
-    res.json(results);
+    res.json({
+      count: results.length,
+      results,
+    });
 
   } catch (error) {
     res.status(500).json({
@@ -431,5 +434,107 @@ exports.updateProgress = async (req, res) => {
   }
 };
 
+exports.generatePracticeSheet =
+  async (req, res) => {
+    try {
+      const pdf = await Pdf.findById(
+        req.params.id
+      );
+
+      if (!pdf) {
+        return res.status(404).json({
+          message: "PDF not found",
+        });
+      }
+
+      const practiceSheet =
+        await generateAIPracticeSheet(
+          pdf.text.slice(0, 5000)
+        );
+
+      await updatePdfProgress(
+        req.params.id,
+        10
+      );
+
+      res.json({
+        practiceSheet,
+      });
+
+    } catch (error) {
+      res.status(500).json({
+        error: error.message,
+      });
+    }
+  };
+
+
+  exports.generateImportantTopics =
+  async (req, res) => {
+    try {
+      const pdf = await Pdf.findById(
+        req.params.id
+      );
+
+      if (!pdf) {
+        return res.status(404).json({
+          message: "PDF not found",
+        });
+      }
+
+      const topics =
+        await generateAIImportantTopics(
+          pdf.text.slice(0, 5000)
+        );
+
+      await updatePdfProgress(
+        req.params.id,
+        10
+      );
+
+      res.json({
+        topics,
+      });
+
+    } catch (error) {
+      res.status(500).json({
+        error: error.message,
+      });
+    }
+  };
+
+  exports.generateRevisionNotes =
+  async (req, res) => {
+    try {
+      const pdf = await Pdf.findById(
+        req.params.id
+      );
+
+      if (!pdf) {
+        return res.status(404).json({
+          message: "PDF not found",
+        });
+      }
+
+      const revisionNotes =
+        await generateAIRevisionNotes(
+          pdf.text.slice(0, 5000)
+        );
+
+      await updatePdfProgress(
+        req.params.id,
+        10
+      );
+
+      res.json({
+        revisionNotes,
+      });
+
+    } catch (error) {
+      res.status(500).json({
+        error: error.message,
+      });
+    }
+  };
 
 

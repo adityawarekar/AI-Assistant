@@ -50,6 +50,27 @@ const generateInterviewQuestions = async (text) => {
   return result.response.text();
 };
 
+const generatePracticeSheet = async (text) => {
+  const prompt = `
+Generate a university-style practice sheet from this document.
+
+Requirements:
+- 15 to 20 questions
+- Assign marks to each question
+- Total marks should be 20
+- Include short answer and long answer questions
+- Format neatly
+
+Document:
+${text}
+`;
+
+  const result =
+    await model.generateContent(prompt);
+
+  return result.response.text();
+};
+
 const generateQuiz = async (text) => {
   const prompt = `
 Generate 5 MCQ questions from this document.
@@ -107,6 +128,47 @@ ${question}
   return result.response.text();
 };
 
+const generateImportantTopics = async (text) => {
+  const prompt = `
+Analyze this document and list the 10 most important topics for exams.
+
+Requirements:
+- Return only topic names
+- Number them
+- Focus on exam-important concepts
+
+Document:
+${text}
+`;
+
+  const result =
+    await model.generateContent(prompt);
+
+  return result.response.text();
+};
+
+const generateRevisionNotes = async (text) => {
+  const prompt = `
+Create concise last-minute revision notes from this document.
+
+Requirements:
+- Keep only important concepts
+- Include definitions
+- Include key points
+- Use bullet points
+- Make it exam revision friendly
+- Maximum 1 page
+
+Document:
+${text}
+`;
+
+  const result =
+    await model.generateContent(prompt);
+
+  return result.response.text();
+};
+
 
 module.exports = {
   generateSummary,
@@ -115,5 +177,8 @@ module.exports = {
   generateQuiz,
   generateFlashcards,
   chatWithPdfAI,
+  generatePracticeSheet,
+  generateImportantTopics,
+  generateRevisionNotes,
 };
 
