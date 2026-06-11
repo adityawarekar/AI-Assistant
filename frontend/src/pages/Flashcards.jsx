@@ -22,7 +22,11 @@ const Flashcards = () => {
         `/pdf/flashcards/${selectedPdf}`
       );
 
-      setCards(res.data);
+      setCards(
+        Array.isArray(res.data)
+          ? res.data
+          : []
+      );
 
       setLoading(false);
     } catch (error) {

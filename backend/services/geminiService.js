@@ -105,16 +105,25 @@ ${text}
 
 const generateFlashcards = async (text) => {
   const prompt = `
-Generate 10 flashcards from this document.
+Generate 10 flashcards.
+
+Return ONLY valid JSON.
 
 Format:
-Q:
-A:
 
+[
+  {
+    "question": "What is DBMS?",
+    "answer": "Database Management System"
+  }
+]
+
+Document:
 ${text}
 `;
 
-  const result = await model.generateContent(prompt);
+  const result =
+    await model.generateContent(prompt);
 
   return result.response.text();
 };

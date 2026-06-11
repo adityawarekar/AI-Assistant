@@ -124,20 +124,19 @@ exports.generateFlashcards = async (req, res) => {
       });
     }
 
-    const flashcards =
+    const flashcardsText =
       await generateAIFlashcards(
         pdf.text.slice(0, 1000)
       );
 
-    await updatePdfProgress(
-      req.params.id,
-      20
-    );
+    const flashcards =
+      JSON.parse(
+        flashcardsText
+          .replace(/```json/g, "")
+          .replace(/```/g, "")
+      );
 
-    res.json({
-      flashcards,
-    });
-
+    res.json(flashcards);
   } catch (error) {
     console.log(error);
 
