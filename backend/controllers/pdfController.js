@@ -1,7 +1,7 @@
 const Pdf = require("../models/Pdf");
 const fs = require("fs");
 const pdfParse = require("pdf-parse");
-const { generateSummary, generateNotes, generateInterviewQuestions: generateAIInterviewQuestions, generateQuiz: generateAIQuiz, generateFlashcards: generateAIFlashcards, chatWithPdfAI, generatePracticeSheet: generateAIPracticeSheet, generateImportantTopics: generateAIImportantTopics, generateRevisionNotes: generateAIRevisionNotes, } = require("../services/geminiService");
+const { generateSummary, generateNotes, generateInterviewQuestions: generateAIInterviewQuestions, generateQuiz: generateAIQuiz, generateFlashcards: generateAIFlashcards, chatWithPdfAI, generatePracticeSheet: generateAIPracticeSheet, generateImportantTopics: generateAIImportantTopics, generateRevisionNotes: generateAIRevisionNotes, generateStudyPlanAI } = require("../services/geminiService");
 
 const updatePdfProgress = async (
   pdfId,
@@ -60,7 +60,10 @@ exports.deletePdf = async (req, res) => {
   try {
     const { id } = req.params;
 
-    await Pdf.findByIdAndDelete(id);
+    await Pdf.findOneAndDelete({
+      _id: id,
+      userId: req.user.id,
+    });
 
     res.json({
       message: "PDF deleted successfully",
@@ -126,7 +129,7 @@ exports.generateFlashcards = async (req, res) => {
 
     const flashcardsText =
       await generateAIFlashcards(
-        pdf.text.slice(0, 1000)
+        pdf.text.slice(0, 5000)
       );
 
     const flashcards =
@@ -159,7 +162,7 @@ exports.generateNotes = async (req, res) => {
     }
 
     const notes = await generateNotes(
-      pdf.text.slice(0, 1000)
+      pdf.text.slice(0, 5000)
     );
 
     await updatePdfProgress(
@@ -191,7 +194,7 @@ exports.generateQuiz = async (req, res) => {
 
     const quizText =
       await generateAIQuiz(
-        pdf.text.slice(0, 1000)
+        pdf.text.slice(0, 5000)
       );
 
     const quiz =
@@ -254,46 +257,19 @@ exports.generateStudyPlan = async (req, res) => {
       });
     }
 
+    const studyPlan =
+      await generateStudyPlanAI(
+        pdf.text.slice(0, 5000)
+      );
 
-
-    const topics = pdf.text
-      .split("\n")
-      .filter(line => line.trim() !== "")
-      .slice(0, 20);
-
-
-
-
-
-    const studyPlan = [];
-
-    const days = 5;
-    const topicsPerDay = Math.ceil(
-      topics.length / days
-    );
-
-    for (let i = 0; i < days; i++) {
-      studyPlan.push({
-        day: `Day ${i + 1}`,
-        topics: topics.slice(
-          i * topicsPerDay,
-          (i + 1) * topicsPerDay
-        ),
-      });
-    }
-
-    studyPlan.push({
-      day: "Revision",
-      topics: [
-        "Revise all important topics",
-      ],
-    });
     await updatePdfProgress(
       req.params.id,
       10
     );
 
-    res.json(studyPlan);
+    res.json({
+      studyPlan,
+    });
 
   } catch (error) {
     res.status(500).json({
@@ -301,7 +277,6 @@ exports.generateStudyPlan = async (req, res) => {
     });
   }
 };
-
 exports.generateInterviewQuestions = async (req, res) => {
   try {
     const pdf = await Pdf.findById(req.params.id);
@@ -312,19 +287,19 @@ exports.generateInterviewQuestions = async (req, res) => {
       });
     }
 
-    const question =
+    const questionText =
       await generateAIInterviewQuestions(
-        pdf.text.slice(0, 1000)
+        pdf.text.slice(0, 5000)
       );
 
-    await updatePdfProgress(
-      req.params.id,
-      10
-    );
+    const question =
+      JSON.parse(
+        questionText
+          .replace(/```json/g, "")
+          .replace(/```/g, "")
+      );
 
-    res.json({
-      question,
-    });
+    res.json(question);
 
   } catch (error) {
     res.status(500).json({
@@ -341,7 +316,11 @@ exports.searchPdf = async (req, res) => {
         message: "PDF not found",
       });
     }
-
+    if (!req.query.query) {
+      return res.status(400).json({
+        message: "Search query required",
+      });
+    }
     const query = req.query.query;
 
     const results = pdf.text
@@ -371,22 +350,23 @@ exports.getDashboardStats = async (req, res) => {
       userId: req.user.id,
     });
 
-    const totalDocuments = pdfs.length;
+    const totalDocuments =
+      pdfs.length;
 
-    const totalFlashcards =
-      totalDocuments * 5;
-
-    const totalInterviewQuestions =
-      totalDocuments * 10;
-
-    const totalStudyPlans =
-      totalDocuments;
+    const averageProgress =
+      pdfs.length > 0
+        ? Math.round(
+            pdfs.reduce(
+              (sum, pdf) =>
+                sum + pdf.progress,
+              0
+            ) / pdfs.length
+          )
+        : 0;
 
     res.json({
       totalDocuments,
-      totalFlashcards,
-      totalInterviewQuestions,
-      totalStudyPlans,
+      averageProgress,
     });
 
   } catch (error) {

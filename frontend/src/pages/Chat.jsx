@@ -33,11 +33,11 @@ const Chat = () => {
       setLoading(true);
 
       const res = await API.post(
-  `/pdf/chat/${selectedPdf}`,
-  {
-    question,
-  }
-);
+        `/pdf/chat/${selectedPdf}`,
+        {
+          question,
+        }
+      );
 
       setMessages((prev) => [
         ...prev,
@@ -106,46 +106,55 @@ const Chat = () => {
             if (e.key === "Enter") {
               askQuestion();
             }
-          }}  
+          }}
           className="w-full p-3 rounded-lg bg-slate-800 mb-4"
         />
 
         <button
           onClick={askQuestion}
+          disabled={loading}
           className="bg-blue-600 px-4 py-2 rounded-lg"
         >
-          Ask
+          {loading ? "Thinking..." : "Ask AI"}
         </button>
 
-         <button
-        onClick={clearChat} 
-        className="bg-red-600 px-4 py-2 rounded-lg ml-3"
+        <button
+          onClick={clearChat}
+          className="bg-red-600 px-4 py-2 rounded-lg ml-3"
         >
           Clear Chat
 
         </button>
 
         {loading && (
-          <p className="mt-4">
-            Searching PDF...
-          </p>
+          <div className="mt-4">
+            <p className="text-blue-400 animate-pulse">
+              🤖 AI is thinking...
+            </p>
+          </div>
         )}
 
         <div className="mt-6 space-y-4">
           {messages.map((msg, index) => (
             <div
               key={index}
-              className={`p-4 rounded-lg ${msg.type === "question"
-                  ? "bg-blue-600"
+              className={`p-4 rounded-lg max-w-[80%] ${msg.type === "question"
+                  ? "bg-blue-600 ml-auto"
                   : "bg-slate-800"
                 }`}
             >
+              <p className="font-semibold mb-2">
+                {msg.type === "question"
+                  ? "🧑 You"
+                  : "🤖 AI"}
+              </p>
+
               <p>{msg.text}</p>
             </div>
           ))}
         </div>
 
-       
+
       </div>
     </Layout>
   );

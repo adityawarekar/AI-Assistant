@@ -42,7 +42,7 @@ const InterviewQuestions = () => {
 return (
   <Layout>
     <div className='p-6'>
-      <h1 classname="text-3xl font-bold">
+      <h1 className="text-3xl font-bold">
         Interview Questions
       </h1>
       <p className='text-gray-400 mt-2 mb-8'>
@@ -57,7 +57,7 @@ return (
         className='bg-slate-800 p-3 rounded-lg mb-4 w-full'
 
       >
-        <option vlaue=''>
+        <option value=''>
           Select PDF
         </option>
         {pdfs.map((pdf) => (
@@ -71,7 +71,7 @@ return (
       </select>
       <button
         onClick={generateQuestions}
-        className='bg-provide-600 px-4 py-2 rounded-lg'
+        className='bg-blue-600 px-4 py-2 rounded-lg'
       >
         Generate Questions
 
@@ -82,11 +82,11 @@ return (
             Generating Questions...
           </p>
         )}
-      <div classname="mt-6 space-y-4">
+      <div className="mt-6 space-y-4">
         {questions.map((q) => (
           <div
             key={q.id}
-            className='bg-salte-800 p-4 rounded-lg'
+            className='bg-slate-800 p-4 rounded-lg'
           >
             <p>
               <strong>Q{q.id}.</strong>{" "}

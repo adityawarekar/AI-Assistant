@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useAuthStore } from "../store/authStore";
-import { Navigate, useNavigate } from "react-router-dom";
-
+import { useNavigate, Link } from "react-router-dom";
+import AuthLayout from "../components/AuthLayout";
 
 const Login = () => {
   const { login } = useAuthStore();
@@ -14,28 +14,80 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     await login(form);
+
     navigate("/dashboard");
-    alert("Login success");
+
+    alert("Login Success");
   };
 
   return (
-    <div className="h-screen flex items-center justify-center bg-black text-white">
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <input
-          placeholder="Email"
-          className="p-2 bg-gray-800"
-          onChange={(e) => setForm({ ...form, email: e.target.value })}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          className="p-2 bg-gray-800"
-          onChange={(e) => setForm({ ...form, password: e.target.value })}
-        />
-        <button className="bg-red-500 px-4 py-2">Login</button>
-      </form>
-    </div>
+    <AuthLayout>
+      <div className="w-full max-w-md">
+
+        <div className="bg-[#FFFDF5] rounded-3xl shadow-xl p-8">
+
+          <h1 className="text-4xl font-bold text-black">
+            Welcome Back 👋
+          </h1>
+
+          <p className="text-gray-500 mt-2 mb-8">
+            Login to continue learning.
+          </p>
+
+          <form
+            onSubmit={handleSubmit}
+            className="space-y-5"
+          >
+
+            <input
+              type="email"
+              placeholder="Email Address"
+              className="w-full p-4 rounded-xl border border-gray-200 outline-none"
+              onChange={(e) =>
+                setForm({
+                  ...form,
+                  email: e.target.value,
+                })
+              }
+            />
+
+            <input
+              type="password"
+              placeholder="Password"
+              className="w-full p-4 rounded-xl border border-gray-200 outline-none"
+              onChange={(e) =>
+                setForm({
+                  ...form,
+                  password: e.target.value,
+                })
+              }
+            />
+
+            <button
+              type="submit"
+              className="w-full bg-[#E9D66B] hover:bg-[#DCC85D] text-black font-semibold py-4 rounded-xl transition"
+            >
+              Login
+            </button>
+
+          </form>
+
+          <p className="text-center mt-6 text-gray-600">
+            Don't have an account?{" "}
+            <Link
+              to="/register"
+              className="font-semibold text-black"
+            >
+              Register
+            </Link>
+          </p>
+
+        </div>
+
+      </div>
+    </AuthLayout>
   );
 };
 

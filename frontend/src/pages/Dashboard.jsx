@@ -2,14 +2,19 @@ import StatCard from "../components/StatCard";
 import Layout from "../components/Layout";
 import { useEffect, useState } from "react";
 import API from "../services/api";
+import {
+  FaFileAlt,
+  FaBookOpen,
+  FaBrain,
+  FaComments,
+} from "react-icons/fa";
 
 const Dashboard = () => {
   const [stats, setStats] = useState({
     totalDocuments: 0,
-    totalFlashcards: 0,
-    totalInterviewQuestions: 0,
-    totalStudyPlans: 0,
+    averageProgress: 0,
   });
+
   const [recentPdfs, setRecentPdfs] = useState([]);
 
   const fetchStats = async () => {
@@ -19,7 +24,6 @@ const Dashboard = () => {
       );
 
       setStats(res.data);
-
     } catch (error) {
       console.log(error);
     }
@@ -30,7 +34,6 @@ const Dashboard = () => {
       const res = await API.get("/pdf/recent");
 
       setRecentPdfs(res.data);
-
     } catch (error) {
       console.log(error);
     }
@@ -43,70 +46,128 @@ const Dashboard = () => {
 
   return (
     <Layout>
-      <div className="p-6">
-        <h1 className="text-3xl font-bold mb-6">
-          Dashboard
-        </h1>
+      <div className="space-y-8">
 
-        <div className="grid grid-cols-4 gap-4">
+        {/* Hero Section */}
+
+        <div className="bg-[#E9D66B] rounded-3xl p-8 shadow-md">
+          <h1 className="text-5xl font-bold text-black">
+            Archivio
+          </h1>
+
+          <p className="mt-3 text-lg text-gray-700">
+            Where Documents Become Knowledge.
+          </p>
+
+          <p className="mt-2 text-gray-600">
+            Upload PDFs, generate notes,
+            flashcards, quizzes and study
+            smarter from one place.
+          </p>
+        </div>
+
+        {/* Stats */}
+
+        <div className="grid md:grid-cols-4 gap-6">
           <StatCard
             title="Documents"
             value={stats.totalDocuments}
           />
 
           <StatCard
-            title="Flashcards"
-            value={stats.totalFlashcards}
+            title="Progress"
+            value={`${stats.averageProgress}%`}
           />
 
           <StatCard
-            title="Interview Questions"
-            value={stats.totalInterviewQuestions}
+            title="Learning Tools"
+            value="10+"
           />
 
           <StatCard
-            title="Study Plans"
-            value={stats.totalStudyPlans}
+            title="Features"
+            value="12"
           />
         </div>
 
-        <div className="mt-8 bg-slate-800 p-6 rounded-xl">
-          <h2 className="text-2xl font-bold mb-4">
-            Recent PDFs
-          </h2>
+        {/* Main Section */}
 
-          {recentPdfs.length === 0 ? (
-            <p>No PDFs uploaded yet</p>
-          ) : (
-            recentPdfs.map((pdf) => (
-              <div
-                key={pdf._id}
-                className="bg-slate-700 p-3 rounded mb-3"
-              >
-                <h3 className="font-semibold">
-                  📄 {pdf.title}
-                </h3>
-                <p className="text-sm mt-2">
-                  Progress: {pdf.progress}%
-                </p>
+        <div className="grid lg:grid-cols-3 gap-6">
 
-                <div className="w-full bg-slate-900 rounded-full h-3 mt-2">
-                  <div
-                    className={`h-3 rounded-full ${pdf.progress <= 30
-                        ? "bg-red-500"
-                        : pdf.progress <= 70
-                          ? "bg-yellow-500"
-                          : "bg-green-500"
-                      }`}
-                    style={{
-                      width: `${pdf.progress}%`,
-                    }}
-                  ></div>
+          {/* Recent PDFs */}
+
+          <div className="lg:col-span-2 bg-[#FFFDF5] rounded-3xl p-6 shadow-md">
+
+            <h2 className="text-2xl font-bold mb-6">
+              📚 Recent Documents
+            </h2>
+
+            {recentPdfs.length === 0 ? (
+              <p>No PDFs uploaded yet.</p>
+            ) : (
+              recentPdfs.map((pdf) => (
+                <div
+                  key={pdf._id}
+                  className="mb-5 bg-[#F5F3E7] p-4 rounded-2xl"
+                >
+                  <div className="flex justify-between mb-2">
+                    <h3 className="font-semibold">
+                      📄 {pdf.title}
+                    </h3>
+
+                    <span>
+                      {pdf.progress}%
+                    </span>
+                  </div>
+
+                  <div className="w-full bg-gray-200 rounded-full h-3">
+                    <div
+                      className="bg-[#E9D66B] h-3 rounded-full"
+                      style={{
+                        width: `${pdf.progress}%`,
+                      }}
+                    ></div>
+                  </div>
                 </div>
-              </div>
-            ))
-          )}
+              ))
+            )}
+          </div>
+
+          {/* Quick Actions */}
+
+          <div className="bg-[#FFFDF5] rounded-3xl p-6 shadow-md">
+
+            <h2 className="text-2xl font-bold mb-6">
+              ⚡ Quick Actions
+            </h2>
+
+            <div className="space-y-4">
+
+              <button className="w-full bg-[#E9D66B] p-4 rounded-2xl flex items-center gap-3">
+                <FaBookOpen />
+                Generate Notes
+              </button>
+
+              <button className="w-full bg-[#E9D66B] p-4 rounded-2xl flex items-center gap-3">
+                <FaBrain />
+                Generate Quiz
+              </button>
+
+              <button className="w-full bg-[#E9D66B] p-4 rounded-2xl flex items-center gap-3">
+                <FaFileAlt />
+                Flashcards
+              </button>
+
+              <button className="w-full bg-[#E9D66B] p-4 rounded-2xl flex items-center gap-3">
+                <FaComments />
+                Chat With PDF
+              </button>
+
+            </div>
+          </div>
+
         </div>
+
       </div>
     </Layout>
   );

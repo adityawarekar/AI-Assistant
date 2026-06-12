@@ -39,13 +39,25 @@ ${text}
 
 const generateInterviewQuestions = async (text) => {
   const prompt = `
-  Generate 10 interview questions from this document.
-  Return only the questions.
-  ${text}
+Generate 10 interview questions from this document.
 
-  `;
+Return ONLY valid JSON.
 
-  const result = await model.generateContent(prompt);
+Format:
+
+[
+  {
+    "id": 1,
+    "question": "What is DBMS?"
+  }
+]
+
+Document:
+${text}
+`;
+
+  const result =
+    await model.generateContent(prompt);
 
   return result.response.text();
 };
@@ -191,6 +203,25 @@ ${text}
   return result.response.text();
 };
 
+const generateStudyPlanAI = async (text) => {
+  const prompt = `
+Create a 7-day study plan from this document.
+
+Requirements:
+- Day wise plan
+- Divide topics logically
+- Include revision day
+- Exam preparation focused
+
+Document:
+${text}
+`;
+
+  const result =
+    await model.generateContent(prompt);
+
+  return result.response.text();
+};
 
 module.exports = {
   generateSummary,
@@ -202,5 +233,6 @@ module.exports = {
   generatePracticeSheet,
   generateImportantTopics,
   generateRevisionNotes,
+  generateStudyPlanAI,
 };
 

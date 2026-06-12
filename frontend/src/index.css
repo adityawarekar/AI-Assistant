@@ -1,1 +1,9 @@
+:root {
+  --bg-main: #F5F3E7;
+  --bg-card: #FFFDF5;
+  --primary: #E9D66B;
+  --primary-dark: #D8C24E;
+  --text-main: #1F1F1F;
+  --text-muted: #666666;
+}
 @import "tailwindcss";
