@@ -1,6 +1,7 @@
 import Layout from "../components/Layout";
 import { useState, useEffect } from "react";
 import API from "../services/api";
+import { motion } from "framer-motion";
 
 const InterviewQuestions = () => {
   const [pdfs, setPdfs] = useState([]);
@@ -21,85 +22,108 @@ const InterviewQuestions = () => {
     fetchPdfs();
   }, []);
 
-  const generateQuestions = async() => {
-  if (!selectedPdf) {
-    alert("Please select a PDF");
-    return;
-  }
-  try {
-    setLoading(true);
+  const generateQuestions = async () => {
+    if (!selectedPdf) {
+      alert("Please select a PDF");
+      return;
+    }
 
-    const res = await API.get(
-      `/pdf/interview/${selectedPdf}`
-    );
-    setQuestions(res.data);
-  } catch (error) {
-    console.log(error);
-  } finally {
-    setLoading(false);
-  }
-}
-return (
-  <Layout>
-    <div className='p-6'>
-      <h1 className="text-3xl font-bold">
-        Interview Questions
-      </h1>
-      <p className='text-gray-400 mt-2 mb-8'>
-        Generate interview questions from PDFs
+    try {
+      setLoading(true);
 
-      </p>
-      <select
-        value={selectedPdf}
-        onChange={(e) =>
-          setSelectedPdf(e.target.value)
-        }
-        className='bg-slate-800 p-3 rounded-lg mb-4 w-full'
+      const res = await API.get(
+        `/pdf/interview/${selectedPdf}`
+      );
 
-      >
-        <option value=''>
-          Select PDF
-        </option>
-        {pdfs.map((pdf) => (
-          <option
-            key={pdf._id}
-            value={pdf._id}
-          >
-            {pdf.title}
-          </option>
-        ))}
-      </select>
-      <button
-        onClick={generateQuestions}
-        className='bg-blue-600 px-4 py-2 rounded-lg'
-      >
-        Generate Questions
+      setQuestions(res.data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-      </button>
-      {
-        loading && (
-          <p className='mt-4'>
-            Generating Questions...
+  return (
+    <Layout>
+      <div className="space-y-6">
+
+        <div>
+          <h1 className="text-4xl font-bold">
+            Interview Questions
+          </h1>
+
+          <p className="text-gray-500 mt-2">
+            Generate interview questions from PDFs
           </p>
-        )}
-      <div className="mt-6 space-y-4">
-        {questions.map((q) => (
-          <div
-            key={q.id}
-            className='bg-slate-800 p-4 rounded-lg'
+        </div>
+
+        <div className="bg-[#FFFDF5] p-6 rounded-3xl shadow-md">
+
+          <select
+            value={selectedPdf}
+            onChange={(e) =>
+              setSelectedPdf(e.target.value)
+            }
+            className="w-full p-4 rounded-xl border border-gray-200 mb-4"
           >
-            <p>
-              <strong>Q{q.id}.</strong>{" "}
-              {q.question}
-            </p>
+            <option value="">
+              Select PDF
+            </option>
+
+            {pdfs.map((pdf) => (
+              <option
+                key={pdf._id}
+                value={pdf._id}
+              >
+                {pdf.title}
+              </option>
+            ))}
+          </select>
+
+          <button
+            onClick={generateQuestions}
+            className="bg-[#E9D66B] text-black px-6 py-3 rounded-xl font-semibold hover:scale-105 transition"
+          >
+            Generate Questions
+          </button>
+
+        </div>
+
+        {loading && (
+          <div className="text-yellow-600 font-semibold">
+            Archivio is generating questions...
           </div>
-        ))}
+        )}
+
+        <div className="space-y-4">
+
+          {questions.map((q) => (
+            <motion.div
+              key={q.id}
+              initial={{
+                opacity: 0,
+                y: 15,
+              }}
+              animate={{
+                opacity: 1,
+                y: 0,
+              }}
+              className="bg-[#FFFDF5] p-6 rounded-3xl shadow-md"
+            >
+              <p className="text-lg">
+                <strong>
+                  Q{q.id}.
+                </strong>{" "}
+                {q.question}
+              </p>
+            </motion.div>
+          ))}
+
+        </div>
+
       </div>
-    </div>
-
-  </Layout>
-
-);
+    </Layout>
+  );
 };
 
-export default InterviewQuestions
+export default InterviewQuestions;

@@ -1,6 +1,7 @@
 import Layout from "../components/Layout";
 import { useEffect, useState } from "react";
 import API from "../services/api";
+import { motion } from "framer-motion";
 
 const RevisionNotes = () => {
   const [pdfs, setPdfs] = useState([]);
@@ -37,7 +38,6 @@ const RevisionNotes = () => {
       setRevisionNotes(
         res.data.revisionNotes
       );
-
     } catch (error) {
       console.log(error);
     } finally {
@@ -50,7 +50,7 @@ const RevisionNotes = () => {
       revisionNotes
     );
 
-    alert("Revision Notes copied!");
+    alert("Copied!");
   };
 
   const downloadNotes = () => {
@@ -66,7 +66,8 @@ const RevisionNotes = () => {
       document.createElement("a");
 
     link.href = url;
-    link.download = "revision-notes.txt";
+    link.download =
+      "Archivio-Revision-Notes.txt";
 
     link.click();
 
@@ -75,77 +76,87 @@ const RevisionNotes = () => {
 
   return (
     <Layout>
-      <div className="p-6">
-        <h1 className="text-3xl font-bold">
+      <div className="space-y-6">
+
+        <h1 className="text-4xl font-bold">
           Revision Notes
         </h1>
 
-        <p className="text-gray-400 mt-2 mb-6">
-          Generate AI Revision Notes
-        </p>
+        <div className="bg-[#FFFDF5] p-6 rounded-3xl shadow-md">
 
-        <select
-          value={selectedPdf}
-          onChange={(e) =>
-            setSelectedPdf(e.target.value)
-          }
-          className="bg-slate-800 p-3 rounded-lg mb-4 w-full"
-        >
-          <option value="">
-            Select PDF
-          </option>
-
-          {pdfs.map((pdf) => (
-            <option
-              key={pdf._id}
-              value={pdf._id}
-            >
-              {pdf.title}
+          <select
+            value={selectedPdf}
+            onChange={(e) =>
+              setSelectedPdf(e.target.value)
+            }
+            className="w-full p-4 rounded-xl border border-gray-200 mb-4"
+          >
+            <option value="">
+              Select PDF
             </option>
-          ))}
-        </select>
 
-        <button
-          onClick={generateRevisionNotes}
-          className="bg-blue-600 px-4 py-2 rounded-lg"
-        >
-          Generate Revision Notes
-        </button>
+            {pdfs.map((pdf) => (
+              <option
+                key={pdf._id}
+                value={pdf._id}
+              >
+                {pdf.title}
+              </option>
+            ))}
+          </select>
+
+          <button
+            onClick={generateRevisionNotes}
+            className="bg-[#E9D66B] text-black px-6 py-3 rounded-xl font-semibold"
+          >
+            Generate Revision Notes
+          </button>
+
+        </div>
 
         {loading && (
-          <p className="mt-4">
-            <p className="text-blue-400 animate-pulse">
-              🤖 AI is generating revision notes...
-            </p>
-            Generating Revision Notes...
-          </p>
+          <div className="text-yellow-600 font-semibold">
+            Archivio is creating revision notes...
+          </div>
         )}
 
         {revisionNotes && (
-          <div className="bg-slate-800 p-6 rounded-xl mt-6">
-            <h2 className="text-xl font-bold mb-3">
-              Revision Notes
-            </h2>
+          <motion.div
+            initial={{
+              opacity: 0,
+              y: 20,
+            }}
+            animate={{
+              opacity: 1,
+              y: 0,
+            }}
+            className="bg-[#FFFDF5] p-8 rounded-3xl shadow-md"
+          >
+            <div className="flex gap-3 mb-6">
 
-            <pre className="whitespace-pre-wrap">
-              {revisionNotes}
-            </pre>
-            <div className="flex gap-3 mt-4">
               <button
                 onClick={copyNotes}
-                className="bg-green-600 px-4 py-2 rounded mt-4"
+                className="bg-black text-white px-4 py-2 rounded-xl"
               >
-                Copy Notes
+                Copy
               </button>
+
               <button
                 onClick={downloadNotes}
-                className="bg-purple-600 px-4 py-2 rounded">
-                Download Notes
-
+                className="bg-[#E9D66B] text-black px-4 py-2 rounded-xl"
+              >
+                Download
               </button>
+
             </div>
-          </div>
+
+            <pre className="whitespace-pre-wrap leading-8 text-gray-700">
+              {revisionNotes}
+            </pre>
+
+          </motion.div>
         )}
+
       </div>
     </Layout>
   );

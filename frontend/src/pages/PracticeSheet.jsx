@@ -1,6 +1,7 @@
 import Layout from "../components/Layout";
 import { useEffect, useState } from "react";
 import API from "../services/api";
+import { motion } from "framer-motion";
 
 const PracticeSheet = () => {
   const [pdfs, setPdfs] = useState([]);
@@ -37,7 +38,6 @@ const PracticeSheet = () => {
       setPracticeSheet(
         res.data.practiceSheet
       );
-
     } catch (error) {
       console.log(error);
     } finally {
@@ -50,7 +50,7 @@ const PracticeSheet = () => {
       practiceSheet
     );
 
-    alert("Practice Sheet copied!");
+    alert("Copied!");
   };
 
   const downloadPracticeSheet = () => {
@@ -58,6 +58,7 @@ const PracticeSheet = () => {
       [practiceSheet],
       { type: "text/plain" }
     );
+
     const url =
       window.URL.createObjectURL(blob);
 
@@ -65,7 +66,8 @@ const PracticeSheet = () => {
       document.createElement("a");
 
     link.href = url;
-    link.download = "practice-sheet.txt";
+    link.download =
+      "Archivio-Practice-Sheet.txt";
 
     link.click();
 
@@ -74,67 +76,87 @@ const PracticeSheet = () => {
 
   return (
     <Layout>
-      <div className="p-6">
-        <h1 className="text-3xl font-bold">
+      <div className="space-y-6">
+
+        <h1 className="text-4xl font-bold">
           Practice Sheet
         </h1>
 
-        <select
-          value={selectedPdf}
-          onChange={(e) =>
-            setSelectedPdf(e.target.value)
-          }
-          className="bg-slate-800 p-3 rounded-lg mb-4 w-full"
-        >
-          <option value="">
-            Select PDF
-          </option>
+        <div className="bg-[#FFFDF5] p-6 rounded-3xl shadow-md">
 
-          {pdfs.map((pdf) => (
-            <option
-              key={pdf._id}
-              value={pdf._id}
-            >
-              {pdf.title}
+          <select
+            value={selectedPdf}
+            onChange={(e) =>
+              setSelectedPdf(e.target.value)
+            }
+            className="w-full p-4 rounded-xl border border-gray-200 mb-4"
+          >
+            <option value="">
+              Select PDF
             </option>
-          ))}
-        </select>
 
-        <button
-          onClick={generatePracticeSheet}
-          className="bg-blue-600 px-4 py-2 rounded-lg"
-        >
-          Generate Practice Sheet
-        </button>
+            {pdfs.map((pdf) => (
+              <option
+                key={pdf._id}
+                value={pdf._id}
+              >
+                {pdf.title}
+              </option>
+            ))}
+          </select>
+
+          <button
+            onClick={generatePracticeSheet}
+            className="bg-[#E9D66B] text-black px-6 py-3 rounded-xl font-semibold hover:scale-105 transition"
+          >
+            Generate Practice Sheet
+          </button>
+
+        </div>
 
         {loading && (
-          <p className="mt-4">
+          <p className="text-yellow-600 font-semibold">
             Generating Practice Sheet...
           </p>
         )}
 
         {practiceSheet && (
-          <div className="bg-slate-800 p-6 rounded-xl mt-6">
-            <pre className="whitespace-pre-wrap">
-              {practiceSheet}
-            </pre>
-            <div className="flex gap-3 mt-4">
+          <motion.div
+            initial={{
+              opacity: 0,
+              y: 20,
+            }}
+            animate={{
+              opacity: 1,
+              y: 0,
+            }}
+            className="bg-[#FFFDF5] p-8 rounded-3xl shadow-md"
+          >
+            <div className="flex gap-3 mb-6">
+
               <button
                 onClick={copyPracticeSheet}
-                className="bg-green-600 px-4 py-2 rounded mt-4"
+                className="bg-black text-white px-4 py-2 rounded-xl"
               >
-                Copy Practice Sheet
+                Copy
               </button>
+
               <button
                 onClick={downloadPracticeSheet}
-                className="bg-purple-600 px-4 py-2 rounded"
+                className="bg-[#E9D66B] text-black px-4 py-2 rounded-xl"
               >
-                Downlaod Practice Sheet
-
+                Download
               </button>
+
             </div>
-          </div>
+
+            <pre className="whitespace-pre-wrap leading-8 text-gray-700">
+              {practiceSheet}
+            </pre>
+
+          </motion.div>
         )}
+
       </div>
     </Layout>
   );

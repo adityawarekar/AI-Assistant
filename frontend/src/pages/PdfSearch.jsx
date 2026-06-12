@@ -1,6 +1,7 @@
 import Layout from "../components/Layout";
 import { useState, useEffect } from "react";
 import API from "../services/api";
+import { motion } from "framer-motion";
 
 const PdfSearch = () => {
   const [pdfs, setPdfs] = useState([]);
@@ -35,7 +36,11 @@ const PdfSearch = () => {
         `/pdf/search/${selectedPdf}?query=${query}`
       );
 
-      setResults(res.data);
+      setResults(
+        Array.isArray(res.data.results)
+          ? res.data.results
+          : []
+      );
     } catch (error) {
       console.log(error);
     } finally {
@@ -45,69 +50,81 @@ const PdfSearch = () => {
 
   return (
     <Layout>
-      <div className="p-6">
-        <h1 className="text-3xl font-bold">
+      <div className="space-y-6">
+
+        <h1 className="text-4xl font-bold">
           PDF Search
         </h1>
 
-        <p className="text-gray-400 mt-2 mb-6">
-          Search inside uploaded PDFs
-        </p>
+        <div className="bg-[#FFFDF5] p-6 rounded-3xl shadow-md">
 
-        <select
-          value={selectedPdf}
-          onChange={(e) =>
-            setSelectedPdf(e.target.value)
-          }
-          className="bg-slate-800 p-3 rounded-lg mb-4 w-full"
-        >
-          <option value="">
-            Select PDF
-          </option>
-
-          {pdfs.map((pdf) => (
-            <option
-              key={pdf._id}
-              value={pdf._id}
-            >
-              {pdf.title}
+          <select
+            value={selectedPdf}
+            onChange={(e) =>
+              setSelectedPdf(e.target.value)
+            }
+            className="w-full p-4 rounded-xl border border-gray-200 mb-4"
+          >
+            <option value="">
+              Select PDF
             </option>
-          ))}
-        </select>
 
-        <input
-          type="text"
-          placeholder="Search keyword..."
-          value={query}
-          onChange={(e) =>
-            setQuery(e.target.value)
-          }
-          className="w-full p-3 rounded-lg bg-slate-800 mb-4"
-        />
+            {pdfs.map((pdf) => (
+              <option
+                key={pdf._id}
+                value={pdf._id}
+              >
+                {pdf.title}
+              </option>
+            ))}
+          </select>
 
-        <button
-          onClick={searchPdf}
-          className="bg-blue-600 px-4 py-2 rounded-lg"
-        >
-          Search
-        </button>
+          <input
+            type="text"
+            placeholder="Search keyword..."
+            value={query}
+            onChange={(e) =>
+              setQuery(e.target.value)
+            }
+            className="w-full p-4 rounded-xl border border-gray-200 mb-4"
+          />
+
+          <button
+            onClick={searchPdf}
+            className="bg-[#E9D66B] text-black px-6 py-3 rounded-xl font-semibold hover:scale-105 transition"
+          >
+            Search
+          </button>
+
+        </div>
 
         {loading && (
-          <p className="mt-4">
+          <p className="text-yellow-600 font-semibold">
             Searching...
           </p>
         )}
 
-        <div className="mt-6 space-y-3">
+        <div className="space-y-4">
+
           {results.map((result, index) => (
-            <div
+            <motion.div
               key={index}
-              className="bg-slate-800 p-4 rounded-lg"
+              initial={{
+                opacity: 0,
+                y: 10,
+              }}
+              animate={{
+                opacity: 1,
+                y: 0,
+              }}
+              className="bg-[#FFFDF5] p-5 rounded-2xl shadow-md hover:-translate-y-1 transition-all"
             >
               {result}
-            </div>
+            </motion.div>
           ))}
+
         </div>
+
       </div>
     </Layout>
   );

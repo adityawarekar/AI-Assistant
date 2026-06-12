@@ -6,28 +6,26 @@ import { Link } from "react-router-dom";
 const Documents = () => {
   const [file, setFile] = useState(null);
   const [pdfs, setPdfs] = useState([]);
+
   const handleUpload = async () => {
-    
     if (!file) {
       alert("Please select a PDF");
       return;
     }
-    const formData = new FormData();
 
+    const formData = new FormData();
     formData.append("pdf", file);
 
     try {
-      const res = await API.post(
-        "/pdf/upload",
-        formData
-      );
-
-      console.log(res.data);
+      await API.post("/pdf/upload", formData);
 
       alert("PDF Uploaded Successfully");
+
+      setFile(null);
+
       fetchPdfs();
     } catch (error) {
-      console.error(error);
+      console.log(error);
       alert("Upload Failed");
     }
   };
@@ -49,6 +47,7 @@ const Documents = () => {
   const handleDelete = async (id) => {
     try {
       await API.delete(`/pdf/${id}`);
+
       fetchPdfs();
     } catch (error) {
       console.log(error);
@@ -57,9 +56,12 @@ const Documents = () => {
 
   return (
     <Layout>
-      <div className="space-y-6">
+      <div className="space-y-8">
+
+        {/* Header */}
+
         <div>
-          <h1 className="text-3xl font-bold">
+          <h1 className="text-4xl font-bold">
             My Documents
           </h1>
 
@@ -68,68 +70,111 @@ const Documents = () => {
           </p>
         </div>
 
-        <div className="bg-slate-800 p-6 rounded-xl">
+        {/* Upload Section */}
+
+        <div className="bg-[#FFFDF5] p-8 rounded-3xl shadow-md border-2 border-dashed border-[#E9D66B] text-center">
+
+          <h2 className="text-2xl font-bold mb-4">
+            Upload New Document
+          </h2>
+
+          <p className="text-gray-500 mb-5">
+            Upload your PDF and start learning smarter
+          </p>
+
           <input
             type="file"
             accept=".pdf"
-            onChange={(e) => setFile(e.target.files[0])}
+            onChange={(e) =>
+              setFile(e.target.files[0])
+            }
+            className="mb-4"
           />
 
           {file && (
-            <p className="mt-3 text-green-400">
-              Selected: {file.name}
+            <p className="text-green-600 mb-4">
+              📄 {file.name}
             </p>
           )}
 
           <button
             onClick={handleUpload}
-            className="mt-4 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg"
+            className="bg-[#E9D66B] hover:bg-[#DCC85D] px-6 py-3 rounded-xl font-semibold"
           >
             Upload PDF
           </button>
         </div>
 
-        <div className="bg-slate-800 rounded-xl p-8 text-center">
-          <div className="space-y-3">
-            {pdfs.length === 0 ? (
-              <p className="text-gray-400">
-                No documents uploaded yet
+        {/* Documents */}
+
+        <div className="bg-[#FFFDF5] rounded-3xl p-8 shadow-md">
+
+          <h2 className="text-2xl font-bold mb-6">
+            📚 Uploaded Documents
+          </h2>
+
+          {pdfs.length === 0 ? (
+            <div className="py-10 text-center">
+
+              <h3 className="text-2xl font-bold">
+                📂 No Documents Yet
+              </h3>
+
+              <p className="text-gray-500 mt-2">
+                Upload your first PDF to start learning.
               </p>
-            ) : (
-              pdfs.map((pdf) => (
-                <div
-                  key={pdf._id}
-                  className="bg-slate-700 p-4 rounded-lg flex justify-between items-center"
-                >
-                  <span>📄 {pdf.title}</span>
 
-                  <div className="flex gap-2">
-                    <Link
-                      to={`/pdf/${pdf._id}`}
-                      className="bg-blue-600 px-3 py-1 rounded"
-                    >
-                      View
-                    </Link>
-                    <Link
-                      to={`/studyplan/${pdf._id}`}
-                      className="bg-purple-600 px-3 py-1 rounded"
-                    >
-                      Study Plan
-                    </Link>
+            </div>
+          ) : (
+            pdfs.map((pdf) => (
+              <div
+                key={pdf._id}
+                className="bg-[#F5F3E7] p-5 rounded-2xl mb-4 flex justify-between items-center"
+              >
 
+                <div>
+                  <h3 className="font-semibold text-lg">
+                    📄 {pdf.title}
+                  </h3>
 
-                    <button
-                      onClick={() => handleDelete(pdf._id)}
-                      className="bg-red-600 px-3 py-1 rounded"
-                    >
-                      Delete
-                    </button>
-                  </div>
+                  <p className="text-gray-500 text-sm">
+                    Progress: {pdf.progress || 0}%
+                  </p>
                 </div>
-              ))
-            )}
-          </div>
+
+                <div className="flex gap-3">
+
+                  <Link
+                    to={`/pdf/${pdf._id}`}
+                    className="bg-[#E9D66B] text-black px-4 py-2 rounded-xl"
+                  >
+                    View
+                  </Link>
+
+                  <Link
+                    to={`/studyplan/${pdf._id}`}
+                    className="bg-black text-white px-4 py-2 rounded-xl"
+                  >
+                    Study Plan
+                  </Link>
+
+                  <button
+                    onClick={() =>
+                      handleDelete(pdf._id)
+                    }
+                    className="bg-red-500 text-white px-4 py-2 rounded-xl"
+                  >
+                    Delete
+                  </button>
+
+                </div>
+
+              </div>
+            ))
+          )}
+
         </div>
+
       </div>
     </Layout>
   );

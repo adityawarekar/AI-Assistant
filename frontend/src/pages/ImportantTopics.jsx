@@ -1,6 +1,7 @@
 import Layout from "../components/Layout";
 import { useEffect, useState } from "react";
 import API from "../services/api";
+import { motion } from "framer-motion";
 
 const ImportantTopics = () => {
   const [pdfs, setPdfs] = useState([]);
@@ -35,7 +36,6 @@ const ImportantTopics = () => {
       );
 
       setTopics(res.data.topics);
-
     } catch (error) {
       console.log(error);
     } finally {
@@ -45,64 +45,124 @@ const ImportantTopics = () => {
 
   const copyTopics = () => {
     navigator.clipboard.writeText(topics);
+
     alert("Topics copied!");
   };
 
   return (
     <Layout>
-      <div className="p-6">
-        <h1 className="text-3xl font-bold">
-          Important Topics
-        </h1>
+      <div className="space-y-6">
 
-        <select
-          value={selectedPdf}
-          onChange={(e) =>
-            setSelectedPdf(e.target.value)
-          }
-          className="bg-slate-800 p-3 rounded-lg mb-4 w-full"
-        >
-          <option value="">
-            Select PDF
-          </option>
+        {/* Header */}
 
-          {pdfs.map((pdf) => (
-            <option
-              key={pdf._id}
-              value={pdf._id}
-            >
-              {pdf.title}
+        <div>
+          <h1 className="text-4xl font-bold">
+            Important Topics
+          </h1>
+
+          <p className="text-gray-500 mt-2">
+            Discover the most exam-relevant topics from your PDF.
+          </p>
+        </div>
+
+        {/* Controls */}
+
+        <div className="bg-[#FFFDF5] p-6 rounded-3xl shadow-md">
+
+          <select
+            value={selectedPdf}
+            onChange={(e) =>
+              setSelectedPdf(e.target.value)
+            }
+            className="w-full p-4 rounded-xl border border-gray-200 mb-4"
+          >
+            <option value="">
+              Select PDF
             </option>
-          ))}
-        </select>
 
-        <button
-          onClick={generateTopics}
-          className="bg-blue-600 px-4 py-2 rounded-lg"
-        >
-          Generate Important Topics
-        </button>
+            {pdfs.map((pdf) => (
+              <option
+                key={pdf._id}
+                value={pdf._id}
+              >
+                {pdf.title}
+              </option>
+            ))}
+          </select>
+
+          <button
+            onClick={generateTopics}
+            className="bg-[#E9D66B] text-black px-6 py-3 rounded-xl font-semibold hover:scale-105 transition"
+          >
+            Generate Topics
+          </button>
+
+        </div>
+
+        {/* Loader */}
 
         {loading && (
-          <p className="mt-4">
-            Generating Topics...
-          </p>
+          <div className="bg-[#FFFDF5] p-4 rounded-2xl shadow-md">
+
+            <div className="flex items-center gap-2 text-yellow-600 font-semibold">
+
+              <span className="animate-bounce">
+                ●
+              </span>
+
+              <span className="animate-bounce delay-100">
+                ●
+              </span>
+
+              <span className="animate-bounce delay-200">
+                ●
+              </span>
+
+              Archivio is analyzing topics...
+            </div>
+
+          </div>
         )}
 
+        {/* Result */}
+
         {topics && (
-          <div className="bg-slate-800 p-6 rounded-xl mt-6">
-            <pre className="whitespace-pre-wrap">
+          <motion.div
+            initial={{
+              opacity: 0,
+              y: 20,
+            }}
+            animate={{
+              opacity: 1,
+              y: 0,
+            }}
+            transition={{
+              duration: 0.4,
+            }}
+            className="bg-[#FFFDF5] p-8 rounded-3xl shadow-md"
+          >
+            <div className="flex justify-between items-center mb-6">
+
+              <h2 className="text-2xl font-bold">
+                ⭐ Important Topics
+              </h2>
+
+              <button
+                onClick={copyTopics}
+                className="bg-black text-white px-5 py-2 rounded-xl hover:scale-105 transition"
+              >
+                Copy
+              </button>
+
+            </div>
+
+            <pre className="whitespace-pre-wrap text-gray-700 leading-8">
               {topics}
             </pre>
 
-            <button
-              onClick={copyTopics}
-              className="bg-green-600 px-4 py-2 rounded mt-4"
-            >
-              Copy Topics
-            </button>
-          </div>
+          </motion.div>
         )}
+
       </div>
     </Layout>
   );
