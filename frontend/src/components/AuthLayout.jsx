@@ -2,50 +2,66 @@ import { motion } from "framer-motion";
 
 const AuthLayout = ({ children }) => {
   return (
-    <div className="min-h-screen bg-[#F5F3E7] flex">
+    <div className="min-h-screen bg-[#F5F3E7] flex overflow-hidden">
 
-      {/* Left Side */}
+  
 
-      <div className="hidden lg:flex w-1/2 bg-[#E9D66B] p-12 flex-col justify-center relative overflow-hidden">
+      <div className="hidden lg:flex w-1/2 relative bg-[#E9D66B] overflow-hidden px-20 flex-col justify-center">
 
         <motion.div
-          animate={{
-            y: [0, -20, 0],
-          }}
-          transition={{
-            repeat: Infinity,
-            duration: 4,
-          }}
-          className="absolute top-20 right-20 w-40 h-40 rounded-full bg-white/30"
+          animate={{ x: [0, 60, 0], y: [0, -60, 0] }}
+          transition={{ repeat: Infinity, duration: 12 }}
+          className="absolute top-0 right-0 w-[450px] h-[450px] rounded-full bg-white/20 blur-[120px]"
         />
 
         <motion.div
-          animate={{
-            y: [0, 20, 0],
-          }}
-          transition={{
-            repeat: Infinity,
-            duration: 5,
-          }}
-          className="absolute bottom-20 left-20 w-28 h-28 rounded-full bg-white/20"
+          animate={{ x: [0, -50, 0], y: [0, 40, 0] }}
+          transition={{ repeat: Infinity, duration: 15 }}
+          className="absolute bottom-0 left-0 w-[350px] h-[350px] rounded-full bg-white/20 blur-[100px]"
         />
 
-        <h1 className="text-6xl font-bold">
-          Archivio
-        </h1>
+        <motion.div
+          initial={{ opacity: 0, x: -80 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8 }}
+        >
+          <h1 className="text-8xl font-black tracking-tight text-gray-900">
+            Archivio
+          </h1>
+        </motion.div>
 
-        <p className="mt-6 text-xl max-w-md">
-          Where Documents Become Knowledge.
-        </p>
+        <motion.h2
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2, duration: 0.8 }}
+          className="mt-8 text-3xl font-semibold text-gray-800 max-w-xl"
+        >
+          Knowledge organized beautifully.
+        </motion.h2>
 
-        <p className="mt-4 text-gray-700 max-w-lg">
-          Upload PDFs, generate notes,
-          flashcards, quizzes and study
-          smarter from one workspace.
-        </p>
+        <motion.p
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4, duration: 0.8 }}
+          className="mt-6 text-lg text-gray-700 max-w-xl leading-relaxed"
+        >
+          Transform documents into notes, flashcards,
+          quizzes and structured study material from
+          one elegant workspace designed for learning.
+        </motion.p>
+
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.8 }}
+          className="mt-10 text-sm uppercase tracking-[0.3em] text-gray-700"
+        >
+          Study • Organize • Learn
+        </motion.div>
+
       </div>
 
-      {/* Right Side */}
+      
 
       <div className="flex-1 flex items-center justify-center p-8">
         {children}

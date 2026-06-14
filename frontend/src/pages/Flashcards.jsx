@@ -52,7 +52,7 @@ const Flashcards = () => {
     <Layout>
       <div className="space-y-8">
 
-        {/* Header */}
+     
 
         <div>
           <h1 className="text-5xl font-bold tracking-tight text-gray-900">
@@ -64,7 +64,7 @@ const Flashcards = () => {
           </p>
         </div>
 
-        {/* Controls */}
+       
 
         <div className="bg-white border border-gray-100 p-6 rounded-3xl shadow-lg">
 
@@ -98,7 +98,6 @@ const Flashcards = () => {
 
         </div>
 
-        {/* Loading */}
 
         {loading && (
           <div className="bg-white p-8 rounded-3xl shadow-lg text-center">
@@ -116,7 +115,7 @@ const Flashcards = () => {
           </div>
         )}
 
-        {/* Empty State */}
+       
 
         {cards.length === 0 && !loading && (
           <motion.div
@@ -152,7 +151,7 @@ const Flashcards = () => {
           </motion.div>
         )}
 
-        {/* Flashcards */}
+        
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
 
