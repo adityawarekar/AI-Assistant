@@ -2,6 +2,7 @@ const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
+
 exports.register = async (req, res) => {
     try {
         const { name, email, password } = req.body;
@@ -55,3 +56,34 @@ exports.login = async (req, res) => {
     }
 };
 
+
+
+
+exports.googleCallback = async (
+  req,
+  res
+) => {
+  try {
+
+    const token = jwt.sign(
+      {
+        id: req.user._id,
+      },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "7d",
+      }
+    );
+
+    res.redirect(
+      `http://localhost:5173/oauth-success?token=${token}`
+    );
+
+  } catch (error) {
+
+    res.status(500).json({
+      message: "Google Login Failed",
+    });
+
+  }
+};
