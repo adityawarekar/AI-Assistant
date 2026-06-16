@@ -94,6 +94,67 @@ const InterviewQuestions = () => {
             Archivio is generating questions...
           </div>
         )}
+        {questions.length === 0 && !loading && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="relative overflow-hidden bg-white rounded-3xl border border-gray-100 shadow-lg p-12"
+          >
+
+            <motion.div
+              animate={{
+                x: [0, 30, 0],
+                y: [0, -20, 0],
+              }}
+              transition={{
+                duration: 10,
+                repeat: Infinity,
+              }}
+              className="absolute -top-10 -right-10 w-72 h-72 bg-[#E9D66B]/20 rounded-full blur-3xl"
+            />
+
+            <motion.div
+              animate={{
+                x: [0, -20, 0],
+                y: [0, 20, 0],
+              }}
+              transition={{
+                duration: 12,
+                repeat: Infinity,
+              }}
+              className="absolute -bottom-16 -left-10 w-80 h-80 bg-black/5 rounded-full blur-3xl"
+            />
+
+            <div className="relative z-10 max-w-3xl">
+
+              <p className="text-sm uppercase tracking-[0.2em] text-gray-400">
+                Interview Workspace
+              </p>
+
+              <h2 className="text-4xl font-bold mt-4">
+                Prepare with confidence
+              </h2>
+
+              <p className="text-gray-500 mt-5 text-lg leading-relaxed">
+                Generate interview questions from your study
+                material and practice important concepts,
+                technical topics and discussion points before
+                interviews or assessments.
+              </p>
+
+              <div className="flex flex-wrap gap-8 mt-10 text-sm text-gray-600">
+                <span>Technical Questions</span>
+                <span>Concept Review</span>
+                <span>Mock Preparation</span>
+                <span>Interview Ready</span>
+              </div>
+
+            </div>
+
+          </motion.div>
+        )}
+
 
         <div className="space-y-4">
 

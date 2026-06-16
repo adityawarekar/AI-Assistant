@@ -1,59 +1,110 @@
 import { useAuthStore } from "../store/authStore";
-import {
-  FaBell,
-  FaSearch,
-  FaUserCircle,
-} from "react-icons/fa";
+import { FaSearch, FaUserCircle } from "react-icons/fa";
+import { motion } from "framer-motion";
 
 const Navbar = () => {
   const { user, logout } = useAuthStore();
 
   return (
-    <div className="bg-[#F5F3E7] px-8 py-5">
+    <div className="px-8 py-5">
 
-      <div className="bg-[#FFFDF5] border border-[#ECE8D5] rounded-3xl shadow-sm px-8 py-5 flex items-center justify-between">
+      <motion.div
+        initial={{ opacity: 0, y: -25 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="relative overflow-hidden bg-white/80 backdrop-blur-xl border border-gray-100 rounded-3xl shadow-lg px-8 py-5 flex items-center justify-between"
+      >
 
-        
+        {/* Background Glow */}
 
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900">
-            Welcome back 👋
-          </h1>
+        <motion.div
+          animate={{
+            x: [0, 30, 0],
+            y: [0, -20, 0],
+          }}
+          transition={{
+            duration: 10,
+            repeat: Infinity,
+          }}
+          className="absolute -top-10 right-0 w-64 h-64 bg-[#E9D66B]/20 rounded-full blur-3xl"
+        />
 
-          <p className="text-sm text-gray-500 mt-1">
-            Continue learning with Archivio
-          </p>
+        <motion.div
+          animate={{
+            x: [0, -20, 0],
+            y: [0, 20, 0],
+          }}
+          transition={{
+            duration: 12,
+            repeat: Infinity,
+          }}
+          className="absolute -bottom-10 left-20 w-72 h-72 bg-black/5 rounded-full blur-3xl"
+        />
+
+        {/* Left */}
+
+        <div className="relative z-10">
+
+          <motion.h1
+            initial={{ opacity: 0, x: -15 }}
+            animate={{ opacity: 1, x: 0 }}
+            className="text-3xl font-bold text-gray-900"
+          >
+            Welcome back
+          </motion.h1>
+
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.2 }}
+            className="text-gray-500 mt-1"
+          >
+            Continue your learning journey
+          </motion.p>
+
         </div>
 
-        
+        {/* Search */}
 
-        <div className="hidden lg:flex items-center gap-3 bg-[#F8F6EC] px-4 py-3 rounded-2xl border border-[#ECE8D5] w-[340px]">
-
+        <motion.div
+          whileHover={{ scale: 1.02 }}
+          className="hidden lg:flex relative z-10 items-center gap-3 bg-[#F8F8F8] border border-gray-200 px-5 py-3 rounded-2xl w-[360px]"
+        >
           <FaSearch className="text-gray-400" />
 
           <input
             type="text"
             placeholder="Search documents..."
-            className="bg-transparent outline-none w-full text-sm"
+            className="bg-transparent outline-none w-full"
           />
+        </motion.div>
 
-        </div>
+        {/* Right */}
 
-        
+        <div className="relative z-10 flex items-center gap-4">
 
-        <div className="flex items-center gap-3">
+          <motion.div
+            whileHover={{
+              y: -2,
+              scale: 1.02,
+            }}
+            className="flex items-center gap-3 bg-[#F8F8F8] border border-gray-200 px-4 py-2 rounded-2xl"
+          >
 
-         
-
-         
-          
-
-          <div className="flex items-center gap-3 bg-[#F8F6EC] border border-[#ECE8D5] px-4 py-2 rounded-2xl">
-
-            <FaUserCircle
-              size={32}
-              className="text-gray-700"
-            />
+            <motion.div
+              animate={{
+                rotate: [0, 5, -5, 0],
+              }}
+              transition={{
+                duration: 5,
+                repeat: Infinity,
+              }}
+            >
+              <FaUserCircle
+                size={34}
+                className="text-gray-700"
+              />
+            </motion.div>
 
             <div>
               <p className="font-semibold text-gray-900">
@@ -61,24 +112,28 @@ const Navbar = () => {
               </p>
 
               <p className="text-xs text-gray-500">
-                Student
+                Learning Workspace
               </p>
             </div>
 
-          </div>
+          </motion.div>
 
-          
-
-          <button
+          <motion.button
+            whileHover={{
+              scale: 1.05,
+            }}
+            whileTap={{
+              scale: 0.95,
+            }}
             onClick={logout}
-            className="px-5 py-2.5 rounded-2xl bg-[#F8F6EC] border border-[#ECE8D5] text-gray-700 font-medium hover:bg-[#EFE9D0] transition-all"
+            className="px-5 py-2.5 rounded-2xl bg-black text-white font-medium shadow-md hover:shadow-xl transition-all"
           >
             Logout
-          </button>
+          </motion.button>
 
         </div>
 
-      </div>
+      </motion.div>
 
     </div>
   );

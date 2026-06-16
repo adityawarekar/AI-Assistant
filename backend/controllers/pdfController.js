@@ -251,16 +251,21 @@ exports.generateStudyPlan = async (req, res) => {
   try {
     const pdf = await Pdf.findById(req.params.id);
 
+    console.log("PDF FOUND:", pdf);
+
     if (!pdf) {
       return res.status(404).json({
         message: "PDF not found",
       });
     }
 
-    const studyPlan =
-      await generateStudyPlanAI(
-        pdf.text.slice(0, 5000)
-      );
+    console.log("TEXT EXISTS:", pdf.text);
+
+    const studyPlan = await generateStudyPlanAI(
+      pdf.text.slice(0, 5000)
+    );
+
+    console.log("STUDY PLAN GENERATED");
 
     await updatePdfProgress(
       req.params.id,
@@ -272,11 +277,16 @@ exports.generateStudyPlan = async (req, res) => {
     });
 
   } catch (error) {
+
+    console.log("STUDY PLAN ERROR:");
+    console.log(error);
+
     res.status(500).json({
       error: error.message,
     });
   }
 };
+
 exports.generateInterviewQuestions = async (req, res) => {
   try {
     const pdf = await Pdf.findById(req.params.id);

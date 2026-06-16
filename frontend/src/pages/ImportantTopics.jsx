@@ -126,39 +126,49 @@ const ImportantTopics = () => {
 
         {/* Result */}
 
-        {topics && (
+        {!topics && !loading && (
           <motion.div
-            initial={{
-              opacity: 0,
-              y: 20,
-            }}
-            animate={{
-              opacity: 1,
-              y: 0,
-            }}
-            transition={{
-              duration: 0.4,
-            }}
-            className="bg-[#FFFDF5] p-8 rounded-3xl shadow-md"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="relative overflow-hidden bg-white rounded-3xl border border-gray-100 shadow-lg p-12"
           >
-            <div className="flex justify-between items-center mb-6">
+            <motion.div
+              animate={{ x: [0, 30, 0], y: [0, -20, 0] }}
+              transition={{ duration: 10, repeat: Infinity }}
+              className="absolute -top-10 -right-10 w-72 h-72 bg-[#E9D66B]/20 rounded-full blur-3xl"
+            />
 
-              <h2 className="text-2xl font-bold">
-                ⭐ Important Topics
+            <motion.div
+              animate={{ x: [0, -20, 0], y: [0, 20, 0] }}
+              transition={{ duration: 12, repeat: Infinity }}
+              className="absolute -bottom-16 -left-10 w-80 h-80 bg-black/5 rounded-full blur-3xl"
+            />
+
+            <div className="relative z-10 max-w-3xl">
+
+              <p className="text-sm uppercase tracking-[0.2em] text-gray-400">
+                Topic Analysis
+              </p>
+
+              <h2 className="text-4xl font-bold mt-4">
+                Focus on what matters most
               </h2>
 
-              <button
-                onClick={copyTopics}
-                className="bg-black text-white px-5 py-2 rounded-xl hover:scale-105 transition"
-              >
-                Copy
-              </button>
+              <p className="text-gray-500 mt-5 text-lg leading-relaxed">
+                Identify the most important concepts, chapters,
+                definitions and exam-focused topics from your
+                documents for efficient revision.
+              </p>
+
+              <div className="flex flex-wrap gap-8 mt-10 text-sm text-gray-600">
+                <span>Key Concepts</span>
+                <span>Exam Focused</span>
+                <span>Quick Revision</span>
+                <span>Topic Analysis</span>
+              </div>
 
             </div>
-
-            <pre className="whitespace-pre-wrap text-gray-700 leading-8">
-              {topics}
-            </pre>
 
           </motion.div>
         )}

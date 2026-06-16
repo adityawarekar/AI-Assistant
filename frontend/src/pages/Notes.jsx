@@ -144,6 +144,86 @@ const Notes = () => {
           </div>
         )}
 
+        {!notes && !loading && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="relative overflow-hidden bg-white rounded-3xl border border-gray-100 shadow-lg p-12"
+          >
+
+            <motion.div
+              animate={{
+                x: [0, 30, 0],
+                y: [0, -20, 0],
+              }}
+              transition={{
+                duration: 10,
+                repeat: Infinity,
+              }}
+              className="absolute -top-10 -right-10 w-72 h-72 bg-[#E9D66B]/20 rounded-full blur-3xl"
+            />
+
+            <motion.div
+              animate={{
+                x: [0, -20, 0],
+                y: [0, 20, 0],
+              }}
+              transition={{
+                duration: 12,
+                repeat: Infinity,
+              }}
+              className="absolute -bottom-16 -left-10 w-80 h-80 bg-black/5 rounded-full blur-3xl"
+            />
+
+            <div className="relative z-10 max-w-3xl">
+
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.2 }}
+                className="text-sm uppercase tracking-[0.2em] text-gray-400"
+              >
+                Notes Workspace
+              </motion.p>
+
+              <motion.h2
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+                className="text-4xl font-bold mt-4"
+              >
+                Organize important information
+              </motion.h2>
+
+              <motion.p
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.45 }}
+                className="text-gray-500 mt-5 text-lg leading-relaxed"
+              >
+                Generate structured notes from your documents and
+                quickly capture important concepts, explanations,
+                definitions and key takeaways for revision.
+              </motion.p>
+
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.6 }}
+                className="flex flex-wrap gap-8 mt-10 text-sm text-gray-600"
+              >
+                <span>Structured Notes</span>
+                <span>Quick Revision</span>
+                <span>Key Concepts</span>
+                <span>Study Ready</span>
+              </motion.div>
+
+            </div>
+
+          </motion.div>
+        )}
+
         {/* Notes Output */}
 
         {notes && (

@@ -122,70 +122,64 @@ const Flashcards = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="relative overflow-hidden bg-white border border-gray-100 rounded-3xl p-12 shadow-lg"
+            className="relative overflow-hidden bg-white rounded-3xl border border-gray-100 shadow-lg p-12"
           >
+
             <motion.div
               animate={{
-                x: [0, 20, 0],
+                x: [0, 25, 0],
                 y: [0, -15, 0],
               }}
               transition={{
                 duration: 8,
                 repeat: Infinity,
               }}
-              className="absolute top-0 right-0 w-64 h-64 bg-[#E9D66B]/20 rounded-full blur-3xl"
+              className="absolute -top-10 -right-10 w-72 h-72 bg-[#E9D66B]/20 rounded-full blur-3xl"
             />
 
             <motion.div
               animate={{
                 x: [0, -20, 0],
-                y: [0, 15, 0],
+                y: [0, 20, 0],
               }}
               transition={{
                 duration: 10,
                 repeat: Infinity,
               }}
-              className="absolute bottom-0 left-0 w-72 h-72 bg-black/5 rounded-full blur-3xl"
+              className="absolute -bottom-16 -left-10 w-80 h-80 bg-black/5 rounded-full blur-3xl"
             />
 
-            <div className="relative z-10 max-w-2xl">
+            <div className="relative z-10 max-w-3xl">
 
-              <motion.h2
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 }}
-                className="text-3xl font-bold text-black"
-              >
-                Start learning with flashcards
-              </motion.h2>
+              <p className="text-sm uppercase tracking-[0.2em] text-gray-400">
+                Flashcard Workspace
+              </p>
 
-              <motion.p
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.35 }}
-                className="mt-4 text-gray-500 leading-relaxed"
-              >
-                Select a document and generate flashcards to review key concepts,
-                definitions, formulas and important topics in a focused learning format.
-              </motion.p>
+              <h2 className="text-4xl font-bold mt-4">
+                Learn through active recall
+              </h2>
 
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.5 }}
-                className="flex gap-8 mt-8 text-sm text-gray-600"
-              >
+              <p className="text-gray-500 mt-5 text-lg leading-relaxed">
+                Turn your study material into interactive flashcards
+                designed to improve memory retention and help you
+                revise important concepts faster.
+              </p>
+
+              <div className="flex flex-wrap gap-8 mt-10 text-sm text-gray-600">
                 <span>Active Recall</span>
-                <span>Quick Revision</span>
-                <span>Focused Learning</span>
-              </motion.div>
+                <span>Memory Retention</span>
+                <span>Quick Learning</span>
+                <span>Exam Revision</span>
+              </div>
 
             </div>
+
           </motion.div>
         )}
+        
       </div>
 
-    
+
     </Layout >
   );
 };
