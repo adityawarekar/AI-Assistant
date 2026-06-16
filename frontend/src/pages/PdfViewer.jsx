@@ -1,4 +1,4 @@
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import API from "../services/api";
 
@@ -6,9 +6,6 @@ const PdfViewer = () => {
   const { id } = useParams();
 
   const [pdf, setPdf] = useState(null);
-  const [summary, setSummary] = useState("");
-  const [loading, setLoading] = useState(false);
-
 
   useEffect(() => {
     fetchPdf();
@@ -16,10 +13,7 @@ const PdfViewer = () => {
 
   const fetchPdf = async () => {
     try {
-      const res = await API.get(
-        `/pdf/${id}`
-      );
-
+      const res = await API.get(`/pdf/${id}`);
       setPdf(res.data);
     } catch (error) {
       console.log(error);
@@ -27,76 +21,37 @@ const PdfViewer = () => {
   };
 
   if (!pdf) {
-    return <h1>Loading...</h1>;
+    return (
+      <div className="p-6">
+        <h1>Loading...</h1>
+      </div>
+    );
   }
-
-  const handleSummary = async () => {
-    try {
-      setLoading(true);
-      // Dummy data for now
-      setTimeout(() => {
-        setSummary(`
-        • This document explains important concepts.
-        • It contains study material for revision.
-        • Read carefully before exams.
-        `);
-        setLoading(false);
-      }, 1000);
-
-    } catch (error) {
-      console.log(error);
-      setLoading(false);
-    }
-  };
-
 
   const pdfUrl = `http://localhost:5001/${pdf.fileUrl}`;
 
   return (
-    <div className="p-6">
-      <h1 className="text-3xl font-bold mb-4">
-        {pdf.title}
-      </h1>
+    <div className="p-8">
+      <div className="bg-[#FFFDF5] rounded-3xl p-8 shadow-md border border-gray-100">
 
-      <a
-        href={pdfUrl}
-        target="_blank"
-        rel="noreferrer"
-        className="bg-blue-600 px-4 py-2 rounded text-white"
-      >
-        Open PDF
-      </a>
-      <button
-        onClick={handleSummary}
-        className="bg-green-600 px-4 py-2 rounded ml-4"
-      >
-        Generate Summary
-      </button>
+        <h1 className="text-3xl font-bold text-black mb-2">
+          {pdf.title}
+        </h1>
 
-      <Link
-        to={`/studyplan/${pdf._id}`}
-        className="bg-purple-600 px-4 py-2 rounded ml-4 text-white inline-block"
-      >
-        Generate Study Plan
-      </Link>
-
-      {loading && (
-        <p className="mt-4 text-yellow-400">
-          Generating Summary...
+        <p className="text-gray-500 mb-8">
+          View your uploaded document.
         </p>
-      )}
 
-      {summary && (
-        <div className="bg-slate-800 p-6 rounded-xl mt-6">
-          <h2 className="text-xl font-bold mb-3">
-            AI Summary
-          </h2>
+        <a
+          href={pdfUrl}
+          target="_blank"
+          rel="noreferrer"
+          className="inline-flex items-center justify-center bg-[#E9D66B] hover:bg-[#dcc85d] text-black font-semibold px-6 py-3 rounded-2xl transition"
+        >
+          View PDF
+        </a>
 
-          <pre className="whitespace-pre-wrap">
-            {summary}
-          </pre>
-        </div>
-      )}
+      </div>
     </div>
   );
 };

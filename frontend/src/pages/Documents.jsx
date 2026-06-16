@@ -19,7 +19,7 @@ const Documents = () => {
     try {
       await API.post("/pdf/upload", formData);
 
-      alert("PDF Uploaded Successfully");
+    
 
       setFile(null);
 
@@ -146,23 +146,14 @@ const Documents = () => {
 
                   <Link
                     to={`/pdf/${pdf._id}`}
-                    className="bg-[#E9D66B] text-black px-4 py-2 rounded-xl"
+                    className="px-5 py-2.5 rounded-xl bg-[#E9D66B] text-black font-medium hover:shadow-md hover:scale-105 transition-all duration-300"
                   >
                     View
                   </Link>
 
-                  <Link
-                    to={`/studyplan/${pdf._id}`}
-                    className="bg-black text-white px-4 py-2 rounded-xl"
-                  >
-                    Study Plan
-                  </Link>
-
                   <button
-                    onClick={() =>
-                      handleDelete(pdf._id)
-                    }
-                    className="bg-red-500 text-white px-4 py-2 rounded-xl"
+                    onClick={() => handleDelete(pdf._id)}
+                    className="px-5 py-2.5 rounded-xl border border-black text-black font-medium hover:bg-black hover:text-white hover:scale-105 transition-all duration-300"
                   >
                     Delete
                   </button>

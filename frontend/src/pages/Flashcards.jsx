@@ -52,7 +52,7 @@ const Flashcards = () => {
     <Layout>
       <div className="space-y-8">
 
-     
+
 
         <div>
           <h1 className="text-5xl font-bold tracking-tight text-gray-900">
@@ -64,7 +64,7 @@ const Flashcards = () => {
           </p>
         </div>
 
-       
+
 
         <div className="bg-white border border-gray-100 p-6 rounded-3xl shadow-lg">
 
@@ -115,88 +115,78 @@ const Flashcards = () => {
           </div>
         )}
 
-       
+
 
         {cards.length === 0 && !loading && (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="bg-white rounded-3xl p-12 text-center shadow-lg border border-gray-100"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="relative overflow-hidden bg-white border border-gray-100 rounded-3xl p-12 shadow-lg"
           >
-            <h2 className="text-4xl font-bold mb-4">
-              Smart Flashcards
-            </h2>
+            <motion.div
+              animate={{
+                x: [0, 20, 0],
+                y: [0, -15, 0],
+              }}
+              transition={{
+                duration: 8,
+                repeat: Infinity,
+              }}
+              className="absolute top-0 right-0 w-64 h-64 bg-[#E9D66B]/20 rounded-full blur-3xl"
+            />
 
-            <p className="text-gray-500 max-w-xl mx-auto">
-              Generate beautiful study flashcards
-              from your PDFs and memorize concepts
-              faster using active recall learning.
-            </p>
+            <motion.div
+              animate={{
+                x: [0, -20, 0],
+                y: [0, 15, 0],
+              }}
+              transition={{
+                duration: 10,
+                repeat: Infinity,
+              }}
+              className="absolute bottom-0 left-0 w-72 h-72 bg-black/5 rounded-full blur-3xl"
+            />
 
-            <div className="flex justify-center gap-4 mt-8 flex-wrap">
+            <div className="relative z-10 max-w-2xl">
 
-              <div className="bg-[#F5F3E7] px-6 py-4 rounded-2xl font-medium shadow-sm">
-                ⚡ Fast Learning
-              </div>
+              <motion.h2
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+                className="text-3xl font-bold text-black"
+              >
+                Start learning with flashcards
+              </motion.h2>
 
-              <div className="bg-[#F5F3E7] px-6 py-4 rounded-2xl font-medium shadow-sm">
-                🧠 Active Recall
-              </div>
+              <motion.p
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.35 }}
+                className="mt-4 text-gray-500 leading-relaxed"
+              >
+                Select a document and generate flashcards to review key concepts,
+                definitions, formulas and important topics in a focused learning format.
+              </motion.p>
 
-              <div className="bg-[#F5F3E7] px-6 py-4 rounded-2xl font-medium shadow-sm">
-                📚 Exam Ready
-              </div>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.5 }}
+                className="flex gap-8 mt-8 text-sm text-gray-600"
+              >
+                <span>Active Recall</span>
+                <span>Quick Revision</span>
+                <span>Focused Learning</span>
+              </motion.div>
 
             </div>
           </motion.div>
         )}
-
-        
-
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-
-          {cards.map((card, index) => (
-            <motion.div
-              key={index}
-              initial={{
-                opacity: 0,
-                y: 40,
-                scale: 0.95,
-              }}
-              animate={{
-                opacity: 1,
-                y: 0,
-                scale: 1,
-              }}
-              whileHover={{
-                y: -8,
-                scale: 1.02,
-              }}
-              transition={{
-                duration: 0.5,
-                delay: index * 0.08,
-              }}
-              className="group"
-            >
-              <div className="relative overflow-hidden rounded-3xl bg-white border border-gray-100 shadow-lg group-hover:shadow-2xl transition-all duration-300">
-
-                <div className="absolute inset-0 bg-gradient-to-r from-yellow-100 via-transparent to-orange-100 opacity-0 group-hover:opacity-100 transition duration-300"></div>
-
-                <div className="relative z-10">
-                  <Flashcard
-                    question={card.question}
-                    answer={card.answer}
-                  />
-                </div>
-
-              </div>
-            </motion.div>
-          ))}
-
-        </div>
-
       </div>
-    </Layout>
+
+    
+    </Layout >
   );
 };
 

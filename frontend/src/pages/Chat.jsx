@@ -121,14 +121,14 @@ const Chat = () => {
             <button
               onClick={askQuestion}
               disabled={loading}
-              className="bg-[#E9D66B] text-black px-6 rounded-xl font-semibold hover:scale-105 transition"
+              className="bg-[#E9D66B] text-black px-6 py-3 rounded-xl font-semibold hover:scale-105 transition-all duration-300"
             >
               Ask
             </button>
 
             <button
               onClick={clearChat}
-              className="bg-black text-white px-6 rounded-xl hover:scale-105 transition"
+              className="bg-white text-black border border-gray-200 px-6 py-3 rounded-xl font-semibold hover:bg-black hover:text-white hover:border-black transition-all duration-300"
             >
               Clear
             </button>
@@ -176,11 +176,10 @@ const Chat = () => {
               transition={{
                 duration: 0.3,
               }}
-              className={`p-4 rounded-2xl max-w-[80%] shadow-md ${
-                msg.type === "question"
-                  ? "bg-[#E9D66B] text-black ml-auto"
-                  : "bg-white text-black"
-              }`}
+              className={`p-4 rounded-2xl max-w-[80%] shadow-md ${msg.type === "question"
+                ? "bg-[#E9D66B] text-black ml-auto"
+                : "bg-white text-black"
+                }`}
             >
               <p className="font-semibold mb-2">
                 {msg.type === "question"

@@ -45,12 +45,7 @@ const Navbar = () => {
 
          
 
-          <button className="w-11 h-11 rounded-2xl bg-[#F8F6EC] border border-[#ECE8D5] flex items-center justify-center hover:bg-[#EFE9D0] transition-all">
-
-            <FaBell className="text-gray-700" />
-
-          </button>
-
+         
           
 
           <div className="flex items-center gap-3 bg-[#F8F6EC] border border-[#ECE8D5] px-4 py-2 rounded-2xl">

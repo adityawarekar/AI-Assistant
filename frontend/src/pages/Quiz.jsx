@@ -155,227 +155,79 @@ const Quiz = () => {
           </div>
         )}
         {questions.length === 0 && !loading && (
-          <div className="relative overflow-hidden bg-[#FFFDF5] rounded-3xl shadow-md p-12 min-h-[400px]">
-
-            {/* Floating Icons */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="relative overflow-hidden bg-white rounded-3xl border border-gray-100 shadow-lg p-12"
+          >
 
             <motion.div
               animate={{
+                x: [0, 30, 0],
                 y: [0, -20, 0],
               }}
               transition={{
+                duration: 10,
                 repeat: Infinity,
-                duration: 4,
               }}
-              className="absolute top-10 left-10 text-6xl opacity-20"
-            >
-              📚
-            </motion.div>
+              className="absolute -top-10 -right-10 w-72 h-72 bg-[#E9D66B]/20 rounded-full blur-3xl"
+            />
 
             <motion.div
               animate={{
-                y: [0, 25, 0],
+                x: [0, -20, 0],
+                y: [0, 20, 0],
               }}
               transition={{
+                duration: 12,
                 repeat: Infinity,
-                duration: 5,
               }}
-              className="absolute top-20 right-20 text-6xl opacity-20"
-            >
-              🧠
-            </motion.div>
+              className="absolute -bottom-16 -left-10 w-80 h-80 bg-black/5 rounded-full blur-3xl"
+            />
 
-            <motion.div
-              animate={{
-                rotate: [0, 10, -10, 0],
-              }}
-              transition={{
-                repeat: Infinity,
-                duration: 5,
-              }}
-              className="absolute bottom-10 left-24 text-5xl opacity-20"
-            >
-              ✏️
-            </motion.div>
+            <div className="relative z-10 max-w-3xl">
 
-            <motion.div
-              animate={{
-                y: [0, -15, 0],
-              }}
-              transition={{
-                repeat: Infinity,
-                duration: 3,
-              }}
-              className="absolute bottom-16 right-16 text-5xl opacity-20"
-            >
-              🎓
-            </motion.div>
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.2 }}
+                className="text-sm uppercase tracking-[0.2em] text-gray-400"
+              >
+                Quiz Workspace
+              </motion.p>
 
-            {/* Main Content */}
+              <motion.h2
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+                className="text-4xl font-bold mt-4"
+              >
+                Measure your understanding
+              </motion.h2>
 
-            <div className="relative z-10 text-center">
+              <motion.p
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.45 }}
+                className="text-gray-500 mt-5 text-lg leading-relaxed"
+              >
+                Generate a personalized quiz from your documents and
+                evaluate how well you understand important concepts,
+                definitions and key topics before revision sessions.
+              </motion.p>
 
               <motion.div
-                animate={{
-                  scale: [1, 1.08, 1],
-                }}
-                transition={{
-                  repeat: Infinity,
-                  duration: 2,
-                }}
-                className="text-8xl mb-6"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.6 }}
+                className="flex flex-wrap gap-8 mt-10 text-sm text-gray-600"
               >
-                🧠
+                <span>Instant Questions</span>
+                <span>Knowledge Check</span>
+                <span>Revision Ready</span>
+                <span>Progress Tracking</span>
               </motion.div>
-
-              <h2 className="text-4xl font-bold mb-4">
-                Ready for Quiz Time?
-              </h2>
-
-              <p className="text-gray-500 max-w-2xl mx-auto text-lg">
-                Select a PDF and Archivio will
-                automatically generate smart quiz
-                questions to test your understanding
-                and improve your exam preparation.
-              </p>
-
-              <div className="grid md:grid-cols-3 gap-5 mt-10">
-
-                <div className="bg-[#F5F3E7] p-6 rounded-2xl">
-                  <div className="text-4xl mb-3">
-                    📚
-                  </div>
-                  <h3 className="font-bold">
-                    Smart Questions
-                  </h3>
-                </div>
-
-                <div className="bg-[#F5F3E7] p-6 rounded-2xl">
-                  <div className="text-4xl mb-3">
-                    ⚡
-                  </div>
-                  <h3 className="font-bold">
-                    Instant Scoring
-                  </h3>
-                </div>
-
-                <div className="bg-[#F5F3E7] p-6 rounded-2xl">
-                  <div className="text-4xl mb-3">
-                    🎯
-                  </div>
-                  <h3 className="font-bold">
-                    Exam Ready
-                  </h3>
-                </div>
-
-              </div>
-
-            </div>
-
-          </div>
-        )}
-
-        {/* Questions */}
-
-        <div className="space-y-6">
-
-          {questions.map((q, index) => (
-            <motion.div
-              key={index}
-              initial={{
-                opacity: 0,
-                y: 15,
-              }}
-              animate={{
-                opacity: 1,
-                y: 0,
-              }}
-              transition={{
-                duration: 0.3,
-              }}
-              className="bg-[#FFFDF5] p-6 rounded-3xl shadow-md"
-            >
-              <h2 className="font-bold text-xl mb-4">
-                Question {index + 1}
-              </h2>
-
-              <p className="mb-4">
-                {q.question}
-              </p>
-
-              <div className="space-y-3">
-
-                {q.options.map(
-                  (option, optionIndex) => (
-                    <button
-                      key={optionIndex}
-                      onClick={() =>
-                        handleAnswerSelect(
-                          index,
-                          option
-                        )
-                      }
-                      className={`w-full text-left p-4 rounded-xl transition ${selectedAnswers[index] ===
-                          option
-                          ? "bg-[#E9D66B] text-black"
-                          : "bg-[#F5F3E7]"
-                        }`}
-                    >
-                      {option}
-                    </button>
-                  )
-                )}
-
-              </div>
-            </motion.div>
-          ))}
-
-        </div>
-
-        {/* Submit */}
-
-        {questions.length > 0 && (
-          <button
-            onClick={calculateScore}
-            className="bg-black text-white px-6 py-3 rounded-xl hover:scale-105 transition"
-          >
-            Submit Quiz
-          </button>
-        )}
-
-        {/* Score */}
-
-        {score !== null && (
-          <motion.div
-            initial={{
-              opacity: 0,
-              scale: 0.9,
-            }}
-            animate={{
-              opacity: 1,
-              scale: 1,
-            }}
-            className="bg-[#FFFDF5] p-8 rounded-3xl shadow-md text-center"
-          >
-            <h2 className="text-4xl font-bold">
-              🎯 {score}/{questions.length}
-            </h2>
-
-            <p className="mt-3 text-gray-600">
-              You answered {score} questions correctly.
-            </p>
-
-            <div className="mt-4 w-full bg-gray-200 h-4 rounded-full">
-
-              <div
-                className="bg-[#E9D66B] h-4 rounded-full"
-                style={{
-                  width: `${(score /
-                      questions.length) *
-                    100
-                    }%`,
-                }}
-              ></div>
 
             </div>
 

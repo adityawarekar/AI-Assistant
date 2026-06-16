@@ -16,16 +16,18 @@ import PdfSearch from "./pages/PdfSearch";
 import RevisionNotes from "./pages/RevisionNotes";
 import PracticeSheet from "./pages/PracticeSheet";
 import ImportantTopics from "./pages/ImportantTopics";
+import OAuthSuccess from "./pages/OAuthSuccess";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Public Routes */}
+        
         <Route path="/" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/oauth-success" element={<OAuthSuccess />} />
 
-        {/* Protected Routes */}
+        
         <Route
           path="/dashboard"
           element={
