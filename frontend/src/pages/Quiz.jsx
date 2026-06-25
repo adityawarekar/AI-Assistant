@@ -36,6 +36,7 @@ const Quiz = () => {
       const res = await API.get(
         `/pdf/quiz/${selectedPdf}`
       );
+      console.log("Quiz Response:", res.data);
 
       setScore(null);
       setSelectedAnswers({});
@@ -47,6 +48,11 @@ const Quiz = () => {
       );
     } catch (error) {
       console.log(error);
+
+      alert(
+        error.response?.data?.error ||
+        "Failed to generate quiz."
+      );
     } finally {
       setLoading(false);
     }
@@ -120,12 +126,14 @@ const Quiz = () => {
 
           <button
             onClick={generateQuiz}
-            disabled={loading}
-            className="bg-[#E9D66B] text-black px-6 py-3 rounded-xl font-semibold hover:scale-105 transition"
+            disabled={!selectedPdf || loading}
+            className={`px-6 py-3 rounded-xl font-semibold transition
+  ${!selectedPdf || loading
+                ? "bg-gray-300 cursor-not-allowed"
+                : "bg-[#E9D66B] hover:scale-105"
+              }`}
           >
-            {loading
-              ? "Generating..."
-              : "Generate Quiz"}
+            {loading ? "Generating..." : "Generate Quiz"}
           </button>
 
         </div>
@@ -230,6 +238,116 @@ const Quiz = () => {
               </motion.div>
 
             </div>
+
+          </motion.div>
+        )}
+        {/* Quiz Result */}
+
+        {questions.length > 0 && !loading && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="space-y-6"
+          >
+
+            <div className="flex items-center justify-between">
+
+              <h2 className="text-3xl font-bold">
+                Quiz Questions
+              </h2>
+
+              <span className="bg-[#E9D66B] px-4 py-2 rounded-xl font-semibold">
+                {questions.length} Questions
+              </span>
+
+            </div>
+
+            <p className="text-gray-500">
+              Total Questions: {questions.length}
+            </p>
+
+            {questions.map((question, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.08 }}
+                className="bg-white border border-gray-100 rounded-3xl shadow-lg p-8"
+              >
+
+                <h3 className="text-xl font-semibold mb-6">
+                  {index + 1}. {question.question}
+                </h3>
+
+                <div className="space-y-4">
+
+                  {question.options?.map((option, optionIndex) => (
+
+                    <label
+                      key={optionIndex}
+                      className={`flex items-center gap-4 p-4 rounded-2xl border cursor-pointer transition-all hover:border-[#E9D66B]
+              ${selectedAnswers[index] === option
+                          ? "bg-[#FFF8D9] border-[#E9D66B]"
+                          : "border-gray-200"
+                        }`}
+                    >
+
+                      <input
+                        type="radio"
+                        name={`question-${index}`}
+                        value={option}
+                        checked={selectedAnswers[index] === option}
+                        onChange={() =>
+                          handleAnswerSelect(index, option)
+                        }
+                      />
+
+                      <span>{option}</span>
+
+                    </label>
+
+                  ))}
+
+                </div>
+
+              </motion.div>
+            ))}
+
+            <div className="flex justify-center">
+
+              <button
+                onClick={calculateScore}
+                className="bg-[#E9D66B] hover:scale-105 transition-all px-8 py-4 rounded-2xl font-bold text-black shadow-lg"
+              >
+                Submit Quiz
+              </button>
+
+            </div>
+
+            {score !== null && (
+
+              <motion.div
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                className="bg-[#FFFDF5] border border-[#E9D66B] rounded-3xl p-8 text-center shadow-lg"
+              >
+
+                <h2 className="text-3xl font-bold mb-2">
+                  Quiz Completed 🎉
+                </h2>
+
+                <p className="text-5xl font-bold text-[#D4AF37] mt-4">
+                  {score} / {questions.length}
+                </p>
+
+                <p className="text-gray-500 mt-3">
+                  Keep practicing to improve your score.
+                </p>
+
+              </motion.div>
+
+            )}
 
           </motion.div>
         )}

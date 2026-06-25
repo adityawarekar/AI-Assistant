@@ -16,7 +16,11 @@ const PdfViewer = () => {
       const res = await API.get(`/pdf/${id}`);
       setPdf(res.data);
     } catch (error) {
-      console.log(error);
+      console.error("Error:", error);
+
+      if (error.response) {
+        console.error("Backend:", error.response.data);
+      }
     }
   };
 

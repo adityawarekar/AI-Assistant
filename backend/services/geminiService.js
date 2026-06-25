@@ -1,5 +1,5 @@
 const { GoogleGenerativeAI } =
-require("@google/generative-ai");
+  require("@google/generative-ai");
 
 const genAI = new GoogleGenerativeAI(
   process.env.GEMINI_API_KEY
@@ -9,6 +9,41 @@ const model = genAI.getGenerativeModel({
   model: "gemini-2.5-flash",
 });
 
+const delay = (ms) =>
+  new Promise((resolve) => setTimeout(resolve, ms));
+
+const generateText = async (prompt) => {
+  for (let attempt = 1; attempt <= 3; attempt++) {
+    try {
+      const result = await model.generateContent(prompt);
+
+      return result.response.text();
+    } catch (error) {
+      console.error(`Attempt ${attempt}:`, error.message);
+
+      if (error.status === 429) {
+        throw new Error(
+          "Gemini API quota exceeded. Please try again later."
+        );
+      }
+
+      if (error.status === 503 && attempt < 3) {
+        console.log("Retrying...");
+        await delay(3000);
+        continue;
+      }
+
+      if (error.status === 503) {
+        throw new Error(
+          "Gemini servers are busy. Please try again after a few minutes."
+        );
+      }
+
+      throw error;
+    }
+  }
+};
+
 const generateSummary = async (text) => {
   const prompt = `
   Summarize this document in simple bullet points:
@@ -16,11 +51,7 @@ const generateSummary = async (text) => {
   ${text}
   `;
 
-  const result = await model.generateContent(
-    prompt
-  );
-
-  return result.response.text();
+  return await generateText(prompt);
 };
 
 const generateNotes = async (text) => {
@@ -30,11 +61,7 @@ Create concise study notes from this document:
 ${text}
 `;
 
-  const result = await model.generateContent(
-    prompt
-  );
-
-  return result.response.text();
+  return await generateText(prompt);
 };
 
 const generateInterviewQuestions = async (text) => {
@@ -55,11 +82,7 @@ Format:
 Document:
 ${text}
 `;
-
-  const result =
-    await model.generateContent(prompt);
-
-  return result.response.text();
+  return await generateText(prompt);
 };
 
 const generatePracticeSheet = async (text) => {
@@ -77,43 +100,51 @@ Document:
 ${text}
 `;
 
-  const result =
-    await model.generateContent(prompt);
-
-  return result.response.text();
+  return await generateText(prompt);
 };
 
 const generateQuiz = async (text) => {
   const prompt = `
-Generate exactly 5 MCQ questions from this document.
+You are an expert university exam setter.
+
+Create EXACTLY 5 multiple choice questions.
+
+VERY IMPORTANT:
 
 Return ONLY valid JSON.
 
-Format:
+Do NOT return markdown.
+
+Do NOT wrap inside \`\`\`json
+
+Every object MUST contain:
+
+- question
+- options (array of exactly 4 strings)
+- answer
+
+Example:
 
 [
   {
-    "question": "What is DBMS?",
-    "options": [
-      "Option A",
-      "Option B",
-      "Option C",
-      "Option D"
+    "question":"What is DBMS?",
+    "options":[
+      "Database Management System",
+      "Database Main Server",
+      "Data Backup Manager",
+      "None"
     ],
-    "answer": "Option A"
+    "answer":"Database Management System"
   }
 ]
 
 Document:
+
 ${text}
 `;
 
-  const result =
-    await model.generateContent(prompt);
-
-  return result.response.text();
+  return await generateText(prompt);
 };
-
 
 const generateFlashcards = async (text) => {
   const prompt = `
@@ -134,10 +165,7 @@ Document:
 ${text}
 `;
 
-  const result =
-    await model.generateContent(prompt);
-
-  return result.response.text();
+  return await generateText(prompt);
 };
 
 const chatWithPdfAI = async (
@@ -156,10 +184,7 @@ Question:
 ${question}
 `;
 
-  const result =
-    await model.generateContent(prompt);
-
-  return result.response.text();
+  return await generateText(prompt);
 };
 
 const generateImportantTopics = async (text) => {
@@ -175,10 +200,7 @@ Document:
 ${text}
 `;
 
-  const result =
-    await model.generateContent(prompt);
-
-  return result.response.text();
+  return await generateText(prompt);
 };
 
 const generateRevisionNotes = async (text) => {
@@ -197,10 +219,7 @@ Document:
 ${text}
 `;
 
-  const result =
-    await model.generateContent(prompt);
-
-  return result.response.text();
+  return await generateText(prompt);
 };
 
 const generateStudyPlanAI = async (text) => {
@@ -217,10 +236,7 @@ Document:
 ${text}
 `;
 
-  const result =
-    await model.generateContent(prompt);
-
-  return result.response.text();
+  return await generateText(prompt);
 };
 
 module.exports = {

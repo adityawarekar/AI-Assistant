@@ -28,8 +28,18 @@ const Flashcards = () => {
           ? res.data
           : []
       );
+
     } catch (error) {
-      console.log(error);
+      console.error("Error:", error);
+
+      if (error.response) {
+        console.error("Backend:", error.response.data);
+      }
+
+      alert(
+        error.response?.data?.error ||
+        "Failed to generate flashcards."
+      );
     } finally {
       setLoading(false);
     }
@@ -40,7 +50,11 @@ const Flashcards = () => {
       const res = await API.get("/pdf");
       setPdfs(res.data);
     } catch (error) {
-      console.log(error);
+      console.error("Error:", error);
+
+      if (error.response) {
+        console.error("Backend:", error.response.data);
+      }
     }
   };
 
@@ -91,9 +105,14 @@ const Flashcards = () => {
 
           <button
             onClick={generateFlashcards}
-            className="w-full bg-[#E9D66B] text-black py-4 rounded-2xl font-semibold shadow-md hover:shadow-xl hover:scale-[1.02] transition-all duration-300"
+            disabled={!selectedPdf || loading}
+            className={`w-full py-4 rounded-2xl font-semibold shadow-md transition-all
+    ${!selectedPdf || loading
+                ? "bg-gray-300 cursor-not-allowed"
+                : "bg-[#E9D66B] text-black hover:shadow-xl hover:scale-[1.02]"
+              }`}
           >
-            Generate Flashcards
+            {loading ? "Generating..." : "Generate Flashcards"}
           </button>
 
         </div>
@@ -176,7 +195,22 @@ const Flashcards = () => {
 
           </motion.div>
         )}
-        
+        {cards.length > 0 && !loading && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+          >
+            {cards.map((card, index) => (
+              <Flashcard
+                key={index}
+                question={card.question}
+                answer={card.answer}
+              />
+            ))}
+          </motion.div>
+        )}
+
       </div>
 
 

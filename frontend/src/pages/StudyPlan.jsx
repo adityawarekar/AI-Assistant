@@ -23,7 +23,17 @@ const StudyPlan = () => {
             setPlan(res.data.studyPlan);
 
         } catch (error) {
-            console.log(error);
+            console.error("Error:", error);
+
+            if (error.response) {
+                console.error("Backend:", error.response.data);
+            }
+
+
+            alert(
+                error.response?.data?.error ||
+                "Failed to generate study plan."
+            );
         } finally {
             setLoading(false);
         }
@@ -133,6 +143,6 @@ const StudyPlan = () => {
             </div>
         </Layout>
     );
-    };
+};
 
-    export default StudyPlan;
+export default StudyPlan;

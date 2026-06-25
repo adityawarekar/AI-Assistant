@@ -3,6 +3,13 @@ const fs = require("fs");
 const pdfParse = require("pdf-parse");
 const { generateSummary, generateNotes, generateInterviewQuestions: generateAIInterviewQuestions, generateQuiz: generateAIQuiz, generateFlashcards: generateAIFlashcards, chatWithPdfAI, generatePracticeSheet: generateAIPracticeSheet, generateImportantTopics: generateAIImportantTopics, generateRevisionNotes: generateAIRevisionNotes, generateStudyPlanAI } = require("../services/geminiService");
 
+const cleanJson = (text) => {
+  return text
+    .replace(/```json/g, "")
+    .replace(/```/g, "")
+    .trim();
+};
+
 const updatePdfProgress = async (
   pdfId,
   increaseBy
@@ -114,37 +121,42 @@ exports.generatePdfSummary =
   };
 
 exports.generateFlashcards = async (req, res) => {
-
-
   try {
     const pdf = await Pdf.findById(req.params.id);
 
-
-
     if (!pdf) {
       return res.status(404).json({
-        message: "PDF not found"
+        message: "PDF not found",
       });
     }
 
-    const flashcardsText =
-      await generateAIFlashcards(
-        pdf.text.slice(0, 5000)
-      );
+    console.log("Step 1");
+    console.log(pdf.text.length);
 
-    const flashcards =
-      JSON.parse(
-        flashcardsText
-          .replace(/```json/g, "")
-          .replace(/```/g, "")
-      );
+    const flashcardsText = await generateAIFlashcards(
+      pdf.text.slice(0, 5000)
+    );
+
+    console.log("Step 2");
+    console.log(flashcardsText);
+
+    const flashcards = JSON.parse(
+      cleanJson(flashcardsText)
+    );
+
+    console.log("Step 3");
+    console.log(flashcards);
+
+    console.log("Step 4");
 
     res.json(flashcards);
+
   } catch (error) {
+    console.log("FLASHCARD ERROR");
     console.log(error);
 
     res.status(500).json({
-      error: error.message
+      error: error.message,
     });
   }
 };
@@ -184,6 +196,8 @@ console.log("generateNotes loaded");
 
 exports.generateQuiz = async (req, res) => {
   try {
+    console.log("STEP 1");
+
     const pdf = await Pdf.findById(req.params.id);
 
     if (!pdf) {
@@ -192,19 +206,34 @@ exports.generateQuiz = async (req, res) => {
       });
     }
 
-    const quizText =
-      await generateAIQuiz(
-        pdf.text.slice(0, 5000)
-      );
+    console.log("STEP 2");
 
-    const quiz =
-      JSON.parse(
-        quizText.replace(/```json/g, "")
-          .replace(/```/g, "")
-      );
+    const quizText = await generateAIQuiz(
+      pdf.text.slice(0, 5000)
+    );
+
+    console.log("Gemini Response:");
+    console.log(quizText);
+
+    const quiz = JSON.parse(
+      cleanJson(quizText)
+    );
+
+    console.log("Parsed Quiz:");
+    console.log(quiz);
+
+    console.log("FIRST QUESTION:");
+    console.log(quiz[0]);
+
+    console.log("OPTIONS:");
+    console.log(quiz[0].options);
 
     res.json(quiz);
+
   } catch (error) {
+    console.log("QUIZ ERROR:");
+    console.log(error);
+
     res.status(500).json({
       error: error.message,
     });
@@ -302,21 +331,63 @@ exports.generateInterviewQuestions = async (req, res) => {
         pdf.text.slice(0, 5000)
       );
 
-    const question =
-      JSON.parse(
-        questionText
-          .replace(/```json/g, "")
-          .replace(/```/g, "")
-      );
+    const questions = JSON.parse(
+      cleanJson(questionText)
+    );
 
-    res.json(question);
+    res.json(questions);
 
   } catch (error) {
+    console.log("INTERVIEW QUESTIONS ERROR");
+    console.log(error);
+
     res.status(500).json({
       error: error.message,
     });
   }
 };
+
+exports.generateImportantTopics = async (req, res) => {
+  try {
+    console.log("===== IMPORTANT TOPICS =====");
+
+    const pdf = await Pdf.findById(req.params.id);
+
+    if (!pdf) {
+      return res.status(404).json({
+        message: "PDF not found",
+      });
+    }
+
+    console.log("Step 1");
+    console.log("PDF Length:", pdf.text.length);
+
+    const topics = await generateAIImportantTopics(
+      pdf.text.slice(0, 5000)
+    );
+
+    console.log("Step 2");
+    console.log(topics);
+
+    await updatePdfProgress(req.params.id, 10);
+
+    console.log("Step 3");
+    console.log("Topics Generated");
+
+    res.json({
+      topics,
+    });
+
+  } catch (error) {
+    console.log("IMPORTANT TOPICS ERROR:");
+    console.log(error);
+
+    res.status(500).json({
+      error: error.message,
+    });
+  }
+};
+
 exports.searchPdf = async (req, res) => {
   try {
     const pdf = await Pdf.findById(req.params.id);
@@ -366,12 +437,12 @@ exports.getDashboardStats = async (req, res) => {
     const averageProgress =
       pdfs.length > 0
         ? Math.round(
-            pdfs.reduce(
-              (sum, pdf) =>
-                sum + pdf.progress,
-              0
-            ) / pdfs.length
-          )
+          pdfs.reduce(
+            (sum, pdf) =>
+              sum + pdf.progress,
+            0
+          ) / pdfs.length
+        )
         : 0;
 
     res.json({
@@ -458,72 +529,50 @@ exports.generatePracticeSheet =
   };
 
 
-exports.generateImportantTopics =
-  async (req, res) => {
-    try {
-      const pdf = await Pdf.findById(
-        req.params.id
-      );
 
-      if (!pdf) {
-        return res.status(404).json({
-          message: "PDF not found",
-        });
-      }
 
-      const topics =
-        await generateAIImportantTopics(
-          pdf.text.slice(0, 5000)
-        );
+exports.generateRevisionNotes = async (req, res) => {
+  try {
+    const pdf = await Pdf.findById(req.params.id);
 
-      await updatePdfProgress(
-        req.params.id,
-        10
-      );
-
-      res.json({
-        topics,
-      });
-
-    } catch (error) {
-      res.status(500).json({
-        error: error.message,
+    if (!pdf) {
+      return res.status(404).json({
+        message: "PDF not found",
       });
     }
-  };
 
-exports.generateRevisionNotes =
-  async (req, res) => {
-    try {
-      const pdf = await Pdf.findById(
-        req.params.id
+    console.log("===== REVISION =====");
+    console.log("Step 1");
+    console.log("PDF Length:", pdf.text.length);
+
+    const revisionNotes =
+      await generateAIRevisionNotes(
+        pdf.text.slice(0, 5000)
       );
 
-      if (!pdf) {
-        return res.status(404).json({
-          message: "PDF not found",
-        });
-      }
+    console.log("Step 2");
+    console.log(revisionNotes);
 
-      const revisionNotes =
-        await generateAIRevisionNotes(
-          pdf.text.slice(0, 5000)
-        );
+    await updatePdfProgress(
+      req.params.id,
+      10
+    );
 
-      await updatePdfProgress(
-        req.params.id,
-        10
-      );
+    console.log("Step 3");
+    console.log("Revision Generated");
 
-      res.json({
-        revisionNotes,
-      });
+    res.json({
+      revisionNotes,
+    });
 
-    } catch (error) {
-      res.status(500).json({
-        error: error.message,
-      });
-    }
-  };
+  } catch (error) {
+    console.log("REVISION ERROR:");
+    console.log(error);
+
+    res.status(500).json({
+      error: error.message,
+    });
+  }
+};
 
 

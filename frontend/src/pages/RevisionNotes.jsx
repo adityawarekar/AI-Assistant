@@ -14,7 +14,11 @@ const RevisionNotes = () => {
       const res = await API.get("/pdf");
       setPdfs(res.data);
     } catch (error) {
-      console.log(error);
+      console.error("Error:", error);
+
+      if (error.response) {
+        console.error("Backend:", error.response.data);
+      }
     }
   };
 
@@ -39,9 +43,16 @@ const RevisionNotes = () => {
         res.data.revisionNotes
       );
     } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
+      console.error("Error:", error);
+
+      if (error.response) {
+        console.error("Backend:", error.response.data);
+      }
+
+      alert(
+        error.response?.data?.error ||
+        "Failed to generate revision notes."
+      );
     }
   };
 
@@ -107,9 +118,14 @@ const RevisionNotes = () => {
 
           <button
             onClick={generateRevisionNotes}
-            className="bg-[#E9D66B] text-black px-6 py-3 rounded-xl font-semibold"
+            disabled={!selectedPdf || loading}
+            className={`px-6 py-3 rounded-xl font-semibold transition
+    ${!selectedPdf || loading
+                ? "bg-gray-300 cursor-not-allowed"
+                : "bg-[#E9D66B] text-black hover:scale-105"
+              }`}
           >
-            Generate Revision Notes
+            {loading ? "Generating..." : "Generate Revision Notes"}
           </button>
 
         </div>

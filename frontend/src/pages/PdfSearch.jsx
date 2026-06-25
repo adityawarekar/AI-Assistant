@@ -15,7 +15,11 @@ const PdfSearch = () => {
       const res = await API.get("/pdf");
       setPdfs(res.data);
     } catch (error) {
-      console.log(error);
+      console.error("Error:", error);
+
+      if (error.response) {
+        console.error("Backend:", error.response.data);
+      }
     }
   };
 
@@ -42,7 +46,17 @@ const PdfSearch = () => {
           : []
       );
     } catch (error) {
-      console.log(error);
+      console.error("Error:", error);
+
+      if (error.response) {
+        console.error("Backend:", error.response.data);
+      }
+
+
+      alert(
+        error.response?.data?.error ||
+        "Failed to generate study plan."
+      );
     } finally {
       setLoading(false);
     }
@@ -91,9 +105,14 @@ const PdfSearch = () => {
 
           <button
             onClick={searchPdf}
-            className="bg-[#E9D66B] text-black px-6 py-3 rounded-xl font-semibold hover:scale-105 transition"
+            disabled={!selectedPdf || !query || loading}
+            className={`px-6 py-3 rounded-xl font-semibold transition
+    ${!selectedPdf || !query || loading
+                ? "bg-gray-300 cursor-not-allowed"
+                : "bg-[#E9D66B] text-black hover:scale-105"
+              }`}
           >
-            Search
+            {loading ? "Searching..." : "Search"}
           </button>
 
         </div>

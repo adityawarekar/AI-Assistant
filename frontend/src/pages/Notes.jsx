@@ -14,7 +14,11 @@ const Notes = () => {
       const res = await API.get("/pdf");
       setPdfs(res.data);
     } catch (error) {
-      console.log(error);
+      console.error("Error:", error);
+
+      if (error.response) {
+        console.error("Backend:", error.response.data);
+      }
     }
   };
 
@@ -38,7 +42,16 @@ const Notes = () => {
       setNotes(res.data.notes);
 
     } catch (error) {
-      console.log(error);
+      console.error("Error:", error);
+
+      if (error.response) {
+        console.error("Backend:", error.response.data);
+      }
+
+      alert(
+        error.response?.data?.error ||
+        "Failed to generate notes."
+      );
     } finally {
       setLoading(false);
     }
@@ -112,9 +125,14 @@ const Notes = () => {
 
           <button
             onClick={generateNotes}
-            className="bg-[#E9D66B] text-black px-6 py-3 rounded-xl font-semibold hover:scale-105 transition"
+            disabled={!selectedPdf || loading}
+            className={`px-6 py-3 rounded-xl font-semibold transition
+    ${!selectedPdf || loading
+                ? "bg-gray-300 cursor-not-allowed"
+                : "bg-[#E9D66B] hover:scale-105"
+              }`}
           >
-            Generate Notes
+            {loading ? "Generating..." : "Generate Notes"}
           </button>
 
         </div>
