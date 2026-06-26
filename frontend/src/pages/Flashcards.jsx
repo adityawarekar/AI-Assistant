@@ -19,6 +19,8 @@ const Flashcards = () => {
     try {
       setLoading(true);
 
+      setCards([]);
+
       const res = await API.get(
         `/pdf/flashcards/${selectedPdf}`
       );
@@ -43,6 +45,40 @@ const Flashcards = () => {
     } finally {
       setLoading(false);
     }
+  };
+  const copyFlashcards = () => {
+    const text = cards
+      .map(
+        (card, index) =>
+          `Q${index + 1}: ${card.question}\nA: ${card.answer}`
+      )
+      .join("\n\n");
+
+    navigator.clipboard.writeText(text);
+  };
+
+  const downloadFlashcards = () => {
+    const text = cards
+      .map(
+        (card, index) =>
+          `Q${index + 1}: ${card.question}\nA: ${card.answer}`
+      )
+      .join("\n\n");
+
+    const blob = new Blob([text], {
+      type: "text/plain",
+    });
+
+    const url = window.URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+
+    link.href = url;
+    link.download = "Archivio-Flashcards.txt";
+
+    link.click();
+
+    window.URL.revokeObjectURL(url);
   };
 
   const fetchPdfs = async () => {
@@ -133,6 +169,41 @@ const Flashcards = () => {
 
           </div>
         )}
+        {cards.length > 0 && !loading && (
+
+          <div className="flex justify-between items-center bg-[#FFFDF5] p-5 rounded-2xl shadow-md">
+
+            <div>
+              <h2 className="text-2xl font-bold">
+                📚 Flashcards Generated
+              </h2>
+
+              <p className="text-gray-500">
+                {cards.length} Flashcards
+              </p>
+            </div>
+
+            <div className="flex gap-3">
+
+              <button
+                onClick={copyFlashcards}
+                className="bg-black text-white px-4 py-2 rounded-xl"
+              >
+                Copy
+              </button>
+
+              <button
+                onClick={downloadFlashcards}
+                className="bg-[#E9D66B] text-black px-4 py-2 rounded-xl"
+              >
+                Download
+              </button>
+
+            </div>
+
+          </div>
+
+        )}
 
 
 
@@ -202,11 +273,20 @@ const Flashcards = () => {
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
           >
             {cards.map((card, index) => (
-              <Flashcard
+              <motion.div
                 key={index}
-                question={card.question}
-                answer={card.answer}
-              />
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  delay: index * 0.08,
+                  duration: 0.4,
+                }}
+              >
+                <Flashcard
+                  question={card.question}
+                  answer={card.answer}
+                />
+              </motion.div>
             ))}
           </motion.div>
         )}

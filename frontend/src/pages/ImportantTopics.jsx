@@ -190,6 +190,30 @@ const ImportantTopics = () => {
 
           </motion.div>
         )}
+        {topics && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="bg-[#FFFDF5] p-8 rounded-3xl shadow-md"
+          >
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-2xl font-bold">
+                📌 Important Topics
+              </h2>
+
+              <button
+                onClick={copyTopics}
+                className="bg-black text-white px-4 py-2 rounded-xl hover:scale-105 transition"
+              >
+                Copy
+              </button>
+            </div>
+
+            <pre className="whitespace-pre-wrap leading-8 text-gray-700">
+              {topics}
+            </pre>
+          </motion.div>
+        )}
 
       </div>
     </Layout>

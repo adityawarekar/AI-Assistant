@@ -143,27 +143,52 @@ const Dashboard = () => {
 
             <div className="space-y-4">
 
-              <button className="w-full bg-[#E9D66B] p-4 rounded-2xl flex items-center gap-3">
-                <FaBookOpen />
-                Generate Notes
+              <button
+                className="w-full bg-gray-50 hover:bg-[#E9D66B] border border-gray-200
+      hover:border-[#E9D66B] p-4 rounded-2xl flex items-center gap-3
+      transition-all duration-300 hover:scale-[1.02]"
+              >
+                <FaBookOpen className="text-xl" />
+                <span className="font-semibold">
+                  Generate Notes
+                </span>
               </button>
 
-              <button className="w-full bg-[#E9D66B] p-4 rounded-2xl flex items-center gap-3">
-                <FaBrain />
-                Generate Quiz
+              <button
+                className="w-full bg-gray-50 hover:bg-[#E9D66B] border border-gray-200
+      hover:border-[#E9D66B] p-4 rounded-2xl flex items-center gap-3
+      transition-all duration-300 hover:scale-[1.02]"
+              >
+                <FaBrain className="text-xl" />
+                <span className="font-semibold">
+                  Generate Quiz
+                </span>
               </button>
 
-              <button className="w-full bg-[#E9D66B] p-4 rounded-2xl flex items-center gap-3">
-                <FaFileAlt />
-                Flashcards
+              <button
+                className="w-full bg-gray-50 hover:bg-[#E9D66B] border border-gray-200
+      hover:border-[#E9D66B] p-4 rounded-2xl flex items-center gap-3
+      transition-all duration-300 hover:scale-[1.02]"
+              >
+                <FaFileAlt className="text-xl" />
+                <span className="font-semibold">
+                  Flashcards
+                </span>
               </button>
 
-              <button className="w-full bg-[#E9D66B] p-4 rounded-2xl flex items-center gap-3">
-                <FaComments />
-                Chat With PDF
+              <button
+                className="w-full bg-gray-50 hover:bg-[#E9D66B] border border-gray-200
+      hover:border-[#E9D66B] p-4 rounded-2xl flex items-center gap-3
+      transition-all duration-300 hover:scale-[1.02]"
+              >
+                <FaComments className="text-xl" />
+                <span className="font-semibold">
+                  Chat With PDF
+                </span>
               </button>
 
             </div>
+
           </div>
 
         </div>
