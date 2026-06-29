@@ -99,7 +99,7 @@ const InterviewQuestions = () => {
             className={`px-6 py-3 rounded-xl font-semibold transition
     ${!selectedPdf || loading
                 ? "bg-gray-300 cursor-not-allowed"
-                : "bg-[#E9D66B] text-black hover:scale-105"
+                : "bg-[#C2410C] text-white hover:bg-[#9A3412] hover:scale-105"
               }`}
           >
             {loading ? "Generating..." : "Generate Questions"}
@@ -108,7 +108,7 @@ const InterviewQuestions = () => {
         </div>
 
         {loading && (
-          <div className="text-yellow-600 font-semibold">
+          <div className="text-[#C2410C] font-semibold">
             Archivio is generating questions...
           </div>
         )}

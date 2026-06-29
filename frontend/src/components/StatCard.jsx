@@ -18,11 +18,11 @@ const StatCard = ({ title, value }) => {
       transition={{
         duration: 0.3,
       }}
-      className="relative overflow-hidden bg-white border border-[#ECE8D5] rounded-[28px] p-6 shadow-sm hover:shadow-xl transition-all duration-300"
+      className="relative overflow-hidden bg-white border border-[#FED7AA] rounded-[28px] p-6 shadow-sm hover:shadow-xl transition-all duration-300"
     >
   
 
-      <div className="absolute top-0 right-0 w-24 h-24 bg-[#E9D66B]/20 rounded-full blur-2xl"></div>
+      <div className="absolute top-0 right-0 w-24 h-24 bg-[#EA580C]/10 rounded-full blur-2xl"></div>
 
       
 
@@ -40,7 +40,7 @@ const StatCard = ({ title, value }) => {
 
       
 
-      <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-[#E9D66B] via-yellow-300 to-[#E9D66B]"></div>
+      <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-[#F97316] via-[#EA580C] to-[#C2410C]"></div>
 
     </motion.div>
   );

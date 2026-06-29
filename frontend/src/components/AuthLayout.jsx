@@ -2,68 +2,83 @@ import { motion } from "framer-motion";
 
 const AuthLayout = ({ children }) => {
   return (
-    <div className="min-h-screen bg-[#F5F3E7] flex overflow-hidden">
+    <div className="min-h-screen bg-[#FFF7ED] flex overflow-hidden">
 
-  
+      {/* Left Section */}
 
-      <div className="hidden lg:flex w-1/2 relative bg-[#E9D66B] overflow-hidden px-20 flex-col justify-center">
+      <div className="hidden lg:flex w-1/2 relative overflow-hidden bg-gradient-to-br from-[#7C2D12] via-[#9A3412] to-[#EA580C] px-20 flex-col justify-center">
+
+        {/* Animated Glow */}
 
         <motion.div
           animate={{ x: [0, 60, 0], y: [0, -60, 0] }}
           transition={{ repeat: Infinity, duration: 12 }}
-          className="absolute top-0 right-0 w-[450px] h-[450px] rounded-full bg-white/20 blur-[120px]"
+          className="absolute top-0 right-0 w-[450px] h-[450px] rounded-full bg-orange-200/20 blur-[120px]"
         />
 
         <motion.div
           animate={{ x: [0, -50, 0], y: [0, 40, 0] }}
           transition={{ repeat: Infinity, duration: 15 }}
-          className="absolute bottom-0 left-0 w-[350px] h-[350px] rounded-full bg-white/20 blur-[100px]"
+          className="absolute bottom-0 left-0 w-[350px] h-[350px] rounded-full bg-orange-100/20 blur-[100px]"
         />
+
+        {/* Decorative Circle */}
+
+        <div className="absolute -right-32 -bottom-32 w-[420px] h-[420px] rounded-full border border-white/10"></div>
+
+        {/* Logo */}
 
         <motion.div
           initial={{ opacity: 0, x: -80 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8 }}
         >
-          <h1 className="text-8xl font-black tracking-tight text-gray-900">
+          <h1 className="text-8xl font-black tracking-tight text-white">
             Archivio
           </h1>
         </motion.div>
+
+        {/* Subtitle */}
 
         <motion.h2
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.8 }}
-          className="mt-8 text-3xl font-semibold text-gray-800 max-w-xl"
+          className="mt-8 text-3xl font-semibold text-orange-100 max-w-xl"
         >
           Knowledge organized beautifully.
         </motion.h2>
+
+        {/* Description */}
 
         <motion.p
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4, duration: 0.8 }}
-          className="mt-6 text-lg text-gray-700 max-w-xl leading-relaxed"
+          className="mt-6 text-lg text-orange-50/90 max-w-xl leading-relaxed"
         >
           Transform documents into notes, flashcards,
-          quizzes and structured study material from
-          one elegant workspace designed for learning.
+          quizzes, study plans and structured learning
+          material from one elegant workspace designed
+          for modern students.
         </motion.p>
+
+        {/* Footer Text */}
 
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.8 }}
-          className="mt-10 text-sm uppercase tracking-[0.3em] text-gray-700"
+          className="mt-12 text-sm uppercase tracking-[0.35em] text-orange-100"
         >
           Study • Organize • Learn
         </motion.div>
 
       </div>
 
-      
+      {/* Right Section */}
 
-      <div className="flex-1 flex items-center justify-center p-8">
+      <div className="flex-1 flex items-center justify-center bg-[#FFF7ED] p-8">
         {children}
       </div>
 

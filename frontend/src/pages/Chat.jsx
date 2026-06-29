@@ -121,7 +121,7 @@ const Chat = () => {
             <button
               onClick={askQuestion}
               disabled={loading}
-              className="bg-[#E9D66B] text-black px-6 py-3 rounded-xl font-semibold hover:scale-105 transition-all duration-300"
+              className="bg-[#C2410C] text-black px-6 py-3 rounded-xl font-semibold hover:scale-105 transition-all duration-300"
             >
               Ask
             </button>
@@ -140,7 +140,7 @@ const Chat = () => {
         {loading && (
           <div className="bg-[#FFFDF5] p-4 rounded-2xl shadow-md">
 
-            <div className="flex items-center gap-2 text-yellow-600 font-semibold">
+            <div className="flex items-center gap-2 text-[#C2410C] font-semibold">
 
               <span className="animate-bounce">
                 ●

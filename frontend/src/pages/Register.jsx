@@ -30,7 +30,7 @@ const Register = () => {
         <div className="bg-[#FFFDF5] rounded-3xl shadow-xl p-8">
 
           <h1 className="text-4xl font-bold text-black">
-            Create Account 🚀
+            Create Account 
           </h1>
 
           <p className="text-gray-500 mt-2 mb-8">
@@ -80,7 +80,7 @@ const Register = () => {
 
             <button
               type="submit"
-              className="w-full bg-[#E9D66B] hover:bg-[#DCC85D] text-black font-semibold py-4 rounded-xl transition"
+              className="w-full bg-[#C2410C] hover:bg-[#9A3412] text-white font-semibold py-4 rounded-xl transition-all duration-300 shadow-md hover:shadow-lg"
             >
               Create Account
             </button>

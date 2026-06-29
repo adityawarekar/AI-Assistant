@@ -50,16 +50,16 @@ const Dashboard = () => {
 
         {/* Hero Section */}
 
-        <div className="bg-[#E9D66B] rounded-3xl p-8 shadow-md">
-          <h1 className="text-5xl font-bold text-black">
+        <div className="bg-gradient-to-r from-[#9A3412] via-[#C2410C] to-[#EA580C] rounded-3xl p-8 shadow-xl">
+          <h1 className="text-5xl font-bold text-white">
             Archivio
           </h1>
 
-          <p className="mt-3 text-lg text-gray-700">
+          <p className="mt-3 text-lg text-orange-100 font-medium">
             Where Documents Become Knowledge.
           </p>
 
-          <p className="mt-2 text-gray-600">
+          <p className="mt-2 text-orange-50">
             Upload PDFs, generate notes,
             flashcards, quizzes and study
             smarter from one place.
@@ -108,7 +108,7 @@ const Dashboard = () => {
               recentPdfs.map((pdf) => (
                 <div
                   key={pdf._id}
-                  className="mb-5 bg-[#F5F3E7] p-4 rounded-2xl"
+                  className="mb-5 bg-[#FAFAF9] p-4 rounded-2xl"
                 >
                   <div className="flex justify-between mb-2">
                     <h3 className="font-semibold">
@@ -122,7 +122,7 @@ const Dashboard = () => {
 
                   <div className="w-full bg-gray-200 rounded-full h-3">
                     <div
-                      className="bg-[#E9D66B] h-3 rounded-full"
+                      className="bg-[#EA580C] h-3 rounded-full"
                       style={{
                         width: `${pdf.progress}%`,
                       }}
@@ -135,7 +135,7 @@ const Dashboard = () => {
 
           {/* Quick Actions */}
 
-          <div className="bg-[#FFFDF5] rounded-3xl p-6 shadow-md">
+          <div className="bg-white rounded-3xl p-6 shadow-md">
 
             <h2 className="text-2xl font-bold mb-6">
               ⚡ Quick Actions
@@ -144,19 +144,19 @@ const Dashboard = () => {
             <div className="space-y-4">
 
               <button
-                className="w-full bg-gray-50 hover:bg-[#E9D66B] border border-gray-200
-      hover:border-[#E9D66B] p-4 rounded-2xl flex items-center gap-3
+                className="w-full bg-gray-50 hover:bg-[#FFF7ED] border border-gray-200
+      hover:border-[#EA580C] hover:text-[#EA580C] p-4 rounded-2xl flex items-center gap-3
       transition-all duration-300 hover:scale-[1.02]"
               >
-                <FaBookOpen className="text-xl" />
+                <FaBookOpen className="text-xl text-[#EA580C] group-hover:text-[#C2410C]" />
                 <span className="font-semibold">
                   Generate Notes
                 </span>
               </button>
 
               <button
-                className="w-full bg-gray-50 hover:bg-[#E9D66B] border border-gray-200
-      hover:border-[#E9D66B] p-4 rounded-2xl flex items-center gap-3
+                className="w-full bg-gray-50 hover:bg-[#FFF7ED] border border-gray-200
+      hover:border-[#EA580C] hover:text-[#EA580C] p-4 rounded-2xl flex items-center gap-3
       transition-all duration-300 hover:scale-[1.02]"
               >
                 <FaBrain className="text-xl" />
@@ -166,8 +166,8 @@ const Dashboard = () => {
               </button>
 
               <button
-                className="w-full bg-gray-50 hover:bg-[#E9D66B] border border-gray-200
-      hover:border-[#E9D66B] p-4 rounded-2xl flex items-center gap-3
+                className="w-full bg-gray-50 hover:bg-[#FFF7ED] border border-gray-200
+      hover:border-[#EA580C] hover:text-[#EA580C] p-4 rounded-2xl flex items-center gap-3
       transition-all duration-300 hover:scale-[1.02]"
               >
                 <FaFileAlt className="text-xl" />
@@ -177,8 +177,8 @@ const Dashboard = () => {
               </button>
 
               <button
-                className="w-full bg-gray-50 hover:bg-[#E9D66B] border border-gray-200
-      hover:border-[#E9D66B] p-4 rounded-2xl flex items-center gap-3
+                className="w-full bg-gray-50 hover:bg-[#FFEDD5] border border-gray-200
+      hover:border-[#C2410C] p-4 rounded-2xl flex items-center gap-3
       transition-all duration-300 hover:scale-[1.02]"
               >
                 <FaComments className="text-xl" />

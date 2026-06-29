@@ -130,7 +130,7 @@ const Quiz = () => {
             className={`px-6 py-3 rounded-xl font-semibold transition
   ${!selectedPdf || loading
                 ? "bg-gray-300 cursor-not-allowed"
-                : "bg-[#E9D66B] hover:scale-105"
+               : "bg-[#C2410C] text-white hover:bg-[#9A3412] hover:scale-105"
               }`}
           >
             {loading ? "Generating..." : "Generate Quiz"}
@@ -143,17 +143,17 @@ const Quiz = () => {
         {loading && (
           <div className="bg-[#FFFDF5] p-4 rounded-2xl shadow-md">
 
-            <div className="flex items-center gap-2 text-yellow-600 font-semibold">
+            <div className="flex items-center gap-2 text-[#C2410C] font-semibold">
 
-              <span className="animate-bounce">
+              <span className="animate-bounce  text-[#C2410C]">
                 ●
               </span>
 
-              <span className="animate-bounce delay-100">
+              <span className="animate-bounce delay-100  text-[#C2410C]">
                 ●
               </span>
 
-              <span className="animate-bounce delay-200">
+              <span className="animate-bounce delay-200  text-[#C2410C]">
                 ●
               </span>
 
@@ -286,9 +286,9 @@ const Quiz = () => {
 
                     <label
                       key={optionIndex}
-                      className={`flex items-center gap-4 p-4 rounded-2xl border cursor-pointer transition-all hover:border-[#E9D66B]
+                      className={`flex items-center gap-4 p-4 rounded-2xl border cursor-pointer transition-all hover:border-[#C2410C]
               ${selectedAnswers[index] === option
-                          ? "bg-[#FFF8D9] border-[#E9D66B]"
+                          ? "bg-[#FFF8D9] border-[#FED7AA]"
                           : "border-gray-200"
                         }`}
                     >
@@ -318,7 +318,7 @@ const Quiz = () => {
 
               <button
                 onClick={calculateScore}
-                className="bg-[#E9D66B] hover:scale-105 transition-all px-8 py-4 rounded-2xl font-bold text-black shadow-lg"
+                className="bg-[#C2410C] hover:scale-105 transition-all px-8 py-4 rounded-2xl font-bold text-black shadow-lg"
               >
                 Submit Quiz
               </button>
@@ -330,14 +330,14 @@ const Quiz = () => {
               <motion.div
                 initial={{ scale: 0.9, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
-                className="bg-[#FFFDF5] border border-[#E9D66B] rounded-3xl p-8 text-center shadow-lg"
+                className="bg-[#FFFDF5] border border-[#FED7AA] rounded-3xl p-8 text-center shadow-lg"
               >
 
                 <h2 className="text-3xl font-bold mb-2">
                   Quiz Completed 🎉
                 </h2>
 
-                <p className="text-5xl font-bold text-[#D4AF37] mt-4">
+                <p className="text-5xl font-bold text-[#C2410C] mt-4">
                   {score} / {questions.length}
                 </p>
 

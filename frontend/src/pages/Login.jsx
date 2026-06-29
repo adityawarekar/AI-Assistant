@@ -65,10 +65,6 @@ const Login = () => {
               className="mb-8"
             >
 
-              <div className="text-5xl mb-3">
-                👋
-              </div>
-
               <h1 className="text-4xl font-bold text-black">
                 Welcome Back
               </h1>
@@ -89,7 +85,7 @@ const Login = () => {
               <input
                 type="email"
                 placeholder="Email Address"
-                className="w-full p-4 rounded-2xl border border-gray-200 bg-white focus:border-[#E9D66B] focus:ring-4 focus:ring-[#E9D66B]/20 outline-none transition-all"
+                className="w-full p-4 rounded-2xl border border-gray-200 bg-white focus:border-[#C2410C] focus:ring-4 focus:ring-[#C2410C]/20 outline-none transition-all"
                 onChange={(e) =>
                   setForm({
                     ...form,
@@ -101,7 +97,7 @@ const Login = () => {
               <input
                 type="password"
                 placeholder="Password"
-                className="w-full p-4 rounded-2xl border border-gray-200 bg-white focus:border-[#E9D66B] focus:ring-4 focus:ring-[#E9D66B]/20 outline-none transition-all"
+                className="w-full p-4 rounded-2xl border border-gray-200 bg-white focus:border-[#C2410C] focus:ring-4 focus:ring-[#C2410C]/20 outline-none transition-all"
                 onChange={(e) =>
                   setForm({
                     ...form,
@@ -112,7 +108,7 @@ const Login = () => {
 
               <button
                 type="submit"
-                className="w-full bg-[#E9D66B] text-black font-semibold py-4 rounded-2xl hover:scale-[1.02] hover:shadow-lg transition-all duration-300"
+                className="w-full bg-[#C2410C] hover:bg-[#9A3412] text-white font-semibold py-4 rounded-2xl hover:scale-[1.02] hover:shadow-lg transition-all duration-300"
               >
                 Login
               </button>
@@ -123,7 +119,7 @@ const Login = () => {
                   window.location.href =
                   "http://localhost:5001/api/auth/google"
                 }
-                className="w-full bg-white border border-gray-200 py-4 rounded-2xl font-medium hover:bg-gray-50 hover:shadow-md transition-all duration-300"
+                className="w-full bg-white border border-[#FED7AA] py-4 rounded-2xl font-medium hover:bg-[#FFF7ED] hover:border-[#C2410C] transition-all duration-300"
               >
                 Continue with Google
               </button>
@@ -136,7 +132,7 @@ const Login = () => {
               Don't have an account?{" "}
               <Link
                 to="/register"
-                className="font-semibold text-black hover:text-[#C7B448] transition"
+                className="font-semibold text-[#C2410C] hover:text-[#9A3412] transition"
               >
                 Register
               </Link>

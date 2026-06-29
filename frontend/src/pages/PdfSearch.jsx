@@ -55,7 +55,7 @@ const PdfSearch = () => {
 
       alert(
         error.response?.data?.error ||
-        "Failed to generate study plan."
+        "Failed to search  PDF."
       );
     } finally {
       setLoading(false);
@@ -109,7 +109,7 @@ const PdfSearch = () => {
             className={`px-6 py-3 rounded-xl font-semibold transition
     ${!selectedPdf || !query || loading
                 ? "bg-gray-300 cursor-not-allowed"
-                : "bg-[#E9D66B] text-black hover:scale-105"
+                : "bg-[#C2410C] text-white hover:bg-[#9A3412] hover:scale-105"
               }`}
           >
             {loading ? "Searching..." : "Search"}
@@ -118,7 +118,7 @@ const PdfSearch = () => {
         </div>
 
         {loading && (
-          <p className="text-yellow-600 font-semibold">
+          <p className="text-[#C2410C] font-semibold">
             Searching...
           </p>
         )}

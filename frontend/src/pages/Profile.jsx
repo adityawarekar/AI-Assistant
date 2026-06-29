@@ -48,7 +48,7 @@ const Profile = () => {
               whileHover={{
                 scale: 1.05,
               }}
-              className="w-32 h-32 rounded-full bg-[#E9D66B] flex items-center justify-center text-5xl font-bold shadow-lg"
+              className="w-32 h-32 rounded-full bg-[#C2410C] flex items-center justify-center text-5xl font-bold shadow-lg"
             >
               {user?.name?.charAt(0)?.toUpperCase() || "U"}
             </motion.div>

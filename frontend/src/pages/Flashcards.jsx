@@ -145,7 +145,7 @@ const Flashcards = () => {
             className={`w-full py-4 rounded-2xl font-semibold shadow-md transition-all
     ${!selectedPdf || loading
                 ? "bg-gray-300 cursor-not-allowed"
-                : "bg-[#E9D66B] text-black hover:shadow-xl hover:scale-[1.02]"
+                : "bg-[#C2410C] text-white hover:bg-[#9A3412] hover:shadow-xl hover:scale-[1.02]"
               }`}
           >
             {loading ? "Generating..." : "Generate Flashcards"}
@@ -157,7 +157,7 @@ const Flashcards = () => {
         {loading && (
           <div className="bg-white p-8 rounded-3xl shadow-lg text-center">
 
-            <div className="w-12 h-12 border-4 border-yellow-200 border-t-[#E9D66B] rounded-full animate-spin mx-auto mb-4"></div>
+            <div className="w-12 h-12 border-4 border-orange-200 border-t-[#C2410C] rounded-full animate-spin mx-auto mb-4"></div>
 
             <p className="font-semibold text-lg">
               Generating Flashcards...
@@ -194,7 +194,7 @@ const Flashcards = () => {
 
               <button
                 onClick={downloadFlashcards}
-                className="bg-[#E9D66B] text-black px-4 py-2 rounded-xl"
+                className="bg-[#C2410C] text-black px-4 py-2 rounded-xl"
               >
                 Download
               </button>

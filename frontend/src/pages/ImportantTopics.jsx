@@ -109,7 +109,7 @@ const ImportantTopics = () => {
             className={`px-6 py-3 rounded-xl font-semibold transition
     ${!selectedPdf || loading
                 ? "bg-gray-300 cursor-not-allowed"
-                : "bg-[#E9D66B] text-black hover:scale-105"
+                : "bg-[#C2410C] text-white hover:bg-[#9A3412] hover:scale-105"
               }`}
           >
             {loading ? "Generating..." : "Generate Topics"}
@@ -122,17 +122,17 @@ const ImportantTopics = () => {
         {loading && (
           <div className="bg-[#FFFDF5] p-4 rounded-2xl shadow-md">
 
-            <div className="flex items-center gap-2 text-yellow-600 font-semibold">
+            <div className="flex items-center gap-2 text-[#C2410C] font-semibold">
 
-              <span className="animate-bounce">
+              <span className="animate-bounce text-[#EA580C]">
                 ●
               </span>
 
-              <span className="animate-bounce delay-100">
+              <span className="animate-bounce delay-100 text-[#EA580C]">
                 ●
               </span>
 
-              <span className="animate-bounce delay-200">
+              <span className="animate-bounce delay-200 text-[#EA580C]">
                 ●
               </span>
 

@@ -78,7 +78,7 @@ const Flashcard = ({
           : "Question"}
       </div>
 
-      {/* Click Hint */}
+      
 
       <div
         className="

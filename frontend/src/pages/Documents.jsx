@@ -72,7 +72,7 @@ const Documents = () => {
 
         {/* Upload Section */}
 
-        <div className="bg-[#FFFDF5] p-8 rounded-3xl shadow-md border-2 border-dashed border-[#E9D66B] text-center">
+        <div className="bg-[#FFFDF5] p-8 rounded-3xl shadow-md border-2 border-dashed border-[#C2410C] text-center">
 
           <h2 className="text-2xl font-bold mb-4">
             Upload New Document
@@ -99,7 +99,7 @@ const Documents = () => {
 
           <button
             onClick={handleUpload}
-            className="bg-[#E9D66B] hover:bg-[#DCC85D] px-6 py-3 rounded-xl font-semibold"
+            className="bg-[#C2410C] hover:bg-[#9A3412] px-6 py-3 rounded-xl font-semibold"
           >
             Upload PDF
           </button>
@@ -146,7 +146,7 @@ const Documents = () => {
 
                   <Link
                     to={`/pdf/${pdf._id}`}
-                    className="px-5 py-2.5 rounded-xl bg-[#E9D66B] text-black font-medium hover:shadow-md hover:scale-105 transition-all duration-300"
+                    className="px-5 py-2.5 rounded-xl bg-[#C2410C] text-black font-medium hover:shadow-md hover:scale-105 transition-all duration-300"
                   >
                     View
                   </Link>
