@@ -120,10 +120,14 @@ const Chat = () => {
 
             <button
               onClick={askQuestion}
-              disabled={loading}
-              className="bg-[#C2410C] text-black px-6 py-3 rounded-xl font-semibold hover:scale-105 transition-all duration-300"
+              disabled={!selectedPdf || loading}
+              className={`px-6 py-3 rounded-xl font-semibold transition-all duration-300
+    ${!selectedPdf || loading
+                  ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                  : "bg-[#C2410C] text-white hover:bg-[#9A3412] hover:scale-105"
+                }`}
             >
-              Ask
+              {loading ? "Thinking..." : "Ask"}
             </button>
 
             <button

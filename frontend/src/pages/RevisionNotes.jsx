@@ -2,6 +2,8 @@ import Layout from "../components/Layout";
 import { useEffect, useState } from "react";
 import API from "../services/api";
 import { motion } from "framer-motion";
+import toast from "react-hot-toast";
+import { jsPDF } from "jspdf";
 
 const RevisionNotes = () => {
   const [pdfs, setPdfs] = useState([]);
@@ -28,7 +30,7 @@ const RevisionNotes = () => {
 
   const generateRevisionNotes = async () => {
     if (!selectedPdf) {
-      alert("Please select a PDF");
+      toast.error("Please select a PDF");
       return;
     }
 
@@ -49,41 +51,32 @@ const RevisionNotes = () => {
         console.error("Backend:", error.response.data);
       }
 
-      alert(
+      toast.error(
         error.response?.data?.error ||
         "Failed to generate revision notes."
       );
     }
   };
 
-  const copyNotes = () => {
-    navigator.clipboard.writeText(
-      revisionNotes
-    );
+  const copyNotes = async () => {
+  try {
+    await navigator.clipboard.writeText(revisionNotes);
+    toast.success("Revision Notes copied successfully!");
+  } catch (error) {
+    toast.error("Failed to copy Revision Notes.");
+  }
+};
 
-    alert("Copied!");
-  };
+  const downloadRevisionNotes = () => {
+  const doc = new jsPDF();
 
-  const downloadNotes = () => {
-    const blob = new Blob(
-      [revisionNotes],
-      { type: "text/plain" }
-    );
+  const lines = doc.splitTextToSize(revisionNotes, 180);
 
-    const url =
-      window.URL.createObjectURL(blob);
+  doc.setFontSize(12);
+  doc.text(lines, 15, 20);
 
-    const link =
-      document.createElement("a");
-
-    link.href = url;
-    link.download =
-      "Archivio-Revision-Notes.txt";
-
-    link.click();
-
-    window.URL.revokeObjectURL(url);
-  };
+  doc.save("Archivio-Revision-Notes.pdf");
+};
 
   return (
     <Layout>

@@ -2,6 +2,7 @@ import Layout from "../components/Layout";
 import { useEffect, useState } from "react";
 import API from "../services/api";
 import { motion } from "framer-motion";
+import toast from "react-hot-toast";
 
 const ImportantTopics = () => {
   const [pdfs, setPdfs] = useState([]);
@@ -28,7 +29,7 @@ const ImportantTopics = () => {
 
   const generateTopics = async () => {
     if (!selectedPdf) {
-      alert("Please select a PDF");
+      toast.error("Please select a PDF");
       return;
     }
 
@@ -47,7 +48,7 @@ const ImportantTopics = () => {
         console.error("Backend:", error.response.data);
       }
 
-      alert(
+      toast.error(
         error.response?.data?.error ||
         "Failed to generate important topics."
       );
@@ -55,11 +56,33 @@ const ImportantTopics = () => {
       setLoading(false);
     }
   };
+  const downloadTopics = () => {
+    const doc = new jsPDF();
 
-  const copyTopics = () => {
-    navigator.clipboard.writeText(topics);
+    doc.setFontSize(18);
+    doc.setFont("helvetica", "bold");
+    doc.text("Archivio - Important Topics", 15, 20);
 
-    alert("Topics copied!");
+    doc.setDrawColor(194, 65, 12);
+    doc.line(15, 25, 195, 25);
+
+    doc.setFontSize(12);
+    doc.setFont("helvetica", "normal");
+
+    const lines = doc.splitTextToSize(topics, 180);
+
+    doc.text(lines, 15, 35);
+
+    doc.save("Archivio-Important-Topics.pdf");
+  };
+
+  const copyTopics = async () => {
+    try {
+      await navigator.clipboard.writeText(topics);
+      toast.success("Topics copied successfully!");
+    } catch (error) {
+      toast.error("Failed to copy topics.");
+    }
   };
 
   return (
@@ -206,6 +229,13 @@ const ImportantTopics = () => {
                 className="bg-black text-white px-4 py-2 rounded-xl hover:scale-105 transition"
               >
                 Copy
+              </button>
+
+              <button
+                onClick={downloadTopics}
+                className="bg-[#C2410C] text-white px-4 py-2 rounded-xl hover:bg-[#9A3412] transition"
+              >
+                Download PDF
               </button>
             </div>
 

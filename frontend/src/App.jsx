@@ -22,12 +22,12 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        
+
         <Route path="/" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/oauth-success" element={<OAuthSuccess />} />
 
-        
+
         <Route
           path="/dashboard"
           element={
@@ -137,14 +137,12 @@ function App() {
         />
 
         <Route
-          path="/studyplan/:id"
+          path="/studyplan"
           element={
             <ProtectedRoute>
               <StudyPlan />
             </ProtectedRoute>
-
           }
-
         />
         <Route
           path="/search"

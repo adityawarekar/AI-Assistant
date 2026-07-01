@@ -2,6 +2,7 @@ import Layout from "../components/Layout";
 import { useState, useEffect } from "react";
 import API from "../services/api";
 import { motion } from "framer-motion";
+import toast from "react-hot-toast";
 
 const PdfSearch = () => {
   const [pdfs, setPdfs] = useState([]);
@@ -29,7 +30,7 @@ const PdfSearch = () => {
 
   const searchPdf = async () => {
     if (!selectedPdf || !query) {
-      alert("Select PDF and enter search text");
+      toast.error("Select PDF and enter search text");
       return;
     }
 
@@ -53,7 +54,7 @@ const PdfSearch = () => {
       }
 
 
-      alert(
+      toast.error(
         error.response?.data?.error ||
         "Failed to search  PDF."
       );

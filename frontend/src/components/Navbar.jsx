@@ -1,5 +1,5 @@
 import { useAuthStore } from "../store/authStore";
-import { FaSearch, FaUserCircle } from "react-icons/fa";
+import { FaUserCircle } from "react-icons/fa";
 import { motion } from "framer-motion";
 
 const Navbar = () => {
@@ -26,7 +26,7 @@ const Navbar = () => {
             duration: 10,
             repeat: Infinity,
           }}
-          className="absolute -top-10 right-0 w-64 h-64 bg-[#E9D66B]/20 rounded-full blur-3xl"
+          className="absolute -top-10 right-0 w-64 h-64 bg-[#C2410C]/10 rounded-full blur-3xl"
         />
 
         <motion.div
@@ -64,31 +64,18 @@ const Navbar = () => {
 
         </div>
 
-        {/* Search */}
-
-        <motion.div
-          whileHover={{ scale: 1.02 }}
-          className="hidden lg:flex relative z-10 items-center gap-3 bg-[#F8F8F8] border border-gray-200 px-5 py-3 rounded-2xl w-[360px]"
-        >
-          <FaSearch className="text-gray-400" />
-
-          <input
-            type="text"
-            placeholder="Search documents..."
-            className="bg-transparent outline-none w-full"
-          />
-        </motion.div>
-
         {/* Right */}
 
         <div className="relative z-10 flex items-center gap-4">
+
+          {/* User Card */}
 
           <motion.div
             whileHover={{
               y: -2,
               scale: 1.02,
             }}
-            className="flex items-center gap-3 bg-[#F8F8F8] border border-gray-200 px-4 py-2 rounded-2xl"
+            className="flex items-center gap-3 bg-[#F8F8F8] border border-gray-200 px-5 h-[56px] rounded-2xl"
           >
 
             <motion.div
@@ -102,21 +89,23 @@ const Navbar = () => {
             >
               <FaUserCircle
                 size={34}
-                className="text-gray-700"
+                className="text-[#C2410C]"
               />
             </motion.div>
 
             <div>
-              <p className="font-semibold text-gray-900">
+              <p className="font-semibold text-gray-900 leading-none">
                 {user?.name || "User"}
               </p>
 
-              <p className="text-xs text-gray-500">
+              <p className="text-xs text-gray-500 mt-1">
                 Learning Workspace
               </p>
             </div>
 
           </motion.div>
+
+          {/* Logout */}
 
           <motion.button
             whileHover={{
@@ -126,7 +115,7 @@ const Navbar = () => {
               scale: 0.95,
             }}
             onClick={logout}
-            className="px-5 py-2.5 rounded-2xl bg-black text-white font-medium shadow-md hover:shadow-xl transition-all"
+            className="h-[56px] px-6 rounded-2xl bg-[#C2410C] hover:bg-[#9A3412] text-white font-semibold shadow-md hover:shadow-xl transition-all duration-300"
           >
             Logout
           </motion.button>

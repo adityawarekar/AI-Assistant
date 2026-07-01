@@ -2,6 +2,7 @@ import Layout from "../components/Layout";
 import { useState, useEffect } from "react";
 import API from "../services/api";
 import { motion } from "framer-motion";
+import toast from "react-hot-toast";
 
 const Quiz = () => {
   const [pdfs, setPdfs] = useState([]);
@@ -26,7 +27,7 @@ const Quiz = () => {
 
   const generateQuiz = async () => {
     if (!selectedPdf) {
-      alert("Please select a PDF");
+      toast.error("Please select a PDF");
       return;
     }
 
@@ -49,7 +50,7 @@ const Quiz = () => {
     } catch (error) {
       console.log(error);
 
-      alert(
+      toast.error(
         error.response?.data?.error ||
         "Failed to generate quiz."
       );
@@ -87,7 +88,7 @@ const Quiz = () => {
     <Layout>
       <div className="space-y-6">
 
-        {/* Header */}
+        
 
         <div>
           <h1 className="text-4xl font-bold">
@@ -99,7 +100,7 @@ const Quiz = () => {
           </p>
         </div>
 
-        {/* Quiz Generator */}
+    
 
         <div className="bg-[#FFFDF5] p-6 rounded-3xl shadow-md">
 
@@ -138,7 +139,7 @@ const Quiz = () => {
 
         </div>
 
-        {/* Loader */}
+        
 
         {loading && (
           <div className="bg-[#FFFDF5] p-4 rounded-2xl shadow-md">
@@ -257,7 +258,7 @@ const Quiz = () => {
                 Quiz Questions
               </h2>
 
-              <span className="bg-[#E9D66B] px-4 py-2 rounded-xl font-semibold">
+              <span className="bg-[#C2410C] px-4 py-2 rounded-xl font-semibold">
                 {questions.length} Questions
               </span>
 
@@ -288,7 +289,7 @@ const Quiz = () => {
                       key={optionIndex}
                       className={`flex items-center gap-4 p-4 rounded-2xl border cursor-pointer transition-all hover:border-[#C2410C]
               ${selectedAnswers[index] === option
-                          ? "bg-[#FFF8D9] border-[#FED7AA]"
+                          ? "bg-[#FFF8D9] border-[#C2410C]"
                           : "border-gray-200"
                         }`}
                     >
@@ -330,11 +331,11 @@ const Quiz = () => {
               <motion.div
                 initial={{ scale: 0.9, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
-                className="bg-[#FFFDF5] border border-[#FED7AA] rounded-3xl p-8 text-center shadow-lg"
+                className="bg-[#FFFDF5] border border-[#C2410C] rounded-3xl p-8 text-center shadow-lg"
               >
 
                 <h2 className="text-3xl font-bold mb-2">
-                  Quiz Completed 🎉
+                  Quiz Completed 
                 </h2>
 
                 <p className="text-5xl font-bold text-[#C2410C] mt-4">

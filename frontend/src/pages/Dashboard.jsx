@@ -138,7 +138,7 @@ const Dashboard = () => {
           <div className="bg-white rounded-3xl p-6 shadow-md">
 
             <h2 className="text-2xl font-bold mb-6">
-              ⚡ Quick Actions
+               Quick Actions
             </h2>
 
             <div className="space-y-4">

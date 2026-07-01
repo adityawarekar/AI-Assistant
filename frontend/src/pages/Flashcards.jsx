@@ -3,6 +3,7 @@ import Flashcard from "../components/Flashcard";
 import { useState, useEffect } from "react";
 import API from "../services/api";
 import { motion } from "framer-motion";
+import toast from "react-hot-toast";
 
 const Flashcards = () => {
   const [cards, setCards] = useState([]);
@@ -12,7 +13,7 @@ const Flashcards = () => {
 
   const generateFlashcards = async () => {
     if (!selectedPdf) {
-      alert("Please select a PDF");
+      toast.error("Please select a PDF");
       return;
     }
 
@@ -38,7 +39,7 @@ const Flashcards = () => {
         console.error("Backend:", error.response.data);
       }
 
-      alert(
+      toast.error(
         error.response?.data?.error ||
         "Failed to generate flashcards."
       );
@@ -46,7 +47,9 @@ const Flashcards = () => {
       setLoading(false);
     }
   };
-  const copyFlashcards = () => {
+  
+ const copyFlashcards = async () => {
+  try {
     const text = cards
       .map(
         (card, index) =>
@@ -54,8 +57,13 @@ const Flashcards = () => {
       )
       .join("\n\n");
 
-    navigator.clipboard.writeText(text);
-  };
+    await navigator.clipboard.writeText(text);
+
+    toast.success("Flashcards copied successfully!");
+  } catch {
+    toast.error("Failed to copy Flashcards.");
+  }
+};
 
   const downloadFlashcards = () => {
     const text = cards
@@ -123,7 +131,7 @@ const Flashcards = () => {
             onChange={(e) =>
               setSelectedPdf(e.target.value)
             }
-            className="w-full p-4 rounded-2xl border border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-[#E9D66B] mb-4"
+            className="w-full p-4 rounded-2xl border border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-[#C2410C]/20 mb-4"
           >
             <option value="">
               Select PDF

@@ -15,6 +15,8 @@ import {
   FaStar,
   FaChevronDown,
   FaChevronRight,
+  FaMapMarkedAlt,
+  FaTasks,
 } from "react-icons/fa";
 
 const Sidebar = () => {
@@ -124,17 +126,19 @@ ${isActive("/documents")
               Notes
             </Link>
 
-            <Link
-              to="/revision"
+             <Link
+              to="/flashcards"
               className={`flex items-center gap-3 px-4 py-2 rounded-xl transition-all duration-300 hover:translate-x-1
-      ${isActive("/revision")
+      ${isActive("/flashcards")
                   ? "bg-[#FFF7ED] text-[#EA580C] font-semibold"
                   : "hover:bg-[#FFF7ED] hover:text-[#EA580C]"
                 }`}
             >
-              <FaBook className="text-[#EA580C]" />
-              Revision Notes
+              <FaBrain className="text-[#EA580C]" />
+              Flashcards
             </Link>
+
+            
 
             <Link
               to="/important-topics"
@@ -148,17 +152,7 @@ ${isActive("/documents")
               Important Topics
             </Link>
 
-            <Link
-              to="/flashcards"
-              className={`flex items-center gap-3 px-4 py-2 rounded-xl transition-all duration-300 hover:translate-x-1
-      ${isActive("/flashcards")
-                  ? "bg-[#FFF7ED] text-[#EA580C] font-semibold"
-                  : "hover:bg-[#FFF7ED] hover:text-[#EA580C]"
-                }`}
-            >
-              <FaBrain className="text-[#EA580C]" />
-              Flashcards
-            </Link>
+           
 
             <Link
               to="/quiz"
@@ -194,6 +188,29 @@ ${isActive("/documents")
             >
               <FaPen className="text-[#EA580C]" />
               Practice Sheet
+            </Link>
+            <Link
+              to="/studyplan"
+              className={`flex items-center gap-3 px-4 py-2 rounded-xl transition-all duration-300 hover:translate-x-1
+    ${isActive("/studyplan")
+                  ? "bg-[#FFF7ED] text-[#EA580C] font-semibold"
+                  : "hover:bg-[#FFF7ED] hover:text-[#EA580C]"
+                }`}
+            >
+              <FaTasks className="text-[#EA580C]" />
+              Study Plan
+            </Link>
+
+            <Link
+              to="/revision"
+              className={`flex items-center gap-3 px-4 py-2 rounded-xl transition-all duration-300 hover:translate-x-1
+      ${isActive("/revision")
+                  ? "bg-[#FFF7ED] text-[#EA580C] font-semibold"
+                  : "hover:bg-[#FFF7ED] hover:text-[#EA580C]"
+                }`}
+            >
+              <FaBook className="text-[#EA580C]" />
+              Revision Notes
             </Link>
 
             <Link

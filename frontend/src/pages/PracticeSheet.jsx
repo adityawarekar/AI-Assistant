@@ -2,6 +2,7 @@ import Layout from "../components/Layout";
 import { useEffect, useState } from "react";
 import API from "../services/api";
 import { motion } from "framer-motion";
+import toast from "react-hot-toast";
 
 const PracticeSheet = () => {
   const [pdfs, setPdfs] = useState([]);
@@ -28,7 +29,7 @@ const PracticeSheet = () => {
 
   const generatePracticeSheet = async () => {
     if (!selectedPdf) {
-      alert("Please select a PDF");
+      toast.error("Please select a PDF");
       return;
     }
 
@@ -49,20 +50,21 @@ const PracticeSheet = () => {
         console.error("Backend:", error.response.data);
       }
 
-      alert(
+      toast.error(
         error.response?.data?.error ||
         "Failed to generate practice sheet."
       );
     }
   };
 
-  const copyPracticeSheet = () => {
-    navigator.clipboard.writeText(
-      practiceSheet
-    );
-
-    alert("Copied!");
-  };
+  const copyPracticeSheet = async () => {
+  try {
+    await navigator.clipboard.writeText(practiceSheet);
+    toast.success("Practice Sheet copied successfully!");
+  } catch (error) {
+    toast.error("Failed to copy Practice Sheet.");
+  }
+};
 
   const downloadPracticeSheet = () => {
     const blob = new Blob(
@@ -205,7 +207,7 @@ const PracticeSheet = () => {
 
               <button
                 onClick={downloadPracticeSheet}
-                className="bg-[#E9D66B] text-black px-4 py-2 rounded-xl"
+                className="bg-[#C2410C] text-black px-4 py-2 rounded-xl"
               >
                 Download
               </button>

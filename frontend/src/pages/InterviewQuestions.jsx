@@ -2,6 +2,8 @@ import Layout from "../components/Layout";
 import { useState, useEffect } from "react";
 import API from "../services/api";
 import { motion } from "framer-motion";
+import toast from "react-hot-toast";
+import { jsPDF } from "jspdf";
 
 const InterviewQuestions = () => {
   const [pdfs, setPdfs] = useState([]);
@@ -28,7 +30,7 @@ const InterviewQuestions = () => {
 
   const generateQuestions = async () => {
     if (!selectedPdf) {
-      alert("Please select a PDF");
+      toast.error("Please select a PDF");
       return;
     }
 
@@ -47,13 +49,50 @@ const InterviewQuestions = () => {
         console.error("Backend:", error.response.data);
       }
 
-      alert(
+      toast.error(
         error.response?.data?.error ||
         "Failed to generate interview questions."
       );
     } finally {
       setLoading(false);
     }
+  };
+
+  const copyQuestions = async () => {
+    try {
+      const text = questions
+        .map((q) => `Q${q.id}. ${q.question}`)
+        .join("\n\n");
+
+      await navigator.clipboard.writeText(text);
+
+      toast.success("Interview Questions copied successfully!");
+    } catch {
+      toast.error("Failed to copy Interview Questions.");
+    }
+  };
+
+  const downloadQuestions = () => {
+    const doc = new jsPDF();
+
+    doc.setFontSize(18);
+    doc.setFont("helvetica", "bold");
+    doc.text("Archivio - Interview Questions", 15, 20);
+
+    doc.setDrawColor(194, 65, 12);
+    doc.line(15, 25, 195, 25);
+
+    const text = questions
+      .map((q) => `Q${q.id}. ${q.question}`)
+      .join("\n\n");
+
+    const lines = doc.splitTextToSize(text, 180);
+
+    doc.setFontSize(12);
+    doc.setFont("helvetica", "normal");
+    doc.text(lines, 15, 35);
+
+    doc.save("Archivio-Interview-Questions.pdf");
   };
 
   return (
@@ -172,6 +211,41 @@ const InterviewQuestions = () => {
 
           </motion.div>
         )}
+
+        {questions.length > 0 && (
+          <div className="flex justify-between items-center bg-[#FFFDF5] p-5 rounded-2xl shadow-md mb-6">
+
+            <div>
+              <h2 className="text-2xl font-bold">
+                🎤 Interview Questions
+              </h2>
+
+              <p className="text-gray-500">
+                {questions.length} Questions Generated
+              </p>
+            </div>
+
+            <div className="flex gap-3">
+
+              <button
+                onClick={copyQuestions}
+                className="bg-black text-white px-4 py-2 rounded-xl hover:scale-105 transition"
+              >
+                Copy
+              </button>
+
+              <button
+                onClick={downloadQuestions}
+                className="bg-[#C2410C] text-white px-4 py-2 rounded-xl hover:bg-[#9A3412] transition"
+              >
+                Download PDF
+              </button>
+
+            </div>
+
+          </div>
+        )}
+
 
 
         <div className="space-y-4">

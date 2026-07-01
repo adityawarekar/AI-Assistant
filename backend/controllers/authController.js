@@ -59,32 +59,26 @@ exports.login = async (req, res) => {
 
 
 
-exports.googleCallback = async (
-  req,
-  res
-) => {
+exports.googleCallback = async (req, res) => {
   try {
+    console.log("Google callback executed");
 
     const token = jwt.sign(
-      {
-        id: req.user._id,
-      },
+      { id: req.user._id },
       process.env.JWT_SECRET,
-      {
-        expiresIn: "7d",
-      }
+      { expiresIn: "7d" }
     );
+
+    console.log("Redirecting to OAuth Success...");
 
     res.redirect(
       `http://localhost:5173/oauth-success?token=${token}`
     );
-
   } catch (error) {
-
+    console.log(error);
     res.status(500).json({
       message: "Google Login Failed",
     });
-
   }
 };
 

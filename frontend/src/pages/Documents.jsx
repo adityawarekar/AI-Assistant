@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import Layout from "../components/Layout";
 import API from "../services/api";
 import { Link } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const Documents = () => {
   const [file, setFile] = useState(null);
@@ -9,7 +10,7 @@ const Documents = () => {
 
   const handleUpload = async () => {
     if (!file) {
-      alert("Please select a PDF");
+      toast.error("Please select a PDF");
       return;
     }
 
@@ -18,15 +19,16 @@ const Documents = () => {
 
     try {
       await API.post("/pdf/upload", formData);
+      toast.success("PDF uploaded successfully!");
 
-    
+
 
       setFile(null);
 
       fetchPdfs();
     } catch (error) {
       console.log(error);
-      alert("Upload Failed");
+      toast.error("Upload Failed");
     }
   };
 

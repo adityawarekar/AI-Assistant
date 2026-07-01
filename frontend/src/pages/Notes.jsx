@@ -2,6 +2,8 @@ import Layout from "../components/Layout";
 import { useEffect, useState } from "react";
 import API from "../services/api";
 import { motion } from "framer-motion";
+import toast from "react-hot-toast";
+import { jsPDF } from "jspdf";
 
 const Notes = () => {
   const [pdfs, setPdfs] = useState([]);
@@ -28,7 +30,7 @@ const Notes = () => {
 
   const generateNotes = async () => {
     if (!selectedPdf) {
-      alert("Please select a PDF");
+      toast.error("Please select a PDF");
       return;
     }
 
@@ -48,7 +50,7 @@ const Notes = () => {
         console.error("Backend:", error.response.data);
       }
 
-      alert(
+      toast.error(
         error.response?.data?.error ||
         "Failed to generate notes."
       );
@@ -57,30 +59,27 @@ const Notes = () => {
     }
   };
 
-  const copyNotes = () => {
-    navigator.clipboard.writeText(notes);
-    alert("Notes copied!");
-  };
+  const copyNotes = async () => {
+  try {
+    await navigator.clipboard.writeText(notes);
+    toast.success("Notes copied successfully!");
+  } catch (error) {
+    toast.error("Failed to copy notes.");
+  }
+};
 
   const downloadNotes = () => {
-    const blob = new Blob(
-      [notes],
-      { type: "text/plain" }
-    );
+  const doc = new jsPDF();
 
-    const url =
-      window.URL.createObjectURL(blob);
+  const lines = doc.splitTextToSize(notes, 180);
 
-    const link =
-      document.createElement("a");
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(12);
 
-    link.href = url;
-    link.download = "Archivio-Notes.txt";
+  doc.text(lines, 15, 20);
 
-    link.click();
-
-    window.URL.revokeObjectURL(url);
-  };
+  doc.save("Archivio-Notes.pdf");
+};
 
   return (
     <Layout>
@@ -144,15 +143,15 @@ const Notes = () => {
 
             <div className="flex items-center gap-2 text-[#C2410C] font-semibold">
 
-              <span className="animate-bounce">
+              <span className="animate-bounce text-[#C2410C]">
                 ●
               </span>
 
-              <span className="animate-bounce delay-100">
+              <span className="animate-bounce delay-100 text-[#C2410C]">
                 ●
               </span>
 
-              <span className="animate-bounce delay-200">
+              <span className="animate-bounce delay-200 text-[#C2410C]">
                 ●
               </span>
 
@@ -276,7 +275,7 @@ const Notes = () => {
 
                 <button
                   onClick={downloadNotes}
-                  className="bg-[#E9D66B] text-black px-4 py-2 rounded-xl hover:scale-105 transition"
+                  className="bg-[#C2410C] text-black px-4 py-2 rounded-xl hover:scale-105 transition"
                 >
                   Download
                 </button>
