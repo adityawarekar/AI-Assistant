@@ -46,7 +46,7 @@ const AuthLayout = ({ children }) => {
           transition={{ delay: 0.2, duration: 0.8 }}
           className="mt-8 text-3xl font-semibold text-orange-100 max-w-xl"
         >
-          Knowledge organized beautifully.
+          Turn Knowledge Into Mastery.
         </motion.h2>
 
         {/* Description */}
@@ -57,10 +57,9 @@ const AuthLayout = ({ children }) => {
           transition={{ delay: 0.4, duration: 0.8 }}
           className="mt-6 text-lg text-orange-50/90 max-w-xl leading-relaxed"
         >
-          Transform documents into notes, flashcards,
-          quizzes, study plans and structured learning
-          material from one elegant workspace designed
-          for modern students.
+          Transform documents into notes, flashcards, quizzes,
+          study plans, and structured learning material from
+          one intelligent workspace built for every learner.
         </motion.p>
 
         {/* Footer Text */}
