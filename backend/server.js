@@ -15,7 +15,15 @@ const app = express();
 
 connectDB();
 
-app.use(cors());
+app.use(
+  cors({
+    origin: [
+      "https://archivio.tech",
+      "https://www.archivio.tech",
+    ],
+    credentials: true,
+  })
+);
 app.use(express.json());
 app.use(passport.initialize());
 const path = require("path");

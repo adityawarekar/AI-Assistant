@@ -4,25 +4,46 @@ const jwt = require("jsonwebtoken");
 
 
 exports.register = async (req, res) => {
-    try {
-        const { name, email, password } = req.body;
+  try {
+    console.log("===== REGISTER REQUEST =====");
+    console.log(req.body);
 
-        const userExists = await User.findOne({ email });
-        if (userExists) {
-            return res.status(400).json({ message: "User already exists" });
-        }
-        const hashedPassword = await bcrypt.hash(password, 10);
+    const { name, email, password } = req.body;
 
-        const user = await User.create({
-            name,
-            email,
-            password: hashedPassword,
-        });
-
-        res.json({ message: "User registered successfully" });
-    } catch (error) {
-        res.status(500).json({ error: error.message });
+    if (!name || !email || !password) {
+      return res.status(400).json({
+        message: "All fields are required",
+      });
     }
+
+    const userExists = await User.findOne({ email });
+
+    if (userExists) {
+      return res.status(400).json({
+        message: "User already exists",
+      });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const user = await User.create({
+      name,
+      email,
+      password: hashedPassword,
+    });
+
+    res.json({
+      message: "User registered successfully",
+      user,
+    });
+
+  } catch (error) {
+    console.log("REGISTER ERROR:", error);
+
+    res.status(500).json({
+      message: error.message,
+    });
+  }
 };
 
 //Login
@@ -72,7 +93,7 @@ exports.googleCallback = async (req, res) => {
     console.log("Redirecting to OAuth Success...");
 
     res.redirect(
-      `http://localhost:5173/oauth-success?token=${token}`
+      `https://www.archivio.tech/oauth-success?token=${token}`
     );
   } catch (error) {
     console.log(error);
