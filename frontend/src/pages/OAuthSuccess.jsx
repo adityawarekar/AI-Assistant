@@ -39,6 +39,7 @@ const OAuthSuccess = () => {
       } catch (error) {
 
         console.log(error);
+        navigate("/", { replace: true });
 
       }
     };
