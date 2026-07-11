@@ -1,11 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuthStore } from "../store/authStore";
 import { Link, useNavigate } from "react-router-dom";
 import AuthLayout from "../components/AuthLayout";
 import { motion } from "framer-motion";
+import toast from "react-hot-toast";
 
 const Register = () => {
-  const { register } = useAuthStore();
+  const { register, token } = useAuthStore();
   const navigate = useNavigate();
 
   const [form, setForm] = useState({
@@ -14,14 +15,26 @@ const Register = () => {
     password: "",
   });
 
+  useEffect(() => {
+  if (token) {
+    navigate("/dashboard");
+  }
+}, [token, navigate]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    await register(form);
+    try {
+      await register(form);
 
-    alert("Registered Successfully");
+      toast.success("Account created successfully!");
 
-    navigate("/");
+      navigate("/dashboard");
+    } catch (error) {
+      toast.error(
+        error.response?.data?.message || "Registration failed"
+      );
+    }
   };
 
   return (
@@ -138,8 +151,13 @@ const Register = () => {
               (window.location.href =
                 "https://api.archivio.tech/api/auth/google")
               }
-              className="w-full bg-white border border-[#C2410C] py-4 rounded-xl font-medium hover:bg-[#FFF7ED] hover:border-[#C2410C] transition-all duration-300"
+              className="w-full flex items-center justify-center gap-3 bg-white border border-gray-300 py-4 rounded-xl font-medium hover:bg-gray-50 transition-all duration-300 shadow-sm hover:shadow-md"
             >
+              <img
+                src="https://www.svgrepo.com/show/475656/google-color.svg"
+                alt="Google"
+                className="w-5 h-5"
+              />
               Continue with Google
             </button>
 
@@ -159,7 +177,7 @@ const Register = () => {
           </div>
         </motion.div>
       </div>
-      
+
     </AuthLayout>
   );
 };

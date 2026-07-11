@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { useState,  useEffect } from "react";
 import { useAuthStore } from "../store/authStore";
 import { useNavigate, Link } from "react-router-dom";
 import AuthLayout from "../components/AuthLayout";
 import { motion } from "framer-motion";
 
 const Login = () => {
-  const { login } = useAuthStore();
+  const { login, token } = useAuthStore();
   const navigate = useNavigate();
 
   const [form, setForm] = useState({
@@ -13,16 +13,25 @@ const Login = () => {
     password: "",
   });
 
+  useEffect(() => {
+  if (token) {
+    navigate("/dashboard");
+  }
+}, [token, navigate]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
       await login(form);
+
+      toast.success("Welcome back!");
+
       navigate("/dashboard");
     } catch (error) {
       console.error(error);
 
-      alert(
+      toast.error(
         error.response?.data?.message || "Login failed"
       );
     }
@@ -123,11 +132,16 @@ const Login = () => {
               <button
                 type="button"
                 onClick={() =>
-                  window.location.href =
-                  "https://api.archivio.tech/api/auth/google"
+                (window.location.href =
+                  "https://api.archivio.tech/api/auth/google")
                 }
-                className="w-full bg-white border border-[#FED7AA] py-4 rounded-2xl font-medium hover:bg-[#FFF7ED] hover:border-[#C2410C] transition-all duration-300"
+                className="w-full flex items-center justify-center gap-3 bg-white border border-gray-300 py-4 rounded-xl font-medium hover:bg-gray-50 transition-all duration-300 shadow-sm hover:shadow-md"
               >
+                <img
+                  src="https://www.svgrepo.com/show/475656/google-color.svg"
+                  alt="Google"
+                  className="w-5 h-5"
+                />
                 Continue with Google
               </button>
 
