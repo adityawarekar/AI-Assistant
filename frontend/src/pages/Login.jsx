@@ -3,6 +3,7 @@ import { useAuthStore } from "../store/authStore";
 import { useNavigate, Link } from "react-router-dom";
 import AuthLayout from "../components/AuthLayout";
 import { motion } from "framer-motion";
+import { toast } from "react-hot-toast";
 
 const Login = () => {
   const { login, token } = useAuthStore();
@@ -14,7 +15,9 @@ const Login = () => {
   });
 
   useEffect(() => {
-  if (token) {
+  const authToken = token || localStorage.getItem("token");
+
+  if (authToken) {
     navigate("/dashboard");
   }
 }, [token, navigate]);
