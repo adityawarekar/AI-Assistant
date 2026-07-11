@@ -32,7 +32,7 @@ const PdfViewer = () => {
     );
   }
 
-  const pdfUrl = `http://localhost:5001/${pdf.fileUrl}`;
+  const pdfUrl = `https://api.archivio.tech/${pdf.fileUrl}`;
 
   return (
     <div className="p-8">

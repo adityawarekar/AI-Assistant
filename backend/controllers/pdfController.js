@@ -84,7 +84,15 @@ exports.deletePdf = async (req, res) => {
 
 exports.getPdfById = async (req, res) => {
   try {
-    const pdf = await Pdf.findById(req.params.id);
+    const pdf = await Pdf.findOne({
+      _id: req.params.id,
+      userId: req.user.id,
+    });
+    if (!pdf) {
+      return res.status(404).json({
+        message: "PDF not found",
+      });
+    }
 
     res.json(pdf);
   } catch (error) {

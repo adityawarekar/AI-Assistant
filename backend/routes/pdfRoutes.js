@@ -40,7 +40,6 @@ router.get("/search/:id", authMiddleware, searchPdf);
 router.get("/dashboard/stats", authMiddleware, getDashboardStats);
 router.get("/recent", authMiddleware, getRecentPdfs);
 router.put("/progress/:id", authMiddleware, updateProgress);
-router.get("/dashboard/stats", authMiddleware, getDashboardStats);
 router.get("/gemini-test", async (req, res) => {
   try {
     const result = await generateSummary(

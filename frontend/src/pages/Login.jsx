@@ -16,9 +16,16 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    await login(form);
+    try {
+      await login(form);
+      navigate("/dashboard");
+    } catch (error) {
+      console.error(error);
 
-    navigate("/dashboard");
+      alert(
+        error.response?.data?.message || "Login failed"
+      );
+    }
   };
 
   return (
@@ -117,7 +124,7 @@ const Login = () => {
                 type="button"
                 onClick={() =>
                   window.location.href =
-                  "http://localhost:5001/api/auth/google"
+                  "https://api.archivio.tech/api/auth/google"
                 }
                 className="w-full bg-white border border-[#FED7AA] py-4 rounded-2xl font-medium hover:bg-[#FFF7ED] hover:border-[#C2410C] transition-all duration-300"
               >
