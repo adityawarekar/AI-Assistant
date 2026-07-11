@@ -5,8 +5,8 @@ const jwt = require("jsonwebtoken");
 
 exports.register = async (req, res) => {
   try {
-    console.log("===== REGISTER REQUEST =====");
-    console.log(req.body);
+
+
 
     const { name, email, password } = req.body;
 
@@ -50,7 +50,7 @@ exports.register = async (req, res) => {
     });
 
   } catch (error) {
-    console.log("REGISTER ERROR:", error);
+
 
     res.status(500).json({
       message: error.message,
@@ -94,7 +94,7 @@ exports.login = async (req, res) => {
 
 exports.googleCallback = async (req, res) => {
   try {
-    console.log("Google callback executed");
+
 
     const token = jwt.sign(
       { id: req.user._id },
@@ -102,13 +102,13 @@ exports.googleCallback = async (req, res) => {
       { expiresIn: "7d" }
     );
 
-    console.log("Redirecting to OAuth Success...");
+
 
     res.redirect(
       `https://www.archivio.tech/oauth-success?token=${token}`
     );
   } catch (error) {
-    console.log(error);
+
     res.status(500).json({
       message: "Google Login Failed",
     });
