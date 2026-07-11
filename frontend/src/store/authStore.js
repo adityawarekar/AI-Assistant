@@ -2,38 +2,47 @@ import { create } from "zustand";
 import API from "../services/api";
 
 export const useAuthStore = create((set) => ({
-  user: JSON.parse(localStorage.getItem("user")) || null, 
+  user: JSON.parse(localStorage.getItem("user")) || null,
   token: localStorage.getItem("token") || null,
 
   register: async (data) => {
-  const res = await API.post("/auth/register", data);
+    const res = await API.post("/auth/register", data);
 
-  localStorage.setItem("token", res.data.token);
-  localStorage.setItem("user", JSON.stringify(res.data.user));
+    localStorage.setItem("token", res.data.token);
+    localStorage.setItem("user", JSON.stringify(res.data.user));
 
-  set({
-    user: res.data.user,
-    token: res.data.token,
-  });
+    set({
+      user: res.data.user,
+      token: res.data.token,
+    });
 
-  return res.data;
-},
+    return res.data;
+  },
 
   login: async (data) => {
     const res = await API.post("/auth/login", data);
 
     localStorage.setItem("token", res.data.token);
-    localStorage.setItem("user", JSON.stringify(res.data.user)); 
+    localStorage.setItem("user", JSON.stringify(res.data.user));
 
     set({
       user: res.data.user,
       token: res.data.token,
     });
   },
+  setAuth: (user, token) => {
+    localStorage.setItem("token", token);
+    localStorage.setItem("user", JSON.stringify(user));
+
+    set({
+      user,
+      token,
+    });
+  },
 
   logout: () => {
     localStorage.removeItem("token");
-    localStorage.removeItem("user"); 
+    localStorage.removeItem("user");
     set({ user: null, token: null });
   },
 }));

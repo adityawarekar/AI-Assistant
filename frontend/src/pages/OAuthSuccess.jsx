@@ -5,7 +5,7 @@ import { useAuthStore } from "../store/authStore";
 
 const OAuthSuccess = () => {
   const navigate = useNavigate();
-  const { setAuth } = useAuthStore();
+  const setAuth = useAuthStore((state) => state.setAuth);
 
   useEffect(() => {
     const handleGoogleLogin = async () => {
@@ -34,11 +34,16 @@ const OAuthSuccess = () => {
         console.log("STEP 3: /auth/me success");
         console.log(res.data);
 
+        console.log("Before setAuth");
         setAuth(res.data, token);
+        console.log("After setAuth");
+
+        
 
         console.log("STEP 4: setAuth completed");
-
+        console.log("Before navigate");
         navigate("/dashboard");
+        console.log("After navigate");
 
         console.log("STEP 5: navigate called");
 
