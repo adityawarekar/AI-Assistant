@@ -1,9 +1,11 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import API from "../services/api";
+import { useAuthStore } from "../store/authStore";
 
 const OAuthSuccess = () => {
   const navigate = useNavigate();
+  const { setAuth } = useAuthStore();
 
   useEffect(() => {
     const handleGoogleLogin = async () => {
@@ -15,10 +17,7 @@ const OAuthSuccess = () => {
 
       if (!token) return;
 
-      localStorage.setItem(
-        "token",
-        token
-      );
+      
 
       try {
 
@@ -32,10 +31,8 @@ const OAuthSuccess = () => {
           }
         );
 
-        localStorage.setItem(
-          "user",
-          JSON.stringify(res.data)
-        );
+        setAuth(res.data, token);
+
 
         navigate("/dashboard");
 
