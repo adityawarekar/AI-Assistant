@@ -1,5 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   FaHome,
   FaFileAlt,
@@ -15,14 +16,16 @@ import {
   FaStar,
   FaChevronDown,
   FaChevronRight,
-  FaMapMarkedAlt,
   FaTasks,
+  FaBars,
+  FaTimes,
 } from "react-icons/fa";
 
 const Sidebar = () => {
-  const [showFeatures, setShowFeatures] = useState(false);
   const location = useLocation();
-  const isActive = (path) => location.pathname === path;
+
+  const [showFeatures, setShowFeatures] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   const featureRoutes = [
     "/chat",
@@ -36,56 +39,76 @@ const Sidebar = () => {
     "/studyplan",
     "/search",
   ];
+
   useEffect(() => {
     if (featureRoutes.includes(location.pathname)) {
       setShowFeatures(true);
     }
   }, [location.pathname]);
 
-  return (
-    <div className="w-72 min-h-screen bg-white border-r border-[#E5E7EB] p-6">
+  useEffect(() => {
+    setIsOpen(false);
+  }, [location.pathname]);
 
-      {/* Logo */}
+  useEffect(() => {
+    document.body.style.overflow = isOpen ? "hidden" : "auto";
 
-      <h1 className="text-3xl font-bold text-[#111827] mb-10">
-        Archivio
-      </h1>
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [isOpen]);
+
+  const isActive = (path) => location.pathname === path;
+
+  const linkClass = (path) =>
+    `flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 hover:translate-x-1 ${isActive(path)
+      ? "bg-[#FFF7ED] text-[#EA580C] font-semibold"
+      : "hover:bg-[#FFF7ED] hover:text-[#EA580C]"
+    }`;
+
+  const SidebarContent = () => (
+    <>
+      <div className="flex items-center justify-between mb-10">
+
+        <h1 className="text-3xl font-bold text-[#111827]">
+          Archivio
+        </h1>
+
+        <button
+          className="lg:hidden"
+          onClick={() => setIsOpen(false)}
+        >
+          <FaTimes size={24} />
+        </button>
+
+      </div>
 
       <div className="flex flex-col gap-2">
 
-        {/* Dashboard */}
-
         <Link
           to="/dashboard"
-          className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 hover:translate-x-1
-${isActive("/dashboard")
-              ? "bg-[#FFF7ED] text-[#EA580C] font-semibold"
-              : "hover:bg-[#FFF7ED] hover:text-[#EA580C]"
-            }`}
+          className={linkClass("/dashboard")}
         >
           <FaHome />
           Dashboard
         </Link>
 
-        {/* Documents */}
-
         <Link
           to="/documents"
-          className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 hover:translate-x-1
-${isActive("/documents")
-              ? "bg-[#FFF7ED] text-[#EA580C] font-semibold"
-              : "hover:bg-[#FFF7ED] hover:text-[#EA580C]"
-            }`}
+          className={linkClass("/documents")}
         >
           <FaFileAlt />
           Documents
         </Link>
 
-        {/* Features */}
-
         <button
-          onClick={() => setShowFeatures(!showFeatures)}
-          className="flex items-center justify-between px-4 py-3 rounded-xl hover:bg-[#FFF7ED] hover:text-[#EA580C] transition-all duration-300 hover:translate-x-1 text-left"
+          onClick={() =>
+            setShowFeatures(!showFeatures)
+          }
+          className={`flex items-center justify-between px-4 py-3 rounded-xl transition-all duration-300 hover:translate-x-1 text-left ${featureRoutes.includes(location.pathname)
+            ? "bg-[#FFF7ED] text-[#EA580C] font-semibold"
+            : "hover:bg-[#FFF7ED] hover:text-[#EA580C]"
+            }`}
         >
           <div className="flex items-center gap-3">
             <FaStar />
@@ -104,11 +127,7 @@ ${isActive("/documents")
 
             <Link
               to="/chat"
-              className={`flex items-center gap-3 px-4 py-2 rounded-xl transition-all duration-300 hover:translate-x-1
-      ${isActive("/chat")
-                  ? "bg-[#FFF7ED] text-[#EA580C] font-semibold"
-                  : "hover:bg-[#FFF7ED] hover:text-[#EA580C]"
-                }`}
+              className={linkClass("/chat")}
             >
               <FaComments className="text-[#EA580C]" />
               Chat with PDF
@@ -116,51 +135,31 @@ ${isActive("/documents")
 
             <Link
               to="/notes"
-              className={`flex items-center gap-3 px-4 py-2 rounded-xl transition-all duration-300 hover:translate-x-1
-      ${isActive("/notes")
-                  ? "bg-[#FFF7ED] text-[#EA580C] font-semibold"
-                  : "hover:bg-[#FFF7ED] hover:text-[#EA580C]"
-                }`}
+              className={linkClass("/notes")}
             >
               <FaStickyNote className="text-[#EA580C]" />
               Notes
             </Link>
 
-             <Link
+            <Link
               to="/flashcards"
-              className={`flex items-center gap-3 px-4 py-2 rounded-xl transition-all duration-300 hover:translate-x-1
-      ${isActive("/flashcards")
-                  ? "bg-[#FFF7ED] text-[#EA580C] font-semibold"
-                  : "hover:bg-[#FFF7ED] hover:text-[#EA580C]"
-                }`}
+              className={linkClass("/flashcards")}
             >
               <FaBrain className="text-[#EA580C]" />
               Flashcards
             </Link>
 
-            
-
             <Link
               to="/important-topics"
-              className={`flex items-center gap-3 px-4 py-2 rounded-xl transition-all duration-300 hover:translate-x-1
-      ${isActive("/important-topics")
-                  ? "bg-[#FFF7ED] text-[#EA580C] font-semibold"
-                  : "hover:bg-[#FFF7ED] hover:text-[#EA580C]"
-                }`}
+              className={linkClass("/important-topics")}
             >
               <FaStar className="text-[#EA580C]" />
               Important Topics
             </Link>
 
-           
-
             <Link
               to="/quiz"
-              className={`flex items-center gap-3 px-4 py-2 rounded-xl transition-all duration-300 hover:translate-x-1
-      ${isActive("/quiz")
-                  ? "bg-[#FFF7ED] text-[#EA580C] font-semibold"
-                  : "hover:bg-[#FFF7ED] hover:text-[#EA580C]"
-                }`}
+              className={linkClass("/quiz")}
             >
               <FaQuestionCircle className="text-[#EA580C]" />
               Quiz
@@ -168,11 +167,7 @@ ${isActive("/documents")
 
             <Link
               to="/interview"
-              className={`flex items-center gap-3 px-4 py-2 rounded-xl transition-all duration-300 hover:translate-x-1
-      ${isActive("/interview")
-                  ? "bg-[#FFF7ED] text-[#EA580C] font-semibold"
-                  : "hover:bg-[#FFF7ED] hover:text-[#EA580C]"
-                }`}
+              className={linkClass("/interview")}
             >
               <FaMicrophone className="text-[#EA580C]" />
               Interview Questions
@@ -180,22 +175,15 @@ ${isActive("/documents")
 
             <Link
               to="/practice-sheet"
-              className={`flex items-center gap-3 px-4 py-2 rounded-xl transition-all duration-300 hover:translate-x-1
-      ${isActive("/practice-sheet")
-                  ? "bg-[#FFF7ED] text-[#EA580C] font-semibold"
-                  : "hover:bg-[#FFF7ED] hover:text-[#EA580C]"
-                }`}
+              className={linkClass("/practice-sheet")}
             >
               <FaPen className="text-[#EA580C]" />
               Practice Sheet
             </Link>
+
             <Link
               to="/studyplan"
-              className={`flex items-center gap-3 px-4 py-2 rounded-xl transition-all duration-300 hover:translate-x-1
-    ${isActive("/studyplan")
-                  ? "bg-[#FFF7ED] text-[#EA580C] font-semibold"
-                  : "hover:bg-[#FFF7ED] hover:text-[#EA580C]"
-                }`}
+              className={linkClass("/studyplan")}
             >
               <FaTasks className="text-[#EA580C]" />
               Study Plan
@@ -203,11 +191,7 @@ ${isActive("/documents")
 
             <Link
               to="/revision"
-              className={`flex items-center gap-3 px-4 py-2 rounded-xl transition-all duration-300 hover:translate-x-1
-      ${isActive("/revision")
-                  ? "bg-[#FFF7ED] text-[#EA580C] font-semibold"
-                  : "hover:bg-[#FFF7ED] hover:text-[#EA580C]"
-                }`}
+              className={linkClass("/revision")}
             >
               <FaBook className="text-[#EA580C]" />
               Revision Notes
@@ -215,11 +199,7 @@ ${isActive("/documents")
 
             <Link
               to="/search"
-              className={`flex items-center gap-3 px-4 py-2 rounded-xl transition-all duration-300 hover:translate-x-1
-      ${isActive("/search")
-                  ? "bg-[#FFF7ED] text-[#EA580C] font-semibold"
-                  : "hover:bg-[#FFF7ED] hover:text-[#EA580C]"
-                }`}
+              className={linkClass("/search")}
             >
               <FaSearch className="text-[#EA580C]" />
               PDF Search
@@ -228,18 +208,60 @@ ${isActive("/documents")
           </div>
         )}
 
-        {/* Profile */}
-
         <Link
           to="/profile"
-          className="mt-4 flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-[#FFF7ED] hover:text-[#EA580C] transition"
+          className={linkClass("/profile")}
         >
           <FaUser />
           Profile
         </Link>
 
       </div>
-    </div>
+    </>
+  );
+  return (
+    <>
+      {/* Mobile Hamburger Button */}
+      <button
+        onClick={() => setIsOpen(true)}
+        className="lg:hidden fixed top-5 left-5 z-50 bg-[#C2410C] text-white p-3 rounded-xl shadow-lg"
+      >
+        <FaBars size={20} />
+      </button>
+
+      {/* Mobile Overlay */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.45 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setIsOpen(false)}
+            className="fixed inset-0 bg-black z-40 lg:hidden"
+          />
+        )}
+      </AnimatePresence>
+
+      {/* Mobile Sidebar */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ x: -320 }}
+            animate={{ x: 0 }}
+            exit={{ x: -320 }}
+            transition={{ duration: 0.3 }}
+            className="fixed top-0 left-0 h-screen w-72  bg-white border-r border-[#E5E7EB] p-6 z-50 overflow-y-auto lg:hidden"
+          >
+            <SidebarContent />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Desktop Sidebar */}
+      <div className="hidden lg:block w-72 min-h-screen bg-white border-r border-[#E5E7EB] p-6 overflow-y-auto">
+        <SidebarContent />
+      </div>
+    </>
   );
 };
 

@@ -1,4 +1,4 @@
-import { useState,  useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useAuthStore } from "../store/authStore";
 import { useNavigate, Link } from "react-router-dom";
 import AuthLayout from "../components/AuthLayout";
@@ -15,12 +15,12 @@ const Login = () => {
   });
 
   useEffect(() => {
-  const authToken = token || localStorage.getItem("token");
+    const authToken = token || localStorage.getItem("token");
 
-  if (authToken) {
-    navigate("/dashboard");
-  }
-}, [token, navigate]);
+    if (authToken) {
+      navigate("/dashboard");
+    }
+  }, [token, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -42,7 +42,7 @@ const Login = () => {
 
   return (
     <AuthLayout>
-      <div className="w-full max-w-md">
+      <div className="w-full max-w-md px-4">
 
         <motion.div
           initial={{
@@ -56,7 +56,7 @@ const Login = () => {
           transition={{
             duration: 0.6,
           }}
-          className="relative overflow-hidden bg-white/90 backdrop-blur-md rounded-[32px] shadow-xl border border-white/50 p-8"
+          className="relative overflow-hidden bg-white/90 backdrop-blur-md rounded-[32px] shadow-xl border border-white/50 p-6 sm:p-8"
         >
 
           {/* Background Glow */}
@@ -84,11 +84,11 @@ const Login = () => {
               className="mb-8"
             >
 
-              <h1 className="text-4xl font-bold text-black">
+              <h1 className="text-3xl sm:text-4xl font-bold text-black">
                 Welcome Back
               </h1>
 
-              <p className="text-gray-500 mt-2">
+              <p className="text-sm sm:text-base text-gray-500 mt-2">
                 Continue your learning journey with Archivio.
               </p>
 
@@ -98,13 +98,13 @@ const Login = () => {
 
             <form
               onSubmit={handleSubmit}
-              className="space-y-5"
+              className="space-y-5 sm:space-y-5"
             >
 
               <input
                 type="email"
                 placeholder="Email Address"
-                className="w-full p-4 rounded-2xl border border-gray-200 bg-white focus:border-[#C2410C] focus:ring-4 focus:ring-[#C2410C]/20 outline-none transition-all"
+                className="w-full p-3.5 sm:p-4 rounded-2xl border border-gray-200 bg-white focus:border-[#C2410C] focus:ring-4 focus:ring-[#C2410C]/20 outline-none transition-all"
                 onChange={(e) =>
                   setForm({
                     ...form,
@@ -116,7 +116,7 @@ const Login = () => {
               <input
                 type="password"
                 placeholder="Password"
-                className="w-full p-4 rounded-2xl border border-gray-200 bg-white focus:border-[#C2410C] focus:ring-4 focus:ring-[#C2410C]/20 outline-none transition-all"
+                className="w-full p-3.5 sm:p-4 rounded-2xl border border-gray-200 bg-white focus:border-[#C2410C] focus:ring-4 focus:ring-[#C2410C]/20 outline-none transition-all"
                 onChange={(e) =>
                   setForm({
                     ...form,
@@ -127,7 +127,7 @@ const Login = () => {
 
               <button
                 type="submit"
-                className="w-full bg-[#C2410C] hover:bg-[#9A3412] text-white font-semibold py-4 rounded-2xl hover:scale-[1.02] hover:shadow-lg transition-all duration-300"
+                className="w-full bg-[#C2410C] hover:bg-[#9A3412] text-white font-semibold py-3.5 sm:py-4 rounded-2xl hover:scale-[1.02] hover:shadow-lg transition-all duration-300"
               >
                 Login
               </button>
@@ -138,21 +138,23 @@ const Login = () => {
                 (window.location.href =
                   "https://api.archivio.tech/api/auth/google")
                 }
-                className="w-full flex items-center justify-center gap-3 bg-white border border-gray-300 py-4 rounded-xl font-medium hover:bg-gray-50 transition-all duration-300 shadow-sm hover:shadow-md"
+                className="w-full flex items-center justify-center gap-3 bg-white border border-gray-300 py-3.5 sm:py-4 rounded-xl font-medium hover:bg-gray-50 transition-all duration-300 shadow-sm hover:shadow-md"
               >
                 <img
                   src="https://www.svgrepo.com/show/475656/google-color.svg"
                   alt="Google"
                   className="w-5 h-5"
                 />
-                Continue with Google
+                <span className="text-sm sm:text-base">
+                  Continue with Google
+                </span>
               </button>
 
             </form>
 
             {/* Footer */}
 
-            <p className="text-center mt-6 text-gray-500">
+            <p className="text-center mt-6 text-sm sm:text-base text-gray-500">
               Don't have an account?{" "}
               <Link
                 to="/register"
@@ -162,7 +164,7 @@ const Login = () => {
               </Link>
             </p>
 
-            <p className="text-center text-xs text-gray-400 mt-6">
+            <p className="text-center text-[11px] sm:text-xs text-gray-400 mt-6">
               Secure login powered by Archivio
             </p>
 

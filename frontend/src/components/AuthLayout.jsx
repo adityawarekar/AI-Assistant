@@ -2,11 +2,11 @@ import { motion } from "framer-motion";
 
 const AuthLayout = ({ children }) => {
   return (
-    <div className="min-h-screen bg-[#FFF7ED] flex overflow-hidden">
+    <div className="min-h-screen bg-[#FFF7ED] flex flex-col lg:flex-row overflow-hidden">
 
       {/* Left Section */}
 
-      <div className="hidden lg:flex w-1/2 relative overflow-hidden bg-gradient-to-br from-[#7C2D12] via-[#9A3412] to-[#EA580C] px-20 flex-col justify-center">
+      <div className="hidden lg:flex w-1/2 relative overflow-hidden bg-gradient-to-br from-[#7C2D12] via-[#9A3412] to-[#EA580C] px-12 xl:px-20 flex-col justify-center">
 
         {/* Animated Glow */}
 
@@ -33,7 +33,7 @@ const AuthLayout = ({ children }) => {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8 }}
         >
-          <h1 className="text-8xl font-black tracking-tight text-white">
+          <h1 className="text-8xl xl:text-8xl font-black tracking-tight text-white">
             Archivio
           </h1>
         </motion.div>
@@ -44,7 +44,7 @@ const AuthLayout = ({ children }) => {
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.8 }}
-          className="mt-8 text-3xl font-semibold text-orange-100 max-w-xl"
+          className="mt-8 text-2xl xl:text-3xl font-semibold text-orange-100 max-w-xl"
         >
           Turn Knowledge Into Mastery.
         </motion.h2>
@@ -55,7 +55,7 @@ const AuthLayout = ({ children }) => {
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4, duration: 0.8 }}
-          className="mt-6 text-lg text-orange-50/90 max-w-xl leading-relaxed"
+          className="mt-6 text-base xl:text-lg text-orange-50/90 max-w-xl leading-relaxed"
         >
           Transform documents into notes, flashcards, quizzes,
           study plans, and structured learning material from
@@ -77,8 +77,19 @@ const AuthLayout = ({ children }) => {
 
       {/* Right Section */}
 
-      <div className="flex-1 flex items-center justify-center bg-[#FFF7ED] p-8">
+      <div className="flex-1 flex flex-col items-center justify-center bg-[#FFF7ED] px-4 py-8 sm:px-6 lg:p-8">
+
+        <div className="lg:hidden text-center mb-8">
+          <h1 className="text-4xl font-black text-[#C2410C]">
+            Archivio
+          </h1>
+
+          <p className="mt-2 text-gray-600">
+            Turn Knowledge Into Mastery.
+          </p>
+        </div>
         {children}
+
       </div>
 
     </div>

@@ -6,13 +6,13 @@ const Navbar = () => {
   const { user, logout } = useAuthStore();
 
   return (
-    <div className="px-8 py-5">
+    <div className="px-4 py-4 sm:px-6 lg:px-8 lg:py-5">
 
       <motion.div
         initial={{ opacity: 0, y: -25 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="relative overflow-hidden bg-white/80 backdrop-blur-xl border border-gray-100 rounded-3xl shadow-lg px-8 py-5 flex items-center justify-between"
+        className="relative overflow-hidden bg-white/80 backdrop-blur-xl border border-gray-100 rounded-3xl shadow-lg px-4 sm:px-6 lg:px-8 py-4 sm:py-5 flex items-center justify-between"
       >
 
         {/* Background Glow */}
@@ -48,7 +48,7 @@ const Navbar = () => {
           <motion.h1
             initial={{ opacity: 0, x: -15 }}
             animate={{ opacity: 1, x: 0 }}
-            className="text-3xl font-bold text-gray-900"
+            className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900"
           >
             Welcome back
           </motion.h1>
@@ -57,7 +57,7 @@ const Navbar = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2 }}
-            className="text-gray-500 mt-1"
+            className="hidden sm:block text-gray-500 mt-1 text-sm lg:text-base"
           >
             Continue your learning journey
           </motion.p>
@@ -66,7 +66,7 @@ const Navbar = () => {
 
         {/* Right */}
 
-        <div className="relative z-10 flex items-center gap-4">
+        <div className="relative z-10 flex items-center gap-2 sm:gap-4">
 
           {/* User Card */}
 
@@ -75,7 +75,7 @@ const Navbar = () => {
               y: -2,
               scale: 1.02,
             }}
-            className="flex items-center gap-3 bg-[#F8F8F8] border border-gray-200 px-5 h-[56px] rounded-2xl"
+            className="hidden sm:flex items-center gap-3 bg-[#F8F8F8] border border-gray-200 px-4 lg:px-5 h-[52px] lg:h-[56px] rounded-2xl"
           >
 
             <motion.div
@@ -88,13 +88,12 @@ const Navbar = () => {
               }}
             >
               <FaUserCircle
-                size={34}
-                className="text-[#C2410C]"
+                className="text-[#C2410C] text-3xl lg:text-[34px]"
               />
             </motion.div>
 
             <div>
-              <p className="font-semibold text-gray-900 leading-none">
+              <p className="font-semibold text-sm lg:text-base text-gray-900 leading-none">
                 {user?.name || "User"}
               </p>
 
@@ -115,7 +114,7 @@ const Navbar = () => {
               scale: 0.95,
             }}
             onClick={logout}
-            className="h-[56px] px-6 rounded-2xl bg-[#C2410C] hover:bg-[#9A3412] text-white font-semibold shadow-md hover:shadow-xl transition-all duration-300"
+            className="h-[48px] sm:h-[56px] px-4 sm:px-6 rounded-2xl bg-[#C2410C] hover:bg-[#9A3412] text-white font-semibold shadow-md hover:shadow-xl transition-all duration-300 text-sm sm:text-base"
           >
             Logout
           </motion.button>
