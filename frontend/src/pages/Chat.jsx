@@ -2,6 +2,7 @@ import Layout from "../components/Layout";
 import { useState, useEffect } from "react";
 import API from "../services/api";
 import { motion } from "framer-motion";
+import toast from "react-hot-toast";
 
 const Chat = () => {
   const [pdfs, setPdfs] = useState([]);
@@ -25,7 +26,7 @@ const Chat = () => {
 
   const askQuestion = async () => {
     if (!selectedPdf || !question) {
-      alert("Select PDF and enter question");
+      toast.error("Please select a PDF and enter a question");
       return;
     }
 
@@ -69,23 +70,24 @@ const Chat = () => {
       <div className="space-y-6">
 
         <div>
-          <h1 className="text-4xl font-bold">
+          <h1 className="text-3xl sm:text-4xl font-bold">
             Chat With PDF
           </h1>
 
-          <p className="text-gray-500 mt-2">
+          <p className="text-sm sm:text-base text-gray-500 mt-2">
             Ask questions and learn directly from your documents.
           </p>
         </div>
 
-        <div className="bg-[#FFFDF5] p-6 rounded-3xl shadow-md">
+        <div className="bg-[#FFFDF5] p-4 sm:p-6 rounded-3xl shadow-md">
 
           <select
+            disabled={loading}
             value={selectedPdf}
             onChange={(e) =>
               setSelectedPdf(e.target.value)
             }
-            className="w-full p-4 rounded-xl border border-gray-200 mb-4"
+            className="w-full p-3 sm:p-4 rounded-xl border border-gray-200 mb-4 text-sm sm:text-base"
           >
             <option value="">
               Select PDF
@@ -101,9 +103,9 @@ const Chat = () => {
             ))}
           </select>
 
-          <div className="flex gap-3">
-
+          <div className="flex flex-col sm:flex-row gap-3">
             <input
+              disabled={loading}
               type="text"
               placeholder="Ask something from your PDF..."
               value={question}
@@ -115,16 +117,15 @@ const Chat = () => {
                   askQuestion();
                 }
               }}
-              className="flex-1 p-4 rounded-xl border border-gray-200"
+              className="flex-1 p-3 sm:p-4 rounded-xl border border-gray-200 text-sm sm:text-base"
             />
 
             <button
               onClick={askQuestion}
               disabled={!selectedPdf || loading}
-              className={`px-6 py-3 rounded-xl font-semibold transition-all duration-300
-    ${!selectedPdf || loading
-                  ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                  : "bg-[#C2410C] text-white hover:bg-[#9A3412] hover:scale-105"
+              className={`w-full sm:w-auto px-6 py-3 rounded-xl font-semibold transition-all duration-300 ${!selectedPdf || loading
+                ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                : "bg-[#C2410C] text-white hover:bg-[#9A3412] hover:scale-105"
                 }`}
             >
               {loading ? "Thinking..." : "Ask"}
@@ -132,7 +133,8 @@ const Chat = () => {
 
             <button
               onClick={clearChat}
-              className="bg-white text-black border border-gray-200 px-6 py-3 rounded-xl font-semibold hover:bg-black hover:text-white hover:border-black transition-all duration-300"
+              disabled={loading}
+              className="w-full sm:w-auto bg-white text-black border border-gray-200 px-6 py-3 rounded-xl font-semibold hover:bg-black hover:text-white hover:border-black transition-all duration-300"
             >
               Clear
             </button>
@@ -169,7 +171,7 @@ const Chat = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="relative overflow-hidden bg-white rounded-3xl border border-gray-100 shadow-lg p-12"
+            className="relative overflow-hidden bg-white rounded-3xl border border-gray-100 shadow-lg p-6 sm:p-8 lg:p-12"
           >
 
             <motion.div
@@ -202,18 +204,18 @@ const Chat = () => {
                 Chat Workspace
               </p>
 
-              <h2 className="text-4xl font-bold mt-4">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mt-4">
                 Ask questions from your documents
               </h2>
 
-              <p className="text-gray-500 mt-5 text-lg leading-relaxed">
+              <p className="text-gray-500 mt-5 text-sm sm:text-base lg:text-lg leading-relaxed">
                 Select a document and start a conversation.
                 Get instant answers, explanations and insights
                 directly from your study material without
                 searching through pages manually.
               </p>
 
-              <div className="flex flex-wrap gap-8 mt-10 text-sm text-gray-600">
+              <div className="flex flex-wrap gap-3 sm:gap-6 lg:gap-8 mt-8 text-xs sm:text-sm text-gray-600">
                 <span>Instant Answers</span>
                 <span>Context Aware</span>
                 <span>Deep Understanding</span>
@@ -225,7 +227,7 @@ const Chat = () => {
           </motion.div>
         )}
 
-        <div className="space-y-4 max-h-[500px] overflow-y-auto">
+        <div className="space-y-4 max-h-[55vh] lg:max-h-[500px] overflow-y-auto pr-2">
 
           {messages.map((msg, index) => (
             <motion.div
@@ -241,7 +243,7 @@ const Chat = () => {
               transition={{
                 duration: 0.3,
               }}
-              className={`p-4 rounded-2xl max-w-[80%] shadow-md ${msg.type === "question"
+              className={`p-3 sm:p-4 rounded-2xl max-w-[95%] sm:max-w-[85%] lg:max-w-[80%] shadow-md ${msg.type === "question"
                 ? "bg-[#E9D66B] text-black ml-auto"
                 : "bg-white text-black"
                 }`}
@@ -252,7 +254,7 @@ const Chat = () => {
                   : "📚 Archivio"}
               </p>
 
-              <p className="whitespace-pre-wrap">
+              <p className="whitespace-pre-wrap break-words">
                 {msg.text}
               </p>
             </motion.div>

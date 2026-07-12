@@ -60,26 +60,33 @@ const Notes = () => {
   };
 
   const copyNotes = async () => {
-  try {
-    await navigator.clipboard.writeText(notes);
-    toast.success("Notes copied successfully!");
-  } catch (error) {
-    toast.error("Failed to copy notes.");
-  }
-};
+    try {
+      await navigator.clipboard.writeText(notes);
+      toast.success("Notes copied successfully!");
+    } catch (error) {
+      toast.error("Failed to copy notes.");
+    }
+  };
 
   const downloadNotes = () => {
-  const doc = new jsPDF();
+    const doc = new jsPDF();
 
-  const lines = doc.splitTextToSize(notes, 180);
+    doc.setFontSize(18);
+    doc.setFont("helvetica", "bold");
+    doc.text("Archivio - Notes", 15, 20);
 
-  doc.setFont("helvetica", "normal");
-  doc.setFontSize(12);
+    doc.setDrawColor(194, 65, 12);
+    doc.line(15, 25, 195, 25);
 
-  doc.text(lines, 15, 20);
+    doc.setFontSize(12);
+    doc.setFont("helvetica", "normal");
 
-  doc.save("Archivio-Notes.pdf");
-};
+    const lines = doc.splitTextToSize(notes, 180);
+
+    doc.text(lines, 15, 35);
+
+    doc.save("Archivio-Notes.pdf");
+  };
 
   return (
     <Layout>
@@ -88,25 +95,25 @@ const Notes = () => {
         {/* Header */}
 
         <div>
-          <h1 className="text-4xl font-bold">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold">
             Notes Generator
           </h1>
 
-          <p className="text-gray-500 mt-2">
+          <p className="text-sm sm:text-base lg:text-lg text-gray-500 mt-2">
             Generate smart study notes from PDFs
           </p>
         </div>
 
         {/* Controls */}
 
-        <div className="bg-[#FFFDF5] p-6 rounded-3xl shadow-md">
+        <div className="bg-[#FFFDF5] p-4 sm:p-6 rounded-3xl shadow-md">
 
           <select
             value={selectedPdf}
             onChange={(e) =>
               setSelectedPdf(e.target.value)
             }
-            className="w-full p-4 rounded-xl border border-gray-200 mb-4"
+            className="w-full p-3 sm:p-4 rounded-xl border border-gray-200 mb-4 text-sm sm:text-base"
           >
             <option value="">
               Select PDF
@@ -125,7 +132,7 @@ const Notes = () => {
           <button
             onClick={generateNotes}
             disabled={!selectedPdf || loading}
-            className={`px-6 py-3 rounded-xl font-semibold transition
+            className={`w-full sm:w-auto px-6 py-3 rounded-xl font-semibold transition
     ${!selectedPdf || loading
                 ? "bg-gray-300 cursor-not-allowed"
                 : "bg-[#C2410C] text-white hover:bg-[#9A3412] hover:scale-105"
@@ -139,7 +146,7 @@ const Notes = () => {
         {/* Loading */}
 
         {loading && (
-          <div className="bg-[#FFFDF5] p-4 rounded-2xl shadow-md">
+          <div className="bg-[#FFFDF5] p-4 sm:p-6 rounded-2xl shadow-md">
 
             <div className="flex items-center gap-2 text-[#C2410C] font-semibold">
 
@@ -166,7 +173,7 @@ const Notes = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="relative overflow-hidden bg-white rounded-3xl border border-gray-100 shadow-lg p-12"
+            className="relative overflow-hidden bg-white rounded-3xl border border-gray-100 shadow-lg p-6 sm:p-8 lg:p-12"
           >
 
             <motion.div
@@ -208,7 +215,7 @@ const Notes = () => {
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
-                className="text-4xl font-bold mt-4"
+                className="text-2xl sm:text-3xl lg:text-4xl font-bold mt-4"
               >
                 Organize important information
               </motion.h2>
@@ -217,7 +224,7 @@ const Notes = () => {
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.45 }}
-                className="text-gray-500 mt-5 text-lg leading-relaxed"
+                className="text-gray-500 mt-5 text-sm sm:text-base lg:text-lg leading-relaxed"
               >
                 Generate structured notes from your documents and
                 quickly capture important concepts, explanations,
@@ -228,7 +235,7 @@ const Notes = () => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.6 }}
-                className="flex flex-wrap gap-8 mt-10 text-sm text-gray-600"
+                className="flex flex-wrap gap-3 sm:gap-6 lg:gap-8 mt-8 text-xs sm:text-sm text-gray-600"
               >
                 <span>Structured Notes</span>
                 <span>Quick Revision</span>
@@ -256,26 +263,26 @@ const Notes = () => {
             transition={{
               duration: 0.4,
             }}
-            className="bg-[#FFFDF5] p-8 rounded-3xl shadow-md"
+            className="bg-[#FFFDF5] p-5 sm:p-8 rounded-3xl shadow-md"
           >
-            <div className="flex justify-between items-center mb-6">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
 
               <h2 className="text-2xl font-bold">
                 📚 Generated Notes
               </h2>
 
-              <div className="flex gap-3">
+              <div className="flex flex-col sm:flex-row w-full sm:w-auto gap-3">
 
                 <button
                   onClick={copyNotes}
-                  className="bg-black text-white px-4 py-2 rounded-xl hover:scale-105 transition"
+                  className="w-full sm:w-auto bg-black text-white px-4 py-2 rounded-xl hover:scale-105 transition"
                 >
                   Copy
                 </button>
 
                 <button
                   onClick={downloadNotes}
-                  className="bg-[#C2410C] text-black px-4 py-2 rounded-xl hover:scale-105 transition"
+                  className="w-full sm:w-auto bg-[#C2410C] text-white px-4 py-2 rounded-xl hover:scale-105 transition"
                 >
                   Download
                 </button>
@@ -284,7 +291,7 @@ const Notes = () => {
 
             </div>
 
-            <pre className="whitespace-pre-wrap leading-8 text-gray-700">
+            <pre className="whitespace-pre-wrap break-words overflow-x-auto text-sm sm:text-base leading-7 sm:leading-8 text-gray-700">
               {notes}
             </pre>
 

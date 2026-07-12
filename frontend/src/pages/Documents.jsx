@@ -63,45 +63,69 @@ const Documents = () => {
         {/* Header */}
 
         <div>
-          <h1 className="text-4xl font-bold">
+          <h1 className="text-3xl sm:text-4xl font-bold">
             My Documents
           </h1>
 
-          <p className="text-gray-500 mt-2">
+          <p className="text-sm sm:text-base text-gray-500 mt-2">
             Upload and manage your study materials
           </p>
         </div>
 
         {/* Upload Section */}
 
-        <div className="bg-[#FFFDF5] p-8 rounded-3xl shadow-md border-2 border-dashed border-[#C2410C] text-center">
+        <div className="bg-[#FFFDF5] p-5 sm:p-8 rounded-3xl shadow-md border-2 border-dashed border-[#C2410C] text-center">
 
-          <h2 className="text-2xl font-bold mb-4">
+          <h2 className="text-xl sm:text-2xl font-bold mb-4">
             Upload New Document
           </h2>
 
-          <p className="text-gray-500 mb-5">
+          <p className="text-sm sm:text-base text-gray-500 mb-5">
             Upload your PDF and start learning smarter
           </p>
 
           <input
+            id="pdf-upload"
             type="file"
             accept=".pdf"
-            onChange={(e) =>
-              setFile(e.target.files[0])
-            }
-            className="mb-4"
+            onChange={(e) => setFile(e.target.files[0])}
+            className="hidden"
           />
 
-          {file && (
-            <p className="text-green-600 mb-4">
-              📄 {file.name}
+          <label
+            htmlFor="pdf-upload"
+            className={`flex flex-col items-center justify-center w-full p-8 border-2 border-dashed rounded-2xl cursor-pointer transition-all duration-300 ${file
+                ? "border-green-500 bg-green-50"
+                : "border-[#C2410C] hover:bg-orange-50 hover:border-[#EA580C]"
+              }`}
+          >
+            <span className="text-5xl mb-3">
+              {file ? "✅" : "📄"}
+            </span>
+
+            <p className="text-lg font-semibold">
+              {file ? "PDF Selected" : "Click to Select PDF"}
             </p>
+
+            <p className="text-gray-500 text-sm mt-1">
+              {file
+                ? "Click again to choose another PDF"
+                : "PDF files only"}
+            </p>
+          </label>
+
+          {file && (
+            <div className="mt-4 bg-green-50 border border-green-200 rounded-xl p-3">
+              <p className="text-green-700 font-medium break-all">
+                ✅ {file.name}
+              </p>
+            </div>
           )}
+
 
           <button
             onClick={handleUpload}
-            className="bg-[#C2410C] hover:bg-[#9A3412] px-6 py-3 rounded-xl font-semibold"
+            className="mt-6 w-full sm:w-auto bg-[#C2410C] hover:bg-[#9A3412] text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 hover:scale-105 hover:shadow-lg"
           >
             Upload PDF
           </button>
@@ -109,16 +133,16 @@ const Documents = () => {
 
         {/* Documents */}
 
-        <div className="bg-[#FFFDF5] rounded-3xl p-8 shadow-md">
+        <div className="bg-[#FFFDF5] rounded-3xl p-5 sm:p-8 shadow-md">
 
-          <h2 className="text-2xl font-bold mb-6">
+          <h2 className="text-xl sm:text-2xl font-bold mb-6">
             📚 Uploaded Documents
           </h2>
 
           {pdfs.length === 0 ? (
             <div className="py-10 text-center">
 
-              <h3 className="text-2xl font-bold">
+              <h3 className="text-xl sm:text-2xl font-bold">
                 📂 No Documents Yet
               </h3>
 
@@ -131,11 +155,11 @@ const Documents = () => {
             pdfs.map((pdf) => (
               <div
                 key={pdf._id}
-                className="bg-[#F5F3E7] p-5 rounded-2xl mb-4 flex justify-between items-center"
+                className="bg-[#F5F3E7] p-4 sm:p-5 rounded-2xl mb-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"
               >
 
                 <div>
-                  <h3 className="font-semibold text-lg">
+                  <h3 className="font-semibold text-base sm:text-lg break-words">
                     📄 {pdf.title}
                   </h3>
 
@@ -144,18 +168,18 @@ const Documents = () => {
                   </p>
                 </div>
 
-                <div className="flex gap-3">
+                <div className="flex w-full sm:w-auto gap-3">
 
                   <Link
                     to={`/pdf/${pdf._id}`}
-                    className="px-5 py-2.5 rounded-xl bg-[#C2410C] text-black font-medium hover:shadow-md hover:scale-105 transition-all duration-300"
+                    className="flex-1 sm:flex-none text-center px-5 py-2.5 rounded-xl bg-[#C2410C] text-white font-medium hover:shadow-md hover:scale-105 transition-all duration-300"
                   >
                     View
                   </Link>
 
                   <button
                     onClick={() => handleDelete(pdf._id)}
-                    className="px-5 py-2.5 rounded-xl border border-black text-black font-medium hover:bg-black hover:text-white hover:scale-105 transition-all duration-300"
+                    className="flex-1 sm:flex-none px-5 py-2.5 rounded-xl border border-black text-black font-medium hover:bg-black hover:text-white hover:scale-105 transition-all duration-300"
                   >
                     Delete
                   </button>

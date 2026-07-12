@@ -100,23 +100,23 @@ const InterviewQuestions = () => {
       <div className="space-y-6">
 
         <div>
-          <h1 className="text-4xl font-bold">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold">
             Interview Questions
           </h1>
 
-          <p className="text-gray-500 mt-2">
+          <p className="text-sm sm:text-base lg:text-lg text-gray-500 mt-2">
             Generate interview questions from PDFs
           </p>
         </div>
 
-        <div className="bg-[#FFFDF5] p-6 rounded-3xl shadow-md">
+        <div className="bg-[#FFFDF5] p-4 sm:p-6 rounded-3xl shadow-md">
 
           <select
             value={selectedPdf}
             onChange={(e) =>
               setSelectedPdf(e.target.value)
             }
-            className="w-full p-4 rounded-xl border border-gray-200 mb-4"
+            className="w-full p-3 sm:p-4 rounded-xl border border-gray-200 mb-4 text-sm sm:text-base"
           >
             <option value="">
               Select PDF
@@ -135,8 +135,8 @@ const InterviewQuestions = () => {
           <button
             onClick={generateQuestions}
             disabled={!selectedPdf || loading}
-            className={`px-6 py-3 rounded-xl font-semibold transition
-    ${!selectedPdf || loading
+            className={`w-full sm:w-auto px-6 py-3 rounded-xl font-semibold transition
+${!selectedPdf || loading
                 ? "bg-gray-300 cursor-not-allowed"
                 : "bg-[#C2410C] text-white hover:bg-[#9A3412] hover:scale-105"
               }`}
@@ -147,8 +147,13 @@ const InterviewQuestions = () => {
         </div>
 
         {loading && (
-          <div className="text-[#C2410C] font-semibold">
-            Archivio is generating questions...
+          <div className="bg-[#FFFDF5] p-4 sm:p-6 rounded-2xl shadow-md">
+            <div className="flex items-center gap-2 text-[#C2410C] font-semibold">
+              <span className="animate-bounce">●</span>
+              <span className="animate-bounce delay-100">●</span>
+              <span className="animate-bounce delay-200">●</span>
+              Archivio is generating questions...
+            </div>
           </div>
         )}
         {questions.length === 0 && !loading && (
@@ -156,7 +161,7 @@ const InterviewQuestions = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="relative overflow-hidden bg-white rounded-3xl border border-gray-100 shadow-lg p-12"
+            className="relative overflow-hidden bg-white rounded-3xl border border-gray-100 shadow-lg p-6 sm:p-8 lg:p-12"
           >
 
             <motion.div
@@ -189,18 +194,18 @@ const InterviewQuestions = () => {
                 Interview Workspace
               </p>
 
-              <h2 className="text-4xl font-bold mt-4">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mt-4">
                 Prepare with confidence
               </h2>
 
-              <p className="text-gray-500 mt-5 text-lg leading-relaxed">
+              <p className="text-gray-500 mt-5 text-sm sm:text-base lg:text-lg leading-relaxed">
                 Generate interview questions from your study
                 material and practice important concepts,
                 technical topics and discussion points before
                 interviews or assessments.
               </p>
 
-              <div className="flex flex-wrap gap-8 mt-10 text-sm text-gray-600">
+              <div className="flex flex-wrap gap-3 sm:gap-6 lg:gap-8 mt-8 text-xs sm:text-sm text-gray-600">
                 <span>Technical Questions</span>
                 <span>Concept Review</span>
                 <span>Mock Preparation</span>
@@ -213,7 +218,7 @@ const InterviewQuestions = () => {
         )}
 
         {questions.length > 0 && (
-          <div className="flex justify-between items-center bg-[#FFFDF5] p-5 rounded-2xl shadow-md mb-6">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-[#FFFDF5] p-5 rounded-2xl shadow-md mb-6">
 
             <div>
               <h2 className="text-2xl font-bold">
@@ -225,18 +230,18 @@ const InterviewQuestions = () => {
               </p>
             </div>
 
-            <div className="flex gap-3">
+            <div className="flex flex-col sm:flex-row w-full sm:w-auto gap-3">
 
               <button
                 onClick={copyQuestions}
-                className="bg-black text-white px-4 py-2 rounded-xl hover:scale-105 transition"
+                className="w-full sm:w-auto bg-black text-white px-4 py-2 rounded-xl hover:scale-105 transition"
               >
                 Copy
               </button>
 
               <button
                 onClick={downloadQuestions}
-                className="bg-[#C2410C] text-white px-4 py-2 rounded-xl hover:bg-[#9A3412] transition"
+                className="w-full sm:w-auto bg-[#C2410C] text-white px-4 py-2 rounded-xl hover:bg-[#9A3412] transition"
               >
                 Download PDF
               </button>
@@ -247,32 +252,33 @@ const InterviewQuestions = () => {
         )}
 
 
+        {questions.length > 0 && (
+          <div className="space-y-4">
 
-        <div className="space-y-4">
+            {questions.map((q) => (
+              <motion.div
+                key={q.id}
+                initial={{
+                  opacity: 0,
+                  y: 15,
+                }}
+                animate={{
+                  opacity: 1,
+                  y: 0,
+                }}
+                className="bg-[#FFFDF5] p-5 sm:p-6 rounded-3xl shadow-md"
+              >
+                <p className="text-base sm:text-lg break-words leading-relaxed">
+                  <strong>
+                    Q{q.id}.
+                  </strong>{" "}
+                  {q.question}
+                </p>
+              </motion.div>
+            ))}
 
-          {questions.map((q) => (
-            <motion.div
-              key={q.id}
-              initial={{
-                opacity: 0,
-                y: 15,
-              }}
-              animate={{
-                opacity: 1,
-                y: 0,
-              }}
-              className="bg-[#FFFDF5] p-6 rounded-3xl shadow-md"
-            >
-              <p className="text-lg">
-                <strong>
-                  Q{q.id}.
-                </strong>{" "}
-                {q.question}
-              </p>
-            </motion.div>
-          ))}
-
-        </div>
+          </div>
+        )}
 
       </div>
     </Layout>

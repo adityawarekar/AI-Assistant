@@ -67,18 +67,24 @@ const PdfSearch = () => {
     <Layout>
       <div className="space-y-6">
 
-        <h1 className="text-4xl font-bold">
-          PDF Search
-        </h1>
+        <div>
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold">
+            PDF Search
+          </h1>
 
-        <div className="bg-[#FFFDF5] p-6 rounded-3xl shadow-md">
+          <p className="text-sm sm:text-base lg:text-lg text-gray-500 mt-2">
+            Search for keywords, concepts, and topics inside your documents.
+          </p>
+        </div>
+
+        <div className="bg-[#FFFDF5] p-4 sm:p-6 rounded-3xl shadow-md">
 
           <select
             value={selectedPdf}
             onChange={(e) =>
               setSelectedPdf(e.target.value)
             }
-            className="w-full p-4 rounded-xl border border-gray-200 mb-4"
+            className="w-full p-3 sm:p-4 rounded-xl border border-gray-200 mb-4 text-sm sm:text-base"
           >
             <option value="">
               Select PDF
@@ -95,19 +101,20 @@ const PdfSearch = () => {
           </select>
 
           <input
+            disabled={loading}
             type="text"
             placeholder="Search keyword..."
             value={query}
             onChange={(e) =>
               setQuery(e.target.value)
             }
-            className="w-full p-4 rounded-xl border border-gray-200 mb-4"
+            className="w-full p-3 sm:p-4 rounded-xl border border-gray-200 mb-4 text-sm sm:text-base"
           />
 
           <button
             onClick={searchPdf}
             disabled={!selectedPdf || !query || loading}
-            className={`px-6 py-3 rounded-xl font-semibold transition
+            className={`w-full sm:w-auto px-6 py-3 rounded-xl font-semibold transition
     ${!selectedPdf || !query || loading
                 ? "bg-gray-300 cursor-not-allowed"
                 : "bg-[#C2410C] text-white hover:bg-[#9A3412] hover:scale-105"
@@ -119,9 +126,14 @@ const PdfSearch = () => {
         </div>
 
         {loading && (
-          <p className="text-[#C2410C] font-semibold">
-            Searching...
-          </p>
+          <div className="bg-[#FFFDF5] p-4 sm:p-6 rounded-2xl shadow-md">
+            <div className="flex items-center gap-2 text-[#C2410C] font-semibold">
+              <span className="animate-bounce">●</span>
+              <span className="animate-bounce delay-100">●</span>
+              <span className="animate-bounce delay-200">●</span>
+              Archivio is searching...
+            </div>
+          </div>
         )}
 
         {results.length === 0 && !loading && (
@@ -129,7 +141,7 @@ const PdfSearch = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="relative overflow-hidden bg-white rounded-3xl border border-gray-100 shadow-lg p-12"
+            className="relative overflow-hidden bg-white rounded-3xl border border-gray-100 shadow-lg p-6 sm:p-8 lg:p-12"
           >
 
             <motion.div
@@ -162,17 +174,17 @@ const PdfSearch = () => {
                 Search Workspace
               </p>
 
-              <h2 className="text-4xl font-bold mt-4">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mt-4">
                 Find information instantly
               </h2>
 
-              <p className="text-gray-500 mt-5 text-lg leading-relaxed">
+              <p className="text-gray-500 mt-5 text-sm sm:text-base lg:text-lg leading-relaxed">
                 Search through your documents and quickly locate
                 important concepts, definitions, formulas and
                 topics without manually reading every page.
               </p>
 
-              <div className="flex flex-wrap gap-8 mt-10 text-sm text-gray-600">
+              <div className="flex flex-wrap gap-3 sm:gap-6 lg:gap-8 mt-8 text-xs sm:text-sm text-gray-600">
                 <span>Instant Results</span>
                 <span>Topic Discovery</span>
                 <span>Quick Lookup</span>
@@ -197,9 +209,11 @@ const PdfSearch = () => {
                 opacity: 1,
                 y: 0,
               }}
-              className="bg-[#FFFDF5] p-5 rounded-2xl shadow-md hover:-translate-y-1 transition-all"
+              className="bg-[#FFFDF5] p-4 sm:p-5 rounded-2xl shadow-md hover:-translate-y-1 transition-all"
             >
-              {result}
+              <p className="break-words text-sm sm:text-base leading-relaxed">
+                {result}
+              </p>
             </motion.div>
           ))}
 

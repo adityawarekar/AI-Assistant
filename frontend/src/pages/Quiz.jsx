@@ -88,28 +88,28 @@ const Quiz = () => {
     <Layout>
       <div className="space-y-6">
 
-        
+
 
         <div>
-          <h1 className="text-4xl font-bold">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold">
             Quiz Generator
           </h1>
 
-          <p className="text-gray-500 mt-2">
+          <p className="text-sm sm:text-base lg:text-lg text-gray-500 mt-2">
             Test your knowledge from PDFs
           </p>
         </div>
 
-    
 
-        <div className="bg-[#FFFDF5] p-6 rounded-3xl shadow-md">
+
+        <div className="bg-[#FFFDF5] p-4 sm:p-6 rounded-3xl shadow-md">
 
           <select
             value={selectedPdf}
             onChange={(e) =>
               setSelectedPdf(e.target.value)
             }
-            className="w-full p-4 rounded-xl border border-gray-200 mb-4"
+            className="w-full p-3 sm:p-4 rounded-xl border border-gray-200 mb-4 text-sm sm:text-base"
           >
             <option value="">
               Select PDF
@@ -128,10 +128,10 @@ const Quiz = () => {
           <button
             onClick={generateQuiz}
             disabled={!selectedPdf || loading}
-            className={`px-6 py-3 rounded-xl font-semibold transition
-  ${!selectedPdf || loading
+            className={`w-full sm:w-auto px-6 py-3 rounded-xl font-semibold transition
+${!selectedPdf || loading
                 ? "bg-gray-300 cursor-not-allowed"
-               : "bg-[#C2410C] text-white hover:bg-[#9A3412] hover:scale-105"
+                : "bg-[#C2410C] text-white hover:bg-[#9A3412] hover:scale-105"
               }`}
           >
             {loading ? "Generating..." : "Generate Quiz"}
@@ -139,10 +139,10 @@ const Quiz = () => {
 
         </div>
 
-        
+
 
         {loading && (
-          <div className="bg-[#FFFDF5] p-4 rounded-2xl shadow-md">
+          <div className="bg-[#FFFDF5] p-4 sm:p-6 rounded-2xl shadow-md">
 
             <div className="flex items-center gap-2 text-[#C2410C] font-semibold">
 
@@ -168,7 +168,7 @@ const Quiz = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="relative overflow-hidden bg-white rounded-3xl border border-gray-100 shadow-lg p-12"
+            className="relative overflow-hidden bg-white rounded-3xl border border-gray-100 shadow-lg p-6 sm:p-8 lg:p-12"
           >
 
             <motion.div
@@ -210,7 +210,7 @@ const Quiz = () => {
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
-                className="text-4xl font-bold mt-4"
+                className="text-2xl sm:text-3xl lg:text-4xl font-bold mt-4"
               >
                 Measure your understanding
               </motion.h2>
@@ -219,7 +219,7 @@ const Quiz = () => {
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.45 }}
-                className="text-gray-500 mt-5 text-lg leading-relaxed"
+                className="text-gray-500 mt-5 text-sm sm:text-base lg:text-lg leading-relaxed"
               >
                 Generate a personalized quiz from your documents and
                 evaluate how well you understand important concepts,
@@ -230,7 +230,7 @@ const Quiz = () => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.6 }}
-                className="flex flex-wrap gap-8 mt-10 text-sm text-gray-600"
+                className="flex flex-wrap gap-3 sm:gap-6 lg:gap-8 mt-8 text-xs sm:text-sm text-gray-600"
               >
                 <span>Instant Questions</span>
                 <span>Knowledge Check</span>
@@ -252,13 +252,13 @@ const Quiz = () => {
             className="space-y-6"
           >
 
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
 
-              <h2 className="text-3xl font-bold">
+              <h2 className="text-2xl sm:text-3xl font-bold">
                 Quiz Questions
               </h2>
 
-              <span className="bg-[#C2410C] px-4 py-2 rounded-xl font-semibold">
+              <span className="bg-[#C2410C] text-white px-4 py-2 rounded-xl font-semibold text-center">
                 {questions.length} Questions
               </span>
 
@@ -274,10 +274,10 @@ const Quiz = () => {
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.08 }}
-                className="bg-white border border-gray-100 rounded-3xl shadow-lg p-8"
+                className="bg-white border border-gray-100 rounded-3xl shadow-lg p-5 sm:p-8"
               >
 
-                <h3 className="text-xl font-semibold mb-6">
+                <h3 className="text-lg sm:text-xl font-semibold mb-5 sm:mb-6">
                   {index + 1}. {question.question}
                 </h3>
 
@@ -287,7 +287,7 @@ const Quiz = () => {
 
                     <label
                       key={optionIndex}
-                      className={`flex items-center gap-4 p-4 rounded-2xl border cursor-pointer transition-all hover:border-[#C2410C]
+                      className={`flex items-start gap-3 p-3 sm:p-4 rounded-2xl border cursor-pointer transition-all hover:border-[#C2410C]
               ${selectedAnswers[index] === option
                           ? "bg-[#FFF8D9] border-[#C2410C]"
                           : "border-gray-200"
@@ -315,11 +315,11 @@ const Quiz = () => {
               </motion.div>
             ))}
 
-            <div className="flex justify-center">
+            <div className="flex justify-center w-full">
 
               <button
                 onClick={calculateScore}
-                className="bg-[#C2410C] hover:scale-105 transition-all px-8 py-4 rounded-2xl font-bold text-black shadow-lg"
+                className="w-full sm:w-auto bg-[#C2410C] text-white hover:scale-105 transition-all px-8 py-4 rounded-2xl font-bold shadow-lg"
               >
                 Submit Quiz
               </button>
@@ -331,14 +331,14 @@ const Quiz = () => {
               <motion.div
                 initial={{ scale: 0.9, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
-                className="bg-[#FFFDF5] border border-[#C2410C] rounded-3xl p-8 text-center shadow-lg"
+                className="bg-[#FFFDF5] border border-[#C2410C] rounded-3xl p-5 sm:p-8 text-center shadow-lg"
               >
 
-                <h2 className="text-3xl font-bold mb-2">
-                  Quiz Completed 
+                <h2 className="text-2xl sm:text-3xl font-bold mb-2">
+                  Quiz Completed
                 </h2>
 
-                <p className="text-5xl font-bold text-[#C2410C] mt-4">
+                <p className="text-4xl sm:text-5xl font-bold text-[#C2410C] mt-4">
                   {score} / {questions.length}
                 </p>
 

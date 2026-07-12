@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import API from "../services/api";
 import { motion } from "framer-motion";
 import toast from "react-hot-toast";
+import { jsPDF } from "jspdf";
 
 const ImportantTopics = () => {
   const [pdfs, setPdfs] = useState([]);
@@ -92,25 +93,25 @@ const ImportantTopics = () => {
         {/* Header */}
 
         <div>
-          <h1 className="text-4xl font-bold">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold">
             Important Topics
           </h1>
 
-          <p className="text-gray-500 mt-2">
+          <p className="text-sm sm:text-base lg:text-lg text-gray-500 mt-2">
             Discover the most exam-relevant topics from your PDF.
           </p>
         </div>
 
         {/* Controls */}
 
-        <div className="bg-[#FFFDF5] p-6 rounded-3xl shadow-md">
+        <div className="bg-[#FFFDF5] p-4 sm:p-6 rounded-3xl shadow-md">
 
           <select
             value={selectedPdf}
             onChange={(e) =>
               setSelectedPdf(e.target.value)
             }
-            className="w-full p-4 rounded-xl border border-gray-200 mb-4"
+            className="w-full p-3 sm:p-4 rounded-xl border border-gray-200 mb-4 text-sm sm:text-base"
           >
             <option value="">
               Select PDF
@@ -129,8 +130,8 @@ const ImportantTopics = () => {
           <button
             onClick={generateTopics}
             disabled={!selectedPdf || loading}
-            className={`px-6 py-3 rounded-xl font-semibold transition
-    ${!selectedPdf || loading
+            className={`w-full sm:w-auto px-6 py-3 rounded-xl font-semibold transition
+${!selectedPdf || loading
                 ? "bg-gray-300 cursor-not-allowed"
                 : "bg-[#C2410C] text-white hover:bg-[#9A3412] hover:scale-105"
               }`}
@@ -143,7 +144,7 @@ const ImportantTopics = () => {
         {/* Loader */}
 
         {loading && (
-          <div className="bg-[#FFFDF5] p-4 rounded-2xl shadow-md">
+          <div className="bg-[#FFFDF5] p-4 sm:p-6 rounded-2xl shadow-md">
 
             <div className="flex items-center gap-2 text-[#C2410C] font-semibold">
 
@@ -172,7 +173,7 @@ const ImportantTopics = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="relative overflow-hidden bg-white rounded-3xl border border-gray-100 shadow-lg p-12"
+            className="relative overflow-hidden bg-white rounded-3xl border border-gray-100 shadow-lg p-6 sm:p-8 lg:p-12"
           >
             <motion.div
               animate={{ x: [0, 30, 0], y: [0, -20, 0] }}
@@ -192,17 +193,17 @@ const ImportantTopics = () => {
                 Topic Analysis
               </p>
 
-              <h2 className="text-4xl font-bold mt-4">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mt-4">
                 Focus on what matters most
               </h2>
 
-              <p className="text-gray-500 mt-5 text-lg leading-relaxed">
+              <p className="text-gray-500 mt-5 text-sm sm:text-base lg:text-lg leading-relaxed">
                 Identify the most important concepts, chapters,
                 definitions and exam-focused topics from your
                 documents for efficient revision.
               </p>
 
-              <div className="flex flex-wrap gap-8 mt-10 text-sm text-gray-600">
+              <div className="flex flex-wrap gap-3 sm:gap-6 lg:gap-8 mt-8 text-xs sm:text-sm text-gray-600">
                 <span>Key Concepts</span>
                 <span>Exam Focused</span>
                 <span>Quick Revision</span>
@@ -217,29 +218,34 @@ const ImportantTopics = () => {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-[#FFFDF5] p-8 rounded-3xl shadow-md"
+            className="bg-[#FFFDF5] p-5 sm:p-8 rounded-3xl shadow-md"
           >
-            <div className="flex justify-between items-center mb-6">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
               <h2 className="text-2xl font-bold">
                 📌 Important Topics
               </h2>
 
               <button
+
                 onClick={copyTopics}
-                className="bg-black text-white px-4 py-2 rounded-xl hover:scale-105 transition"
+                disabled={loading}
+                className="w-full sm:w-auto bg-black text-white px-4 py-2 rounded-xl hover:scale-105 transition"
+
               >
                 Copy
               </button>
 
               <button
+
                 onClick={downloadTopics}
-                className="bg-[#C2410C] text-white px-4 py-2 rounded-xl hover:bg-[#9A3412] transition"
+                disabled={loading}
+                className="w-full sm:w-auto bg-[#C2410C] text-white px-4 py-2 rounded-xl hover:bg-[#9A3412] transition"
               >
                 Download PDF
               </button>
             </div>
 
-            <pre className="whitespace-pre-wrap leading-8 text-gray-700">
+            <pre className="whitespace-pre-wrap break-words text-sm sm:text-base leading-7 sm:leading-8 text-gray-700 overflow-x-auto">
               {topics}
             </pre>
           </motion.div>

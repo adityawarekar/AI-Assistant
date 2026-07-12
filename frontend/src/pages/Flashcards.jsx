@@ -47,23 +47,23 @@ const Flashcards = () => {
       setLoading(false);
     }
   };
-  
- const copyFlashcards = async () => {
-  try {
-    const text = cards
-      .map(
-        (card, index) =>
-          `Q${index + 1}: ${card.question}\nA: ${card.answer}`
-      )
-      .join("\n\n");
 
-    await navigator.clipboard.writeText(text);
+  const copyFlashcards = async () => {
+    try {
+      const text = cards
+        .map(
+          (card, index) =>
+            `Q${index + 1}: ${card.question}\nA: ${card.answer}`
+        )
+        .join("\n\n");
 
-    toast.success("Flashcards copied successfully!");
-  } catch {
-    toast.error("Failed to copy Flashcards.");
-  }
-};
+      await navigator.clipboard.writeText(text);
+
+      toast.success("Flashcards copied successfully!");
+    } catch {
+      toast.error("Failed to copy Flashcards.");
+    }
+  };
 
   const downloadFlashcards = () => {
     const text = cards
@@ -113,25 +113,25 @@ const Flashcards = () => {
 
 
         <div>
-          <h1 className="text-5xl font-bold tracking-tight text-gray-900">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-gray-900">
             Flashcards
           </h1>
 
-          <p className="text-gray-500 mt-3 text-lg">
+          <p className="text-sm sm:text-base lg:text-lg text-gray-500 mt-3">
             Learn faster with interactive flashcards.
           </p>
         </div>
 
 
 
-        <div className="bg-white border border-gray-100 p-6 rounded-3xl shadow-lg">
+        <div className="bg-white border border-gray-100 p-4 sm:p-6 rounded-3xl shadow-lg">
 
           <select
             value={selectedPdf}
             onChange={(e) =>
               setSelectedPdf(e.target.value)
             }
-            className="w-full p-4 rounded-2xl border border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-[#C2410C]/20 mb-4"
+            className="w-full p-3 sm:p-4 rounded-2xl border border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-[#C2410C]/20 mb-4 text-sm sm:text-base"
           >
             <option value="">
               Select PDF
@@ -150,7 +150,7 @@ const Flashcards = () => {
           <button
             onClick={generateFlashcards}
             disabled={!selectedPdf || loading}
-            className={`w-full py-4 rounded-2xl font-semibold shadow-md transition-all
+            className={`w-full py-3 sm:py-4 rounded-2xl font-semibold shadow-md transition-all
     ${!selectedPdf || loading
                 ? "bg-gray-300 cursor-not-allowed"
                 : "bg-[#C2410C] text-white hover:bg-[#9A3412] hover:shadow-xl hover:scale-[1.02]"
@@ -163,11 +163,11 @@ const Flashcards = () => {
 
 
         {loading && (
-          <div className="bg-white p-8 rounded-3xl shadow-lg text-center">
+          <div className="bg-white p-6 sm:p-8 rounded-3xl shadow-lg text-center">
 
             <div className="w-12 h-12 border-4 border-orange-200 border-t-[#C2410C] rounded-full animate-spin mx-auto mb-4"></div>
 
-            <p className="font-semibold text-lg">
+            <p className="font-semibold text-base sm:text-lg">
               Generating Flashcards...
             </p>
 
@@ -179,7 +179,7 @@ const Flashcards = () => {
         )}
         {cards.length > 0 && !loading && (
 
-          <div className="flex justify-between items-center bg-[#FFFDF5] p-5 rounded-2xl shadow-md">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-[#FFFDF5] p-5 rounded-2xl shadow-md">
 
             <div>
               <h2 className="text-2xl font-bold">
@@ -191,18 +191,20 @@ const Flashcards = () => {
               </p>
             </div>
 
-            <div className="flex gap-3">
+            <div className="flex flex-col sm:flex-row w-full sm:w-auto gap-3">
 
               <button
                 onClick={copyFlashcards}
-                className="bg-black text-white px-4 py-2 rounded-xl"
+                disabled={loading}
+                className="w-full sm:w-auto bg-black text-white px-4 py-2 rounded-xl"
               >
                 Copy
               </button>
 
               <button
                 onClick={downloadFlashcards}
-                className="bg-[#C2410C] text-black px-4 py-2 rounded-xl"
+                disabled={loading}
+                className="w-full sm:w-auto bg-[#C2410C] text-white px-4 py-2 rounded-xl"
               >
                 Download
               </button>
@@ -220,7 +222,7 @@ const Flashcards = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="relative overflow-hidden bg-white rounded-3xl border border-gray-100 shadow-lg p-12"
+            className="relative overflow-hidden bg-white rounded-3xl border border-gray-100 shadow-lg p-6 sm:p-8 lg:p-12"
           >
 
             <motion.div
@@ -253,17 +255,17 @@ const Flashcards = () => {
                 Flashcard Workspace
               </p>
 
-              <h2 className="text-4xl font-bold mt-4">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mt-4">
                 Learn through active recall
               </h2>
 
-              <p className="text-gray-500 mt-5 text-lg leading-relaxed">
+              <p className="text-gray-500 mt-5 text-sm sm:text-base lg:text-lg leading-relaxed">
                 Turn your study material into interactive flashcards
                 designed to improve memory retention and help you
                 revise important concepts faster.
               </p>
 
-              <div className="flex flex-wrap gap-8 mt-10 text-sm text-gray-600">
+              <div className="flex flex-wrap gap-3 sm:gap-6 lg:gap-8 mt-8 text-xs sm:text-sm text-gray-600">
                 <span>Active Recall</span>
                 <span>Memory Retention</span>
                 <span>Quick Learning</span>
@@ -278,7 +280,7 @@ const Flashcards = () => {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+            className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6"
           >
             {cards.map((card, index) => (
               <motion.div
