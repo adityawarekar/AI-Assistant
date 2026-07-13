@@ -97,7 +97,7 @@ const InterviewQuestions = () => {
 
   return (
     <Layout>
-      <div className="space-y-6">
+      <div className="space-y-5 sm:space-y-6">
 
         <div>
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold">
@@ -148,7 +148,7 @@ ${!selectedPdf || loading
 
         {loading && (
           <div className="bg-[#FFFDF5] p-4 sm:p-6 rounded-2xl shadow-md">
-            <div className="flex items-center gap-2 text-[#C2410C] font-semibold">
+            <div className="flex items-center gap-2 text-[#C2410C] font-semibold text-sm sm:text-base">
               <span className="animate-bounce">●</span>
               <span className="animate-bounce delay-100">●</span>
               <span className="animate-bounce delay-200">●</span>
@@ -173,7 +173,7 @@ ${!selectedPdf || loading
                 duration: 10,
                 repeat: Infinity,
               }}
-              className="absolute -top-10 -right-10 w-72 h-72 bg-[#E9D66B]/20 rounded-full blur-3xl"
+              className="absolute -top-10 -right-10 w-40 h-40 sm:w-72 sm:h-72 bg-[#E9D66B]/20 rounded-full blur-3xl"
             />
 
             <motion.div
@@ -185,31 +185,31 @@ ${!selectedPdf || loading
                 duration: 12,
                 repeat: Infinity,
               }}
-              className="absolute -bottom-16 -left-10 w-80 h-80 bg-black/5 rounded-full blur-3xl"
+              className="absolute -bottom-16 -left-10 w-44 h-44 sm:w-80 sm:h-80 bg-black/5 rounded-full blur-3xl"
             />
 
             <div className="relative z-10 max-w-3xl">
 
-              <p className="text-sm uppercase tracking-[0.2em] text-gray-400">
+              <p className="text-xs sm:text-sm uppercase tracking-[0.2em] text-gray-400">
                 Interview Workspace
               </p>
 
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mt-4">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mt-3 sm:mt-4">
                 Prepare with confidence
               </h2>
 
-              <p className="text-gray-500 mt-5 text-sm sm:text-base lg:text-lg leading-relaxed">
+              <p className="text-gray-500 mt-3 sm:mt-5 text-sm sm:text-base lg:text-lg leading-relaxed">
                 Generate interview questions from your study
                 material and practice important concepts,
                 technical topics and discussion points before
                 interviews or assessments.
               </p>
 
-              <div className="flex flex-wrap gap-3 sm:gap-6 lg:gap-8 mt-8 text-xs sm:text-sm text-gray-600">
-                <span>Technical Questions</span>
-                <span>Concept Review</span>
-                <span>Mock Preparation</span>
-                <span>Interview Ready</span>
+              <div className="flex flex-wrap gap-2.5 sm:gap-6 lg:gap-8 mt-6 sm:mt-8 text-xs sm:text-sm text-gray-600">
+                <span className="bg-gray-50 px-2.5 py-1 rounded-full sm:bg-transparent sm:px-0 sm:py-0">Technical Questions</span>
+                <span className="bg-gray-50 px-2.5 py-1 rounded-full sm:bg-transparent sm:px-0 sm:py-0">Concept Review</span>
+                <span className="bg-gray-50 px-2.5 py-1 rounded-full sm:bg-transparent sm:px-0 sm:py-0">Mock Preparation</span>
+                <span className="bg-gray-50 px-2.5 py-1 rounded-full sm:bg-transparent sm:px-0 sm:py-0">Interview Ready</span>
               </div>
 
             </div>
@@ -218,30 +218,30 @@ ${!selectedPdf || loading
         )}
 
         {questions.length > 0 && (
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-[#FFFDF5] p-5 rounded-2xl shadow-md mb-6">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4 bg-[#FFFDF5] p-4 sm:p-5 rounded-2xl shadow-md mb-6">
 
-            <div>
-              <h2 className="text-2xl font-bold">
+            <div className="min-w-0">
+              <h2 className="text-lg sm:text-2xl font-bold">
                 🎤 Interview Questions
               </h2>
 
-              <p className="text-gray-500">
+              <p className="text-gray-500 text-xs sm:text-base">
                 {questions.length} Questions Generated
               </p>
             </div>
 
-            <div className="flex flex-col sm:flex-row w-full sm:w-auto gap-3">
+            <div className="flex gap-2 sm:gap-3 w-full sm:w-auto shrink-0">
 
               <button
                 onClick={copyQuestions}
-                className="w-full sm:w-auto bg-black text-white px-4 py-2 rounded-xl hover:scale-105 transition"
+                className="flex-1 sm:flex-none bg-black text-white px-4 py-2 rounded-xl hover:scale-105 transition text-sm sm:text-base"
               >
                 Copy
               </button>
 
               <button
                 onClick={downloadQuestions}
-                className="w-full sm:w-auto bg-[#C2410C] text-white px-4 py-2 rounded-xl hover:bg-[#9A3412] transition"
+                className="flex-1 sm:flex-none bg-[#C2410C] text-white px-4 py-2 rounded-xl hover:bg-[#9A3412] transition text-sm sm:text-base"
               >
                 Download PDF
               </button>
@@ -253,7 +253,7 @@ ${!selectedPdf || loading
 
 
         {questions.length > 0 && (
-          <div className="space-y-4">
+          <div className="space-y-3 sm:space-y-4">
 
             {questions.map((q) => (
               <motion.div
@@ -266,9 +266,9 @@ ${!selectedPdf || loading
                   opacity: 1,
                   y: 0,
                 }}
-                className="bg-[#FFFDF5] p-5 sm:p-6 rounded-3xl shadow-md"
+                className="bg-[#FFFDF5] p-4 sm:p-6 rounded-3xl shadow-md"
               >
-                <p className="text-base sm:text-lg break-words leading-relaxed">
+                <p className="text-sm sm:text-lg break-words leading-relaxed">
                   <strong>
                     Q{q.id}.
                   </strong>{" "}

@@ -65,7 +65,7 @@ const PdfSearch = () => {
 
   return (
     <Layout>
-      <div className="space-y-6">
+      <div className="space-y-5 sm:space-y-6">
 
         <div>
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold">
@@ -108,6 +108,11 @@ const PdfSearch = () => {
             onChange={(e) =>
               setQuery(e.target.value)
             }
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                searchPdf();
+              }
+            }}
             className="w-full p-3 sm:p-4 rounded-xl border border-gray-200 mb-4 text-sm sm:text-base"
           />
 
@@ -127,7 +132,7 @@ const PdfSearch = () => {
 
         {loading && (
           <div className="bg-[#FFFDF5] p-4 sm:p-6 rounded-2xl shadow-md">
-            <div className="flex items-center gap-2 text-[#C2410C] font-semibold">
+            <div className="flex items-center gap-2 text-[#C2410C] font-semibold text-sm sm:text-base">
               <span className="animate-bounce">●</span>
               <span className="animate-bounce delay-100">●</span>
               <span className="animate-bounce delay-200">●</span>
@@ -153,7 +158,7 @@ const PdfSearch = () => {
                 duration: 10,
                 repeat: Infinity,
               }}
-              className="absolute -top-10 -right-10 w-72 h-72 bg-[#E9D66B]/20 rounded-full blur-3xl"
+              className="absolute -top-10 -right-10 w-40 h-40 sm:w-72 sm:h-72 bg-[#E9D66B]/20 rounded-full blur-3xl"
             />
 
             <motion.div
@@ -165,30 +170,30 @@ const PdfSearch = () => {
                 duration: 12,
                 repeat: Infinity,
               }}
-              className="absolute -bottom-16 -left-10 w-80 h-80 bg-black/5 rounded-full blur-3xl"
+              className="absolute -bottom-16 -left-10 w-44 h-44 sm:w-80 sm:h-80 bg-black/5 rounded-full blur-3xl"
             />
 
             <div className="relative z-10 max-w-3xl">
 
-              <p className="text-sm uppercase tracking-[0.2em] text-gray-400">
+              <p className="text-xs sm:text-sm uppercase tracking-[0.2em] text-gray-400">
                 Search Workspace
               </p>
 
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mt-4">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mt-3 sm:mt-4">
                 Find information instantly
               </h2>
 
-              <p className="text-gray-500 mt-5 text-sm sm:text-base lg:text-lg leading-relaxed">
+              <p className="text-gray-500 mt-3 sm:mt-5 text-sm sm:text-base lg:text-lg leading-relaxed">
                 Search through your documents and quickly locate
                 important concepts, definitions, formulas and
                 topics without manually reading every page.
               </p>
 
-              <div className="flex flex-wrap gap-3 sm:gap-6 lg:gap-8 mt-8 text-xs sm:text-sm text-gray-600">
-                <span>Instant Results</span>
-                <span>Topic Discovery</span>
-                <span>Quick Lookup</span>
-                <span>Focused Research</span>
+              <div className="flex flex-wrap gap-2.5 sm:gap-6 lg:gap-8 mt-6 sm:mt-8 text-xs sm:text-sm text-gray-600">
+                <span className="bg-gray-50 px-2.5 py-1 rounded-full sm:bg-transparent sm:px-0 sm:py-0">Instant Results</span>
+                <span className="bg-gray-50 px-2.5 py-1 rounded-full sm:bg-transparent sm:px-0 sm:py-0">Topic Discovery</span>
+                <span className="bg-gray-50 px-2.5 py-1 rounded-full sm:bg-transparent sm:px-0 sm:py-0">Quick Lookup</span>
+                <span className="bg-gray-50 px-2.5 py-1 rounded-full sm:bg-transparent sm:px-0 sm:py-0">Focused Research</span>
               </div>
 
             </div>
@@ -196,7 +201,13 @@ const PdfSearch = () => {
           </motion.div>
         )}
 
-        <div className="space-y-4">
+        {results.length > 0 && !loading && (
+          <p className="text-sm sm:text-base text-gray-500">
+            {results.length} result{results.length !== 1 ? "s" : ""} found
+          </p>
+        )}
+
+        <div className="space-y-3 sm:space-y-4">
 
           {results.map((result, index) => (
             <motion.div

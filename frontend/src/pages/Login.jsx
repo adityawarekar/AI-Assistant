@@ -13,6 +13,7 @@ const Login = () => {
     email: "",
     password: "",
   });
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const authToken = token || localStorage.getItem("token");
@@ -25,6 +26,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    setLoading(true);
     try {
       await login(form);
 
@@ -37,6 +39,8 @@ const Login = () => {
       toast.error(
         error.response?.data?.message || "Login failed"
       );
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -104,7 +108,9 @@ const Login = () => {
               <input
                 type="email"
                 placeholder="Email Address"
-                className="w-full p-3.5 sm:p-4 rounded-2xl border border-gray-200 bg-white focus:border-[#C2410C] focus:ring-4 focus:ring-[#C2410C]/20 outline-none transition-all"
+                required
+                disabled={loading}
+                className="w-full p-3.5 sm:p-4 rounded-2xl border border-gray-200 bg-white focus:border-[#C2410C] focus:ring-4 focus:ring-[#C2410C]/20 outline-none transition-all disabled:opacity-60"
                 onChange={(e) =>
                   setForm({
                     ...form,
@@ -116,7 +122,9 @@ const Login = () => {
               <input
                 type="password"
                 placeholder="Password"
-                className="w-full p-3.5 sm:p-4 rounded-2xl border border-gray-200 bg-white focus:border-[#C2410C] focus:ring-4 focus:ring-[#C2410C]/20 outline-none transition-all"
+                required
+                disabled={loading}
+                className="w-full p-3.5 sm:p-4 rounded-2xl border border-gray-200 bg-white focus:border-[#C2410C] focus:ring-4 focus:ring-[#C2410C]/20 outline-none transition-all disabled:opacity-60"
                 onChange={(e) =>
                   setForm({
                     ...form,
@@ -127,18 +135,23 @@ const Login = () => {
 
               <button
                 type="submit"
-                className="w-full bg-[#C2410C] hover:bg-[#9A3412] text-white font-semibold py-3.5 sm:py-4 rounded-2xl hover:scale-[1.02] hover:shadow-lg transition-all duration-300"
+                disabled={loading}
+                className="w-full bg-[#C2410C] hover:bg-[#9A3412] disabled:opacity-70 disabled:hover:scale-100 disabled:cursor-not-allowed text-white font-semibold py-3.5 sm:py-4 rounded-2xl hover:scale-[1.02] hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2"
               >
-                Login
+                {loading && (
+                  <span className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />
+                )}
+                {loading ? "Logging in..." : "Login"}
               </button>
 
               <button
                 type="button"
+                disabled={loading}
                 onClick={() =>
                 (window.location.href =
                   "https://api.archivio.tech/api/auth/google")
                 }
-                className="w-full flex items-center justify-center gap-3 bg-white border border-gray-300 py-3.5 sm:py-4 rounded-xl font-medium hover:bg-gray-50 transition-all duration-300 shadow-sm hover:shadow-md"
+                className="w-full flex items-center justify-center gap-3 bg-white border border-gray-300 py-3.5 sm:py-4 rounded-xl font-medium hover:bg-gray-50 disabled:opacity-60 transition-all duration-300 shadow-sm hover:shadow-md"
               >
                 <img
                   src="https://www.svgrepo.com/show/475656/google-color.svg"

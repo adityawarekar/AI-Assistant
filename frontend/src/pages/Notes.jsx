@@ -90,7 +90,7 @@ const Notes = () => {
 
   return (
     <Layout>
-      <div className="space-y-6">
+      <div className="space-y-5 sm:space-y-6">
 
         {/* Header */}
 
@@ -148,7 +148,7 @@ const Notes = () => {
         {loading && (
           <div className="bg-[#FFFDF5] p-4 sm:p-6 rounded-2xl shadow-md">
 
-            <div className="flex items-center gap-2 text-[#C2410C] font-semibold">
+            <div className="flex items-center gap-2 text-[#C2410C] font-semibold text-sm sm:text-base">
 
               <span className="animate-bounce text-[#C2410C]">
                 ●
@@ -185,7 +185,7 @@ const Notes = () => {
                 duration: 10,
                 repeat: Infinity,
               }}
-              className="absolute -top-10 -right-10 w-72 h-72 bg-[#E9D66B]/20 rounded-full blur-3xl"
+              className="absolute -top-10 -right-10 w-40 h-40 sm:w-72 sm:h-72 bg-[#E9D66B]/20 rounded-full blur-3xl"
             />
 
             <motion.div
@@ -197,7 +197,7 @@ const Notes = () => {
                 duration: 12,
                 repeat: Infinity,
               }}
-              className="absolute -bottom-16 -left-10 w-80 h-80 bg-black/5 rounded-full blur-3xl"
+              className="absolute -bottom-16 -left-10 w-44 h-44 sm:w-80 sm:h-80 bg-black/5 rounded-full blur-3xl"
             />
 
             <div className="relative z-10 max-w-3xl">
@@ -206,7 +206,7 @@ const Notes = () => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.2 }}
-                className="text-sm uppercase tracking-[0.2em] text-gray-400"
+                className="text-xs sm:text-sm uppercase tracking-[0.2em] text-gray-400"
               >
                 Notes Workspace
               </motion.p>
@@ -215,7 +215,7 @@ const Notes = () => {
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
-                className="text-2xl sm:text-3xl lg:text-4xl font-bold mt-4"
+                className="text-2xl sm:text-3xl lg:text-4xl font-bold mt-3 sm:mt-4"
               >
                 Organize important information
               </motion.h2>
@@ -224,7 +224,7 @@ const Notes = () => {
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.45 }}
-                className="text-gray-500 mt-5 text-sm sm:text-base lg:text-lg leading-relaxed"
+                className="text-gray-500 mt-3 sm:mt-5 text-sm sm:text-base lg:text-lg leading-relaxed"
               >
                 Generate structured notes from your documents and
                 quickly capture important concepts, explanations,
@@ -235,12 +235,12 @@ const Notes = () => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.6 }}
-                className="flex flex-wrap gap-3 sm:gap-6 lg:gap-8 mt-8 text-xs sm:text-sm text-gray-600"
+                className="flex flex-wrap gap-2.5 sm:gap-6 lg:gap-8 mt-6 sm:mt-8 text-xs sm:text-sm text-gray-600"
               >
-                <span>Structured Notes</span>
-                <span>Quick Revision</span>
-                <span>Key Concepts</span>
-                <span>Study Ready</span>
+                <span className="bg-gray-50 px-2.5 py-1 rounded-full sm:bg-transparent sm:px-0 sm:py-0">Structured Notes</span>
+                <span className="bg-gray-50 px-2.5 py-1 rounded-full sm:bg-transparent sm:px-0 sm:py-0">Quick Revision</span>
+                <span className="bg-gray-50 px-2.5 py-1 rounded-full sm:bg-transparent sm:px-0 sm:py-0">Key Concepts</span>
+                <span className="bg-gray-50 px-2.5 py-1 rounded-full sm:bg-transparent sm:px-0 sm:py-0">Study Ready</span>
               </motion.div>
 
             </div>
@@ -263,26 +263,26 @@ const Notes = () => {
             transition={{
               duration: 0.4,
             }}
-            className="bg-[#FFFDF5] p-5 sm:p-8 rounded-3xl shadow-md"
+            className="bg-[#FFFDF5] p-4 sm:p-8 rounded-3xl shadow-md"
           >
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4 mb-5 sm:mb-6">
 
-              <h2 className="text-2xl font-bold">
+              <h2 className="text-lg sm:text-2xl font-bold">
                 📚 Generated Notes
               </h2>
 
-              <div className="flex flex-col sm:flex-row w-full sm:w-auto gap-3">
+              <div className="flex gap-2 sm:gap-3 w-full sm:w-auto shrink-0">
 
                 <button
                   onClick={copyNotes}
-                  className="w-full sm:w-auto bg-black text-white px-4 py-2 rounded-xl hover:scale-105 transition"
+                  className="flex-1 sm:flex-none bg-black text-white px-4 py-2 rounded-xl hover:scale-105 transition text-sm sm:text-base"
                 >
                   Copy
                 </button>
 
                 <button
                   onClick={downloadNotes}
-                  className="w-full sm:w-auto bg-[#C2410C] text-white px-4 py-2 rounded-xl hover:scale-105 transition"
+                  className="flex-1 sm:flex-none bg-[#C2410C] text-white px-4 py-2 rounded-xl hover:scale-105 transition text-sm sm:text-base"
                 >
                   Download
                 </button>

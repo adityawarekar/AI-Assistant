@@ -108,7 +108,7 @@ const Flashcards = () => {
 
   return (
     <Layout>
-      <div className="space-y-8">
+      <div className="space-y-5 sm:space-y-8">
 
 
 
@@ -117,7 +117,7 @@ const Flashcards = () => {
             Flashcards
           </h1>
 
-          <p className="text-sm sm:text-base lg:text-lg text-gray-500 mt-3">
+          <p className="text-sm sm:text-base lg:text-lg text-gray-500 mt-2 sm:mt-3">
             Learn faster with interactive flashcards.
           </p>
         </div>
@@ -150,7 +150,7 @@ const Flashcards = () => {
           <button
             onClick={generateFlashcards}
             disabled={!selectedPdf || loading}
-            className={`w-full py-3 sm:py-4 rounded-2xl font-semibold shadow-md transition-all
+            className={`w-full py-3 sm:py-4 rounded-2xl font-semibold shadow-md transition-all text-sm sm:text-base
     ${!selectedPdf || loading
                 ? "bg-gray-300 cursor-not-allowed"
                 : "bg-[#C2410C] text-white hover:bg-[#9A3412] hover:shadow-xl hover:scale-[1.02]"
@@ -163,15 +163,15 @@ const Flashcards = () => {
 
 
         {loading && (
-          <div className="bg-white p-6 sm:p-8 rounded-3xl shadow-lg text-center">
+          <div className="bg-white p-5 sm:p-8 rounded-3xl shadow-lg text-center">
 
-            <div className="w-12 h-12 border-4 border-orange-200 border-t-[#C2410C] rounded-full animate-spin mx-auto mb-4"></div>
+            <div className="w-10 h-10 sm:w-12 sm:h-12 border-4 border-orange-200 border-t-[#C2410C] rounded-full animate-spin mx-auto mb-4"></div>
 
-            <p className="font-semibold text-base sm:text-lg">
+            <p className="font-semibold text-sm sm:text-lg">
               Generating Flashcards...
             </p>
 
-            <p className="text-gray-500 mt-2">
+            <p className="text-gray-500 mt-2 text-xs sm:text-base">
               Please wait while your document is processed.
             </p>
 
@@ -179,24 +179,24 @@ const Flashcards = () => {
         )}
         {cards.length > 0 && !loading && (
 
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-[#FFFDF5] p-5 rounded-2xl shadow-md">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4 bg-[#FFFDF5] p-4 sm:p-5 rounded-2xl shadow-md">
 
-            <div>
-              <h2 className="text-2xl font-bold">
+            <div className="min-w-0">
+              <h2 className="text-lg sm:text-2xl font-bold">
                 📚 Flashcards Generated
               </h2>
 
-              <p className="text-gray-500">
+              <p className="text-gray-500 text-xs sm:text-base">
                 {cards.length} Flashcards
               </p>
             </div>
 
-            <div className="flex flex-col sm:flex-row w-full sm:w-auto gap-3">
+            <div className="flex gap-2 sm:gap-3 w-full sm:w-auto">
 
               <button
                 onClick={copyFlashcards}
                 disabled={loading}
-                className="w-full sm:w-auto bg-black text-white px-4 py-2 rounded-xl"
+                className="flex-1 sm:flex-none bg-black text-white px-4 py-2 rounded-xl text-sm sm:text-base"
               >
                 Copy
               </button>
@@ -204,7 +204,7 @@ const Flashcards = () => {
               <button
                 onClick={downloadFlashcards}
                 disabled={loading}
-                className="w-full sm:w-auto bg-[#C2410C] text-white px-4 py-2 rounded-xl"
+                className="flex-1 sm:flex-none bg-[#C2410C] text-white px-4 py-2 rounded-xl text-sm sm:text-base"
               >
                 Download
               </button>
@@ -234,7 +234,7 @@ const Flashcards = () => {
                 duration: 8,
                 repeat: Infinity,
               }}
-              className="absolute -top-10 -right-10 w-72 h-72 bg-[#E9D66B]/20 rounded-full blur-3xl"
+              className="absolute -top-10 -right-10 w-40 h-40 sm:w-72 sm:h-72 bg-[#E9D66B]/20 rounded-full blur-3xl"
             />
 
             <motion.div
@@ -246,30 +246,30 @@ const Flashcards = () => {
                 duration: 10,
                 repeat: Infinity,
               }}
-              className="absolute -bottom-16 -left-10 w-80 h-80 bg-black/5 rounded-full blur-3xl"
+              className="absolute -bottom-16 -left-10 w-44 h-44 sm:w-80 sm:h-80 bg-black/5 rounded-full blur-3xl"
             />
 
             <div className="relative z-10 max-w-3xl">
 
-              <p className="text-sm uppercase tracking-[0.2em] text-gray-400">
+              <p className="text-xs sm:text-sm uppercase tracking-[0.2em] text-gray-400">
                 Flashcard Workspace
               </p>
 
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mt-4">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mt-3 sm:mt-4">
                 Learn through active recall
               </h2>
 
-              <p className="text-gray-500 mt-5 text-sm sm:text-base lg:text-lg leading-relaxed">
+              <p className="text-gray-500 mt-3 sm:mt-5 text-sm sm:text-base lg:text-lg leading-relaxed">
                 Turn your study material into interactive flashcards
                 designed to improve memory retention and help you
                 revise important concepts faster.
               </p>
 
-              <div className="flex flex-wrap gap-3 sm:gap-6 lg:gap-8 mt-8 text-xs sm:text-sm text-gray-600">
-                <span>Active Recall</span>
-                <span>Memory Retention</span>
-                <span>Quick Learning</span>
-                <span>Exam Revision</span>
+              <div className="flex flex-wrap gap-2.5 sm:gap-6 lg:gap-8 mt-6 sm:mt-8 text-xs sm:text-sm text-gray-600">
+                <span className="bg-gray-50 px-2.5 py-1 rounded-full sm:bg-transparent sm:px-0 sm:py-0">Active Recall</span>
+                <span className="bg-gray-50 px-2.5 py-1 rounded-full sm:bg-transparent sm:px-0 sm:py-0">Memory Retention</span>
+                <span className="bg-gray-50 px-2.5 py-1 rounded-full sm:bg-transparent sm:px-0 sm:py-0">Quick Learning</span>
+                <span className="bg-gray-50 px-2.5 py-1 rounded-full sm:bg-transparent sm:px-0 sm:py-0">Exam Revision</span>
               </div>
 
             </div>

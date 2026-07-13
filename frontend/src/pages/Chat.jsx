@@ -1,5 +1,5 @@
 import Layout from "../components/Layout";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import API from "../services/api";
 import { motion } from "framer-motion";
 import toast from "react-hot-toast";
@@ -10,6 +10,7 @@ const Chat = () => {
   const [question, setQuestion] = useState("");
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
+  const messagesEndRef = useRef(null);
 
   const fetchPdfs = async () => {
     try {
@@ -23,6 +24,10 @@ const Chat = () => {
   useEffect(() => {
     fetchPdfs();
   }, []);
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages, loading]);
 
   const askQuestion = async () => {
     if (!selectedPdf || !question) {
@@ -103,27 +108,27 @@ const Chat = () => {
             ))}
           </select>
 
-          <div className="flex flex-col sm:flex-row gap-3">
-            <input
-              disabled={loading}
-              type="text"
-              placeholder="Ask something from your PDF..."
-              value={question}
-              onChange={(e) =>
-                setQuestion(e.target.value)
+          <input
+            disabled={loading}
+            type="text"
+            placeholder="Ask something from your PDF..."
+            value={question}
+            onChange={(e) =>
+              setQuestion(e.target.value)
+            }
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                askQuestion();
               }
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  askQuestion();
-                }
-              }}
-              className="flex-1 p-3 sm:p-4 rounded-xl border border-gray-200 text-sm sm:text-base"
-            />
+            }}
+            className="w-full p-3 sm:p-4 rounded-xl border border-gray-200 text-sm sm:text-base mb-3"
+          />
 
+          <div className="flex flex-row gap-2 sm:gap-3">
             <button
               onClick={askQuestion}
               disabled={!selectedPdf || loading}
-              className={`w-full sm:w-auto px-6 py-3 rounded-xl font-semibold transition-all duration-300 ${!selectedPdf || loading
+              className={`flex-1 sm:flex-none sm:w-auto px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl font-semibold transition-all duration-300 text-sm sm:text-base ${!selectedPdf || loading
                 ? "bg-gray-300 text-gray-500 cursor-not-allowed"
                 : "bg-[#C2410C] text-white hover:bg-[#9A3412] hover:scale-105"
                 }`}
@@ -134,11 +139,10 @@ const Chat = () => {
             <button
               onClick={clearChat}
               disabled={loading}
-              className="w-full sm:w-auto bg-white text-black border border-gray-200 px-6 py-3 rounded-xl font-semibold hover:bg-black hover:text-white hover:border-black transition-all duration-300"
+              className="flex-1 sm:flex-none sm:w-auto bg-white text-black border border-gray-200 px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl font-semibold hover:bg-black hover:text-white hover:border-black transition-all duration-300 text-sm sm:text-base"
             >
               Clear
             </button>
-
           </div>
 
         </div>
@@ -146,7 +150,7 @@ const Chat = () => {
         {loading && (
           <div className="bg-[#FFFDF5] p-4 rounded-2xl shadow-md">
 
-            <div className="flex items-center gap-2 text-[#C2410C] font-semibold">
+            <div className="flex items-center gap-2 text-[#C2410C] font-semibold text-sm sm:text-base">
 
               <span className="animate-bounce">
                 ●
@@ -171,7 +175,7 @@ const Chat = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="relative overflow-hidden bg-white rounded-3xl border border-gray-100 shadow-lg p-6 sm:p-8 lg:p-12"
+            className="relative overflow-hidden bg-white rounded-3xl border border-gray-100 shadow-lg p-5 sm:p-8 lg:p-12"
           >
 
             <motion.div
@@ -183,7 +187,7 @@ const Chat = () => {
                 duration: 10,
                 repeat: Infinity,
               }}
-              className="absolute -top-10 -right-10 w-72 h-72 bg-[#E9D66B]/20 rounded-full blur-3xl"
+              className="absolute -top-10 -right-10 w-40 h-40 sm:w-72 sm:h-72 bg-[#E9D66B]/20 rounded-full blur-3xl"
             />
 
             <motion.div
@@ -195,31 +199,31 @@ const Chat = () => {
                 duration: 12,
                 repeat: Infinity,
               }}
-              className="absolute -bottom-16 -left-10 w-80 h-80 bg-black/5 rounded-full blur-3xl"
+              className="absolute -bottom-16 -left-10 w-44 h-44 sm:w-80 sm:h-80 bg-black/5 rounded-full blur-3xl"
             />
 
             <div className="relative z-10 max-w-3xl">
 
-              <p className="text-sm uppercase tracking-[0.2em] text-gray-400">
+              <p className="text-xs sm:text-sm uppercase tracking-[0.2em] text-gray-400">
                 Chat Workspace
               </p>
 
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mt-4">
+              <h2 className="text-xl sm:text-3xl lg:text-4xl font-bold mt-3 sm:mt-4">
                 Ask questions from your documents
               </h2>
 
-              <p className="text-gray-500 mt-5 text-sm sm:text-base lg:text-lg leading-relaxed">
+              <p className="text-gray-500 mt-4 sm:mt-5 text-sm sm:text-base lg:text-lg leading-relaxed">
                 Select a document and start a conversation.
                 Get instant answers, explanations and insights
                 directly from your study material without
                 searching through pages manually.
               </p>
 
-              <div className="flex flex-wrap gap-3 sm:gap-6 lg:gap-8 mt-8 text-xs sm:text-sm text-gray-600">
-                <span>Instant Answers</span>
-                <span>Context Aware</span>
-                <span>Deep Understanding</span>
-                <span>Focused Learning</span>
+              <div className="flex flex-wrap gap-2 sm:gap-6 lg:gap-8 mt-6 sm:mt-8 text-xs sm:text-sm text-gray-600">
+                <span className="bg-gray-50 px-2.5 py-1 rounded-full sm:bg-transparent sm:px-0 sm:py-0">Instant Answers</span>
+                <span className="bg-gray-50 px-2.5 py-1 rounded-full sm:bg-transparent sm:px-0 sm:py-0">Context Aware</span>
+                <span className="bg-gray-50 px-2.5 py-1 rounded-full sm:bg-transparent sm:px-0 sm:py-0">Deep Understanding</span>
+                <span className="bg-gray-50 px-2.5 py-1 rounded-full sm:bg-transparent sm:px-0 sm:py-0">Focused Learning</span>
               </div>
 
             </div>
@@ -227,7 +231,7 @@ const Chat = () => {
           </motion.div>
         )}
 
-        <div className="space-y-4 max-h-[55vh] lg:max-h-[500px] overflow-y-auto pr-2">
+        <div className="space-y-4 max-h-[55vh] lg:max-h-[500px] overflow-y-auto pr-1 sm:pr-2">
 
           {messages.map((msg, index) => (
             <motion.div
@@ -243,22 +247,24 @@ const Chat = () => {
               transition={{
                 duration: 0.3,
               }}
-              className={`p-3 sm:p-4 rounded-2xl max-w-[95%] sm:max-w-[85%] lg:max-w-[80%] shadow-md ${msg.type === "question"
+              className={`p-3 sm:p-4 rounded-2xl max-w-[90%] sm:max-w-[85%] lg:max-w-[80%] shadow-md ${msg.type === "question"
                 ? "bg-[#E9D66B] text-black ml-auto"
                 : "bg-white text-black"
                 }`}
             >
-              <p className="font-semibold mb-2">
+              <p className="font-semibold mb-2 text-sm sm:text-base">
                 {msg.type === "question"
                   ? "🧑 You"
                   : "📚 Archivio"}
               </p>
 
-              <p className="whitespace-pre-wrap break-words">
+              <p className="whitespace-pre-wrap break-words text-sm sm:text-base">
                 {msg.text}
               </p>
             </motion.div>
           ))}
+
+          <div ref={messagesEndRef} />
 
         </div>
 

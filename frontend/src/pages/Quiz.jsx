@@ -144,7 +144,7 @@ ${!selectedPdf || loading
         {loading && (
           <div className="bg-[#FFFDF5] p-4 sm:p-6 rounded-2xl shadow-md">
 
-            <div className="flex items-center gap-2 text-[#C2410C] font-semibold">
+            <div className="flex items-center gap-2 text-[#C2410C] font-semibold text-sm sm:text-base">
 
               <span className="animate-bounce  text-[#C2410C]">
                 ●
@@ -180,7 +180,7 @@ ${!selectedPdf || loading
                 duration: 10,
                 repeat: Infinity,
               }}
-              className="absolute -top-10 -right-10 w-72 h-72 bg-[#E9D66B]/20 rounded-full blur-3xl"
+              className="absolute -top-10 -right-10 w-40 h-40 sm:w-72 sm:h-72 bg-[#E9D66B]/20 rounded-full blur-3xl"
             />
 
             <motion.div
@@ -192,7 +192,7 @@ ${!selectedPdf || loading
                 duration: 12,
                 repeat: Infinity,
               }}
-              className="absolute -bottom-16 -left-10 w-80 h-80 bg-black/5 rounded-full blur-3xl"
+              className="absolute -bottom-16 -left-10 w-44 h-44 sm:w-80 sm:h-80 bg-black/5 rounded-full blur-3xl"
             />
 
             <div className="relative z-10 max-w-3xl">
@@ -264,7 +264,7 @@ ${!selectedPdf || loading
 
             </div>
 
-            <p className="text-gray-500">
+            <p className="text-gray-500 text-sm sm:text-base">
               Total Questions: {questions.length}
             </p>
 
@@ -281,7 +281,7 @@ ${!selectedPdf || loading
                   {index + 1}. {question.question}
                 </h3>
 
-                <div className="space-y-4">
+                <div className="space-y-3 sm:space-y-4">
 
                   {question.options?.map((option, optionIndex) => (
 
@@ -302,9 +302,10 @@ ${!selectedPdf || loading
                         onChange={() =>
                           handleAnswerSelect(index, option)
                         }
+                        className="mt-0.5 w-4 h-4 sm:w-[18px] sm:h-[18px] shrink-0 accent-[#C2410C]"
                       />
 
-                      <span>{option}</span>
+                      <span className="text-sm sm:text-base">{option}</span>
 
                     </label>
 
@@ -319,7 +320,7 @@ ${!selectedPdf || loading
 
               <button
                 onClick={calculateScore}
-                className="w-full sm:w-auto bg-[#C2410C] text-white hover:scale-105 transition-all px-8 py-4 rounded-2xl font-bold shadow-lg"
+                className="w-full sm:w-auto bg-[#C2410C] text-white hover:scale-105 transition-all px-8 py-4 rounded-2xl font-bold shadow-lg text-sm sm:text-base"
               >
                 Submit Quiz
               </button>
@@ -342,7 +343,7 @@ ${!selectedPdf || loading
                   {score} / {questions.length}
                 </p>
 
-                <p className="text-gray-500 mt-3">
+                <p className="text-gray-500 mt-3 text-sm sm:text-base">
                   Keep practicing to improve your score.
                 </p>
 
