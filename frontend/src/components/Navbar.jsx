@@ -43,7 +43,7 @@ const Navbar = () => {
 
         {/* Left */}
 
-        <div className="relative z-10 min-w-0 flex-1 sm:flex-none flex items-center gap-3">
+        <div className="relative z-10 min-w-0 flex-1 sm:flex-none flex items-center gap-3 pl-12 sm:pl-0">
 
           {/* Mobile-only compact avatar with online dot — modern touch, hidden on sm+ */}
           <motion.div
@@ -154,3 +154,4 @@ const Navbar = () => {
   );
 };
 
+export default Navbar;
