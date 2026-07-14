@@ -226,7 +226,6 @@ const PracticeSheet = () => {
 
           </motion.div>
         )}
-        2
       </div>
     </Layout>
   );

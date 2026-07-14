@@ -128,10 +128,6 @@ const StudyPlan = () => {
                         </button>
 
                     </div>
-
-                    <p className="text-gray-500 mt-3 text-sm sm:text-base lg:text-lg">
-                        Personalized learning roadmap generated from your document.
-                    </p>
                 </div>
 
                 {/* Loading */}

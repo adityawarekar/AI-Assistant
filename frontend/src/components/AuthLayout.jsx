@@ -93,17 +93,6 @@ const AuthLayout = ({ children }) => {
             className="relative bg-white/60 backdrop-blur-xl border border-white/60 rounded-3xl shadow-[0_8px_30px_rgba(154,52,18,0.12)] px-5 py-7 sm:px-8 sm:py-8"
           >
 
-            {/* Floating badge */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8, y: -10 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              transition={{ delay: 0.1, duration: 0.5 }}
-              className="absolute -top-3 left-1/2 -translate-x-1/2 flex items-center gap-1.5 bg-[#9A3412] text-orange-50 text-[10px] sm:text-xs font-semibold tracking-wide px-3 py-1 rounded-full shadow-md"
-            >
-              <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
-              AI-Powered Learning
-            </motion.div>
-
             {/* Logo */}
             <motion.div
               initial={{ opacity: 0, y: -20 }}
