@@ -61,7 +61,7 @@ const PdfViewer = () => {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-3">
-            
+            <a
               href={pdfUrl}
               target="_blank"
               rel="noreferrer"
