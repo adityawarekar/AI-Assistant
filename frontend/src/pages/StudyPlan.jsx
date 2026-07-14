@@ -90,6 +90,9 @@ const StudyPlan = () => {
                     <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold">
                         Study Plan
                     </h1>
+                    <p className="text-sm sm:text-base lg:text-lg text-gray-500 mt-2">
+                        Personalized learning roadmap generated from your document.
+                    </p>
 
                     <div className="bg-white border border-gray-100 p-4 sm:p-6 rounded-3xl shadow-lg mt-4">
 

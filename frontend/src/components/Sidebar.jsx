@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, createContext, useContext } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   FaHome,
@@ -17,9 +17,11 @@ import {
   FaChevronDown,
   FaChevronRight,
   FaTasks,
-  FaBars,
   FaTimes,
 } from "react-icons/fa";
+
+export const SidebarContext = createContext(null);
+export const useSidebar = () => useContext(SidebarContext);
 
 const Sidebar = () => {
   const location = useLocation();
@@ -219,15 +221,9 @@ const Sidebar = () => {
       </div>
     </>
   );
+
   return (
-    <>
-      {/* Mobile Hamburger Button */}
-      <button
-        onClick={() => setIsOpen(true)}
-        className="lg:hidden fixed top-5 left-5 z-50 bg-[#C2410C] text-white p-3 rounded-xl shadow-lg"
-      >
-        <FaBars size={20} />
-      </button>
+    <SidebarContext.Provider value={{ isOpen, setIsOpen }}>
 
       {/* Mobile Overlay */}
       <AnimatePresence>
@@ -250,7 +246,7 @@ const Sidebar = () => {
             animate={{ x: 0 }}
             exit={{ x: -320 }}
             transition={{ duration: 0.3 }}
-            className="fixed top-0 left-0 h-screen w-72  bg-white border-r border-[#E5E7EB] p-6 z-50 overflow-y-auto lg:hidden"
+            className="fixed top-0 left-0 h-screen w-72 bg-white border-r border-[#E5E7EB] p-6 z-50 overflow-y-auto lg:hidden"
           >
             <SidebarContent />
           </motion.div>
@@ -261,7 +257,8 @@ const Sidebar = () => {
       <div className="hidden lg:block w-72 min-h-screen bg-white border-r border-[#E5E7EB] p-6 overflow-y-auto">
         <SidebarContent />
       </div>
-    </>
+
+    </SidebarContext.Provider>
   );
 };
 

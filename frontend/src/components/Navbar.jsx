@@ -1,9 +1,11 @@
 import { useAuthStore } from "../store/authStore";
-import { FaUserCircle, FaSignOutAlt } from "react-icons/fa";
+import { FaUserCircle, FaSignOutAlt, FaBars } from "react-icons/fa";
 import { motion } from "framer-motion";
+import { useSidebar } from "./Sidebar"; // adjust this path if Sidebar.jsx lives elsewhere
 
 const Navbar = () => {
   const { user, logout } = useAuthStore();
+  const { setIsOpen } = useSidebar();
 
   return (
     <div className="px-4 py-4 sm:px-6 lg:px-8 lg:py-5">
@@ -43,7 +45,19 @@ const Navbar = () => {
 
         {/* Left */}
 
-        <div className="relative z-10 min-w-0 flex-1 sm:flex-none flex items-center gap-3 pl-12 sm:pl-0">
+        <div className="relative z-10 min-w-0 flex-1 sm:flex-none flex items-center gap-3">
+
+          {/* Mobile menu button — now inline, no more overlapping fixed button */}
+          <motion.button
+            initial={{ opacity: 0, scale: 0.7 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.4 }}
+            onClick={() => setIsOpen(true)}
+            aria-label="Open menu"
+            className="lg:hidden shrink-0 bg-[#C2410C] hover:bg-[#9A3412] text-white p-2.5 rounded-xl shadow-sm transition-colors"
+          >
+            <FaBars size={16} />
+          </motion.button>
 
           {/* Mobile-only compact avatar with online dot — modern touch, hidden on sm+ */}
           <motion.div
