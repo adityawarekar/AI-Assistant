@@ -27,7 +27,7 @@ const Sidebar = () => {
   const location = useLocation();
 
   const [showFeatures, setShowFeatures] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
+  const { isOpen, setIsOpen } = useSidebar();
 
   const featureRoutes = [
     "/chat",
@@ -223,8 +223,7 @@ const Sidebar = () => {
   );
 
   return (
-    <SidebarContext.Provider value={{ isOpen, setIsOpen }}>
-
+    <>
       {/* Mobile Overlay */}
       <AnimatePresence>
         {isOpen && (
@@ -257,8 +256,7 @@ const Sidebar = () => {
       <div className="hidden lg:block w-72 min-h-screen bg-white border-r border-[#E5E7EB] p-6 overflow-y-auto">
         <SidebarContent />
       </div>
-
-    </SidebarContext.Provider>
+    </>
   );
 };
 
