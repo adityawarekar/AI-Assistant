@@ -53,7 +53,7 @@ const Register = () => {
           transition={{
             duration: 0.6,
           }}
-          className="relative overflow-hidden bg-white/90 backdrop-blur-md rounded-[32px] shadow-xl border border-white/50 p-6 sm:p-8"
+          className="relative overflow-hidden bg-white/90 backdrop-blur-md rounded-[32px] shadow-xl border border-white/50 px-5 py-6 sm:p-8"
         >
           {/* Background Glow */}
 
@@ -75,7 +75,7 @@ const Register = () => {
               transition={{
                 delay: 0.2,
               }}
-              className="mb-8"
+              className="mb-6 sm:mb-8"
             >
               <h1 className="text-3xl sm:text-4xl font-bold text-black">
                 Create Account
@@ -133,7 +133,7 @@ const Register = () => {
               >
                 Create Account
               </button>
-              <div className="flex items-center my-6">
+              <div className="flex items-center my-4 sm:my-6">
                 <div className="flex-1 border-t border-gray-200"></div>
 
                 <span className="px-4 text-sm text-gray-400">
@@ -163,7 +163,7 @@ const Register = () => {
               </span>
             </button>
 
-            <p className="text-center mt-6 text-sm sm:text-base text-gray-600">
+            <p className="text-center mt-4 sm:mt-6 text-sm sm:text-base text-gray-600">
               Already have an account?{" "}
               <Link
                 to="/"
@@ -172,7 +172,7 @@ const Register = () => {
                 Login
               </Link>
             </p>
-            <p className="text-center text-[11px] sm:text-xs text-gray-400 mt-6">
+            <p className="text-center text-[11px] sm:text-xs text-gray-400 mt-4 sm:mt-6">
               Secure authentication powered by Archivio
             </p>
 

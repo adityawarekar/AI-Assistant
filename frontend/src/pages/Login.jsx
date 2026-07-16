@@ -60,7 +60,7 @@ const Login = () => {
           transition={{
             duration: 0.6,
           }}
-          className="relative overflow-hidden bg-white/90 backdrop-blur-md rounded-[32px] shadow-xl border border-white/50 p-6 sm:p-8"
+          className="relative overflow-hidden bg-white/90 backdrop-blur-md rounded-[32px] shadow-xl border border-white/50 px-5 py-6 sm:p-8"
         >
 
           {/* Background Glow */}
@@ -85,7 +85,7 @@ const Login = () => {
               transition={{
                 delay: 0.2,
               }}
-              className="mb-8"
+              className="mb-6 sm:mb-8"
             >
 
               <h1 className="text-3xl sm:text-4xl font-bold text-black">
@@ -167,7 +167,7 @@ const Login = () => {
 
             {/* Footer */}
 
-            <p className="text-center mt-6 text-sm sm:text-base text-gray-500">
+            <p className="text-center mt-4 sm:mt-6 text-sm sm:text-base text-gray-500">
               Don't have an account?{" "}
               <Link
                 to="/register"
@@ -177,7 +177,7 @@ const Login = () => {
               </Link>
             </p>
 
-            <p className="text-center text-[11px] sm:text-xs text-gray-400 mt-6">
+            <p className="text-center text-[11px] sm:text-xs text-gray-400 mt-4 sm:mt-6">
               Secure login powered by Archivio
             </p>
 
