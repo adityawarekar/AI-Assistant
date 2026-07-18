@@ -4,10 +4,10 @@ const AuthLayout = ({ children }) => {
   return (
     <div className="min-h-screen bg-[#FFF7ED] flex flex-col lg:flex-row overflow-hidden">
 
-      {/* Left Section — DESKTOP ONLY, unchanged */}
+
       <div className="hidden lg:flex w-1/2 relative overflow-hidden bg-gradient-to-br from-[#7C2D12] via-[#9A3412] to-[#EA580C] px-12 xl:px-20 flex-col justify-center">
 
-        {/* Animated Glow */}
+
         <motion.div
           animate={{ x: [0, 60, 0], y: [0, -60, 0] }}
           transition={{ repeat: Infinity, duration: 12 }}
@@ -20,7 +20,7 @@ const AuthLayout = ({ children }) => {
           className="absolute bottom-0 left-0 w-[350px] h-[350px] rounded-full bg-orange-100/20 blur-[100px]"
         />
 
-        {/* Decorative Circle */}
+
         <div className="absolute -right-32 -bottom-32 w-[420px] h-[420px] rounded-full border border-white/10"></div>
 
         {/* Logo */}
@@ -34,7 +34,7 @@ const AuthLayout = ({ children }) => {
           </h1>
         </motion.div>
 
-        {/* Subtitle */}
+
         <motion.h2
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
@@ -44,7 +44,7 @@ const AuthLayout = ({ children }) => {
           Turn Knowledge Into Mastery.
         </motion.h2>
 
-        {/* Description */}
+
         <motion.p
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
@@ -56,7 +56,7 @@ const AuthLayout = ({ children }) => {
           one intelligent workspace built for every learner.
         </motion.p>
 
-        {/* Footer Text */}
+
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -67,10 +67,10 @@ const AuthLayout = ({ children }) => {
         </motion.div>
       </div>
 
-      {/* Right Section */}
+
       <div className="flex-1 flex flex-col items-center justify-center bg-[#FFF7ED] px-4 sm:px-6 py-6 sm:py-10 lg:p-8 relative overflow-y-auto">
 
-        {/* Ambient Background Glows (Visible on all screen sizes, floats behind content) */}
+
         <motion.div
           animate={{
             x: [0, 40, -20, 0],
@@ -96,9 +96,9 @@ const AuthLayout = ({ children }) => {
           className="absolute -bottom-20 -left-20 w-80 h-80 rounded-full bg-orange-200/20 blur-[100px] pointer-events-none"
         />
 
-        {/* MOBILE ONLY Header — Lightweight, modern, and space-saving */}
+
         <div className="lg:hidden w-full max-w-md mx-auto mb-6 flex flex-col items-center text-center z-10">
-          {/* Logo Icon with subtle breathing animation */}
+
           <motion.div
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
@@ -108,7 +108,7 @@ const AuthLayout = ({ children }) => {
             <span className="text-2xl animate-bounce" style={{ animationDuration: '3s' }}>📚</span>
           </motion.div>
 
-          {/* Title */}
+
           <motion.h1
             initial={{ y: 10, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -118,7 +118,7 @@ const AuthLayout = ({ children }) => {
             Archivio
           </motion.h1>
 
-          {/* Subtitle */}
+
           <motion.p
             initial={{ y: 10, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -128,7 +128,7 @@ const AuthLayout = ({ children }) => {
             Turn Knowledge Into Mastery
           </motion.p>
 
-          {/* Clean, compact Feature Pills */}
+
           <motion.div
             initial={{ y: 10, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}

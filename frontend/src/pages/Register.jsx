@@ -55,7 +55,7 @@ const Register = () => {
           }}
           className="relative overflow-hidden bg-white/90 backdrop-blur-md rounded-[32px] shadow-xl border border-white/50 px-5 py-6 sm:p-8"
         >
-          {/* Background Glow */}
+          
 
           <div className="absolute -top-20 -right-20 w-40 h-40 bg-[#C2410C]/20 rounded-full blur-3xl"></div>
 

@@ -53,14 +53,14 @@ const Dashboard = () => {
     <Layout>
       <div className="space-y-6 sm:space-y-8">
 
-        {/* Hero Section */}
+        
         <motion.div
           initial={{ opacity: 0, y: -15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
           className="relative overflow-hidden bg-gradient-to-r from-[#9A3412] via-[#C2410C] to-[#EA580C] rounded-3xl p-5 sm:p-6 lg:p-8 shadow-xl"
         >
-          {/* Decorative glow blobs */}
+          
           <motion.div
             animate={{ x: [0, 25, 0], y: [0, -15, 0] }}
             transition={{ duration: 10, repeat: Infinity }}
@@ -87,7 +87,7 @@ const Dashboard = () => {
           </div>
         </motion.div>
 
-        {/* Stats */}
+        
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
           <StatCard title="Documents" value={stats.totalDocuments} />
           <StatCard title="Progress" value={`${stats.averageProgress}%`} />
@@ -95,10 +95,10 @@ const Dashboard = () => {
           <StatCard title="Features" value="12" />
         </div>
 
-        {/* Main Section */}
+        
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
 
-          {/* Recent PDFs */}
+          
           <motion.div
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
@@ -161,7 +161,7 @@ const Dashboard = () => {
             )}
           </motion.div>
 
-          {/* Quick Actions */}
+          
           <motion.div
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}

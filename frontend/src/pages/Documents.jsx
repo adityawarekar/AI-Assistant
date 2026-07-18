@@ -72,7 +72,7 @@ const Documents = () => {
     <Layout>
       <div className="space-y-6 sm:space-y-8">
 
-        {/* Header */}
+        
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -87,7 +87,7 @@ const Documents = () => {
           </p>
         </motion.div>
 
-        {/* Upload Section */}
+        
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -174,7 +174,7 @@ const Documents = () => {
           </button>
         </motion.div>
 
-        {/* Documents */}
+        
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}

@@ -130,7 +130,7 @@ const StudyPlan = () => {
                     </div>
                 </div>
 
-                {/* Loading */}
+                
 
                 {loading && (
                     <div className="bg-[#FFFDF5] p-5 sm:p-8 rounded-3xl shadow-md text-center">
@@ -148,7 +148,7 @@ const StudyPlan = () => {
                     </div>
                 )}
 
-                {/* Empty State */}
+                
 
                 {!loading && !plan && (
                     <div className="relative overflow-hidden bg-white border border-gray-100 rounded-3xl p-5 sm:p-8 lg:p-12 shadow-lg">
@@ -174,7 +174,7 @@ const StudyPlan = () => {
                     </div>
                 )}
 
-                {/* Result */}
+                
 
                 {plan && (
                     <motion.div

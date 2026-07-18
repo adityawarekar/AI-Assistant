@@ -242,7 +242,7 @@ ${!selectedPdf || loading
 
           </motion.div>
         )}
-        {/* Quiz Result */}
+        
 
         {questions.length > 0 && !loading && (
           <motion.div

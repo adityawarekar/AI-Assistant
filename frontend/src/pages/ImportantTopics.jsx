@@ -102,7 +102,7 @@ const ImportantTopics = () => {
           </p>
         </div>
 
-        {/* Controls */}
+        
 
         <div className="bg-[#FFFDF5] p-4 sm:p-6 rounded-3xl shadow-md">
 
@@ -141,7 +141,7 @@ ${!selectedPdf || loading
 
         </div>
 
-        {/* Loader */}
+        
 
         {loading && (
           <div className="bg-[#FFFDF5] p-4 sm:p-6 rounded-2xl shadow-md">
@@ -166,7 +166,7 @@ ${!selectedPdf || loading
           </div>
         )}
 
-        {/* Result */}
+        
 
         {!topics && !loading && (
           <motion.div

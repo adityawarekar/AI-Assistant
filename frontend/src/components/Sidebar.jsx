@@ -224,7 +224,7 @@ const Sidebar = () => {
 
   return (
     <>
-      {/* Mobile Overlay */}
+      
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -237,7 +237,7 @@ const Sidebar = () => {
         )}
       </AnimatePresence>
 
-      {/* Mobile Sidebar */}
+      
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -252,7 +252,7 @@ const Sidebar = () => {
         )}
       </AnimatePresence>
 
-      {/* Desktop Sidebar */}
+      
       <div className="hidden lg:block w-72 min-h-screen bg-white border-r border-[#E5E7EB] p-6 overflow-y-auto">
         <SidebarContent />
       </div>

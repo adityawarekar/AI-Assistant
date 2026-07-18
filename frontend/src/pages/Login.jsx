@@ -63,7 +63,7 @@ const Login = () => {
           className="relative overflow-hidden bg-white/90 backdrop-blur-md rounded-[32px] shadow-xl border border-white/50 px-5 py-6 sm:p-8"
         >
 
-          {/* Background Glow */}
+          
 
           <div className="absolute -top-20 -right-20 w-40 h-40 bg-[#E9D66B]/30 rounded-full blur-3xl"></div>
 
@@ -71,7 +71,7 @@ const Login = () => {
 
           <div className="relative z-10">
 
-            {/* Header */}
+            
 
             <motion.div
               initial={{
@@ -98,7 +98,7 @@ const Login = () => {
 
             </motion.div>
 
-            {/* Form */}
+            
 
             <form
               onSubmit={handleSubmit}
@@ -165,7 +165,7 @@ const Login = () => {
 
             </form>
 
-            {/* Footer */}
+            
 
             <p className="text-center mt-4 sm:mt-6 text-sm sm:text-base text-gray-500">
               Don't have an account?{" "}

@@ -40,7 +40,7 @@ const Flashcard = ({
       group
       "
     >
-      {/* Glow */}
+      
 
       <div
         className="
@@ -57,7 +57,7 @@ const Flashcard = ({
         "
       />
 
-      {/* Badge */}
+      
 
       <div
         className="
@@ -133,7 +133,7 @@ const Flashcard = ({
 
       </AnimatePresence>
 
-      {/* Bottom Indicator */}
+      
 
       <div
         className="

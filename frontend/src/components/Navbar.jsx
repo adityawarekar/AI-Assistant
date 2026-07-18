@@ -17,7 +17,7 @@ const Navbar = () => {
         className="relative overflow-hidden bg-white/80 backdrop-blur-xl border border-gray-100 rounded-3xl shadow-lg px-4 sm:px-6 lg:px-8 py-4 sm:py-5 flex flex-wrap sm:flex-nowrap items-center justify-between gap-y-3 gap-x-2"
       >
 
-        {/* Background Glow */}
+        
 
         <motion.div
           animate={{
@@ -43,11 +43,11 @@ const Navbar = () => {
           className="absolute -bottom-10 left-10 sm:left-20 w-36 sm:w-72 h-36 sm:h-72 bg-black/5 rounded-full blur-3xl"
         />
 
-        {/* Left */}
+        
 
         <div className="relative z-10 min-w-0 flex-1 sm:flex-none flex items-center gap-3">
 
-          {/* Mobile menu button — now inline, no more overlapping fixed button */}
+          
           <motion.button
             initial={{ opacity: 0, scale: 0.7 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -59,7 +59,7 @@ const Navbar = () => {
             <FaBars size={16} />
           </motion.button>
 
-          {/* Mobile-only compact avatar with online dot — modern touch, hidden on sm+ */}
+          
           <motion.div
             initial={{ opacity: 0, scale: 0.7 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -81,7 +81,7 @@ const Navbar = () => {
               Welcome back
             </motion.h1>
 
-            {/* Mobile-only name line since the full user card is hidden below sm */}
+            
             <motion.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -103,11 +103,11 @@ const Navbar = () => {
 
         </div>
 
-        {/* Right */}
+        
 
         <div className="relative z-10 flex items-center gap-2 sm:gap-4 shrink-0">
 
-          {/* User Card */}
+          
 
           <motion.div
             whileHover={{
@@ -143,7 +143,7 @@ const Navbar = () => {
 
           </motion.div>
 
-          {/* Logout — icon-only pill on mobile, full text button from sm+ */}
+          
 
           <motion.button
             whileHover={{
